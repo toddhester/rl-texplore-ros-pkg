@@ -83,7 +83,7 @@ void processAction(const rl_msgs::RLAction::ConstPtr &actionIn){
     Mostly to start new episode. */
 void processEpisodeInfo(const rl_msgs::RLExperimentInfo::ConstPtr &infoIn){
   // start new episode if terminal
-  cout << "Episode " << infoIn->episode_number << " terminated with reward: " << infoIn->episode_reward << ", start new episode " << endl;
+  if (PRINTS) cout << "Episode " << infoIn->episode_number << " terminated with reward: " << infoIn->episode_reward << ", start new episode " << endl;
 
   e->reset();
 
