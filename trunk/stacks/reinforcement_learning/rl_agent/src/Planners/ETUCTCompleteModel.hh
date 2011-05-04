@@ -1,8 +1,8 @@
 #ifndef _ETUCTCompleteModel_HH_
 #define _ETUCTCompleteModel_HH_
 
-#include "../Common/Random.h"
-#include "../Common/core.hh"
+#include <rl_common/Random.h>
+#include <rl_common/core.hh>
 
 #include "../Env/nfl.hh"
 #include "../Env/Minesweeper.hh"

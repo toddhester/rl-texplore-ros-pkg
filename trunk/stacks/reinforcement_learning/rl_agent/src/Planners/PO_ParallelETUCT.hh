@@ -11,9 +11,9 @@
 #ifndef _PO_ParallelETUCT_HH_
 #define _PO_ParallelETUCT_HH_
 
-#include "../Common/Random.h"
-#include "../Common/core.hh"
-#include "../Common/ExperienceFile.hh"
+#include <rl_common/Random.h>
+#include <rl_common/core.hh>
+#include <rl_common/ExperienceFile.hh>
 
 #include "../Models/MDPTree.hh"
 #include "../Models/C45Tree.hh"
