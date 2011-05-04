@@ -29,9 +29,7 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 #rosbuild_add_executable(example examples/example.cpp)
 #target_link_libraries(example ${PROJECT_NAME})
 
-
-rosbuild_add_executable(agent
-  src/agent.cpp
+rosbuild_add_library(agentlib
   src/Agent/DiscretizationAgent.cc 
   src/Agent/QLearner.cc
   src/Agent/ModelBasedAgent.cc
@@ -80,3 +78,8 @@ rosbuild_add_executable(agent
 )
 
 
+rosbuild_add_executable(agent
+  src/agent.cpp
+)
+
+target_link_libraries(agent agentlib)

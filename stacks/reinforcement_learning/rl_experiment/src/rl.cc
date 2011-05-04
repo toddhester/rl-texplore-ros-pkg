@@ -2,8 +2,8 @@
     \author Todd Hester
 */
 
-#include "../Common/Random.h"
-#include "../Common/core.hh"
+#include <rl_common/Random.h>
+#include <rl_common/core.hh>
 
 #include <stdio.h>
 #include <string.h>
@@ -12,69 +12,26 @@
 //////////////////
 // Environments //
 //////////////////
-//#include "../Env/penaltykick.hh"
-#include "../Env/lights.hh"
-#include "../Env/taxi.hh"
-#include "../Env/tworooms.hh"
-#include "../Env/wmaze.hh"
-//#include "../Env/oneroom.hh"
-#include "../Env/fourrooms.hh"
-//#include "../Env/TrapRoom.hh"
-//#include "../Env/big4rooms.hh"
-#include "../Env/playroom.hh"
-//#include "../Env/MultiRoom.hh"
-#include "../Env/energyrooms.hh"
-//#include "../Env/LargeDomain.hh"
-#include "../Env/Castle.hh"
-#include "../Env/redherring.hh"
-#include "../Env/SmallCastle.hh"
-#include "../Env/stocks.hh"
-#include "../Env/CastleR.hh"
-//#include "../Env/RisingOptimum.hh"
-#include "../Env/FuelRooms.hh"
-#include "../Env/Explore.hh"
-#include "../Env/nfl.hh"
-#include "../Env/largegrid.hh"
-#include "../Env/VaryingGrid.hh"
-//#include "../Env/Minesweeper.hh"
-#include "../Env/Chain.hh"
-#include "../Env/austinmap.hh"
-#include "../Env/MountainCar.hh"
-#include "../Env/PuddleWorld.hh"
-#include "../Env/CartPole.hh"
-#include "../Env/Acrobot.hh"
-#include "../Env/TestGrid.hh"
-#include "../Env/BusSuspension.hh"
-#include "../Env/MassSpringDamper.hh"
-#include "../Env/trickroom.hh"
-#include "../Env/RadioJamming.hh"
-#include "../Env/teleport.hh"
-#include "../Env/RobotCarVel.hh"
-#include "../Env/RobotCarStop.hh"
-#include "../Env/Chase.hh"
+#include <rl_env/RobotCarVel.hh>
+#include <rl_env/fourrooms.hh>
+#include <rl_env/tworooms.hh>
+#include <rl_env/taxi.hh>
+#include <rl_env/FuelRooms.hh>
+#include <rl_env/stocks.hh>
+#include <rl_env/energyrooms.hh>
+#include <rl_env/MountainCar.hh>
+#include <rl_env/CartPole.hh>
+
 
 ////////////
 // Agents //
 ////////////
-#include "../Agent/QLearner.hh"
-#include "../Agent/dQLearner.hh"
-#include "../Agent/QwithFA.hh"
-#include "../Agent/FlatRMax.hh"
-#include "../Agent/RLDT.hh"
-#include "../Agent/ModelBasedAgent.hh"
-#include "../Agent/ManualAgent.hh"
-#include "../Agent/DiscretizationAgent.hh"
-#include "../Agent/SavedPolicy.hh"
-#include "../Agent/Sarsa.hh"
-#include "../Agent/Dyna.hh"
-
-//#include "../FittedRmaxQ/NickAgent.hh"
-
-// hand coded ones
-//#include "../Agent/HandStock.hh"
-//#include "../Agent/HandCodedFuel.hh"
-//#include "../Agent/HandCodedExplore.hh"
-//#include "../Agent/HandCoded.hh"
+#include <rl_agent/QLearner.hh>
+#include <rl_agent/ModelBasedAgent.hh>
+#include <rl_agent/DiscretizationAgent.hh>
+#include <rl_agent/SavedPolicy.hh>
+#include <rl_agent/Dyna.hh>
+#include <rl_agent/Sarsa.hh>
 
 
 #include <vector>
@@ -530,36 +487,11 @@ int main(int argc, char **argv) {
   // Construct environment here.
   Environment* e;
 
-  if (strcmp(argv[P_ENV], "acrobot") == 0){
-    if (PRINTS) cout << "Environment: Acrobot\n";
-    e = new Acrobot(rng, stochastic);
-  }
-
-  else if (strcmp(argv[P_ENV], "chase") == 0){
-    if (PRINTS) cout << "Environment: Chase\n";
-    e = new Chase(rng, stochastic);
-  }
-
-  else if (strcmp(argv[P_ENV], "puddle") == 0){
-    if (PRINTS) cout << "Environment: Puddle World\n";
-    e = new PuddleWorld(rng, stochastic);
-  }
-
-  else if (strcmp(argv[P_ENV], "cartpole") == 0){
+  if (strcmp(argv[P_ENV], "cartpole") == 0){
     if (PRINTS) cout << "Environment: Cart Pole\n";
     e = new CartPole(rng, stochastic);
   }
 
-  else if (strcmp(argv[P_ENV], "bus") == 0){
-    if (PRINTS) cout << "Environment: Bus Suspension\n";
-    e = new BusSuspension(rng, stochastic);
-  }
-
-  else if (strcmp(argv[P_ENV], "msd") == 0){
-    if (PRINTS) cout << "Environment: Mass Spring Damper\n";
-    e = new MassSpringDamper(rng, stochastic);
-  }
-  
   else if (strcmp(argv[P_ENV], "mcar") == 0){
     if (PRINTS) cout << "Environment: Mountain Car\n";
     e = new MountainCar(rng, stochastic, false, 0);
@@ -580,47 +512,10 @@ int main(int argc, char **argv) {
     e = new MountainCar(rng, stochastic, false, 2);
   }
   
-
-  else if (strcmp(argv[P_ENV], "testgrid") == 0){
-    if (PRINTS) cout << "Environment: Test Grid\n";
-    e = new TestGrid(rng, stochastic, false);
-  }
-
-  else if (strcmp(argv[P_ENV], "shortpath") == 0){
-    if (PRINTS) cout << "Environment: Short PathTest Grid\n";
-    e = new TestGrid(rng, stochastic, true);
-  }
-
   // taxi
   else if (strcmp(argv[P_ENV], "taxi") == 0){
     if (PRINTS) cout << "Environment: Taxi\n";
     e = new Taxi(rng, stochastic);
-  }
-
-  /*
-  // one room
-  else if (*argv[P_ENV] == '1'){
-  if (PRINTS) cout << "Environment: OneRoom\n";
-  e = new OneRoom(rng, stochastic, true);
-  }
-  */
-
-  // wmaze
-  else if (strcmp(argv[P_ENV], "wmaze") == 0){
-    if (PRINTS) cout << "Environment: W-Maze\n";
-    e = new WMaze(rng, stochastic, 0);
-  }
-  else if (strcmp(argv[P_ENV], "wmaze1") == 0){
-    if (PRINTS) cout << "Environment: W-Maze with 1 step delay\n";
-    e = new WMaze(rng, stochastic, 1);
-  }
-  else if (strcmp(argv[P_ENV], "wmaze2") == 0){
-    if (PRINTS) cout << "Environment: W-Maze with 2 step delay\n";
-    e = new WMaze(rng, stochastic, 2);
-  }
-  else if (strcmp(argv[P_ENV], "wmaze5") == 0){
-    if (PRINTS) cout << "Environment: W-Maze with 5 step delay\n";
-    e = new WMaze(rng, stochastic, 5);
   }
 
   // two rooms
@@ -742,124 +637,10 @@ int main(int argc, char **argv) {
     NUMEPISODES = 201;
   }
   
-  // car stop from 6
-  else if (strcmp(argv[P_ENV], "carstop") == 0){
-    if (PRINTS) cout << "Environment: Car Stop from 6 m/s\n";
-    e = new RobotCarStop(rng, false, false);
-    statesPerDim.resize(4,0);
-    statesPerDim[0] = 60;
-    statesPerDim[1] = 48; //120;
-    statesPerDim[2] = 4;
-    statesPerDim[3] = 10;
-    NUMEPISODES = 201;
-  }
-  // car stop from random
-  else if (strcmp(argv[P_ENV], "carstoprandom") == 0){
-    if (PRINTS) cout << "Environment: Car Stop from random vel\n";
-    e = new RobotCarStop(rng, true, false);
-    statesPerDim.resize(4,0);
-    statesPerDim[0] = 60;
-    statesPerDim[1] = 48; //120;
-    statesPerDim[2] = 4;
-    statesPerDim[3] = 10;
-    NUMEPISODES = 201;
-  }
-  // car stop from random
-  else if (strcmp(argv[P_ENV], "carstoprandomlag") == 0){
-    if (PRINTS) cout << "Environment: Car Stop from random vel w lag\n";
-    e = new RobotCarStop(rng, true, true);
-    statesPerDim.resize(4,0);
-    statesPerDim[0] = 60;
-    statesPerDim[1] = 48; //120;
-    statesPerDim[2] = 4;
-    statesPerDim[3] = 10;
-    NUMEPISODES = 201;
-  }
-  else if (strcmp(argv[P_ENV], "carstoplag") == 0){
-    if (PRINTS) cout << "Environment: Car Stop from 6 m/s w lag\n";
-    e = new RobotCarStop(rng, false, true);
-    statesPerDim.resize(4,0);
-    statesPerDim[0] = 60;
-    statesPerDim[1] = 48; //120;
-    statesPerDim[2] = 4;
-    statesPerDim[3] = 10;
-    NUMEPISODES = 201;
-  }
-  /*
-  // trap room
-  else if (*argv[P_ENV] == 'u'){
-  if (PRINTS) cout << "Environment: TrapRoom\n";
-  e = new TrapRoom(rng, stochastic);
-  }
-  */
-
   // four rooms
   else if (strcmp(argv[P_ENV], "fourroom") == 0){
     if (PRINTS) cout << "Environment: FourRooms\n";
     e = new FourRooms(rng, stochastic, true, false);
-  }
-
-  // trick rooms
-  else if (strcmp(argv[P_ENV], "trick") == 0){
-    if (PRINTS) cout << "Environment: Trick Room\n";
-    e = new TrickRoom(rng, stochastic, false, true);
-  }
-  else if (strcmp(argv[P_ENV], "revtrick") == 0){
-    if (PRINTS) cout << "Environment: Reverse Trick Room\n";
-    e = new TrickRoom(rng, stochastic, true, true);
-  }
-  else if (strcmp(argv[P_ENV], "notrick") == 0){
-    if (PRINTS) cout << "Environment: No Trick Room\n";
-    e = new TrickRoom(rng, stochastic, false, false);
-  }
-  else if (strcmp(argv[P_ENV], "revnotrick") == 0){
-    if (PRINTS) cout << "Environment: Reverse no Trick Room\n";
-    e = new TrickRoom(rng, stochastic, true, false);
-  }
-
-  // teleport room
-  else if (strcmp(argv[P_ENV], "teleport") == 0){
-    if (PRINTS) cout << "Environment: Teleport Room\n";
-    e = new Teleport(rng, stochastic);
-  }
-
-  // radio jamming
-  else if (strcmp(argv[P_ENV], "radio") == 0){
-    if (PRINTS) cout << "Environment: Radio Jamming\n";
-    e = new RadioJamming(rng);
-  }
-
-  else if (strcmp(argv[P_ENV], "radio-np") == 0){
-    if (PRINTS) cout << "Environment: Radio Jamming - Block Only\n";
-    e = new RadioJamming(rng, 0);
-  }
-
-
-
-  /*
-  // four rooms with guiding rewards
-  else if (*argv[P_ENV] == 'h'){
-  if (PRINTS) cout << "Environment: FourRooms with guiding reward\n";
-  e = new FourRooms(rng, stochastic, true, true);
-  }
-
-  // four rooms with wall distances
-  else if (*argv[P_ENV] == 'd'){
-  if (PRINTS) cout << "Environment: FourRooms with wall distances\n";
-  e = new FourRooms(rng, stochastic, true);
-  }
-
-  // four rooms with wall distances and reward sensor
-  else if (*argv[P_ENV] == 'y'){
-  if (PRINTS) cout << "Environment: FourRooms with wall distances and reward sensor\n";
-  e = new FourRooms(rng, stochastic);
-  }
-  */
-
-  // four rooms with red herring state
-  else if (strcmp(argv[P_ENV], "redherring") == 0){
-    if (PRINTS) cout << "Environment: RedHerring\n";
-    e = new RedHerring(rng, stochastic, true, false);
   }
 
   // four rooms with energy level
@@ -880,95 +661,6 @@ int main(int argc, char **argv) {
     if (PRINTS) cout << "Environment: FuelRooms, Large variation in fuel cost\n";
     e = new FuelRooms(rng, true, stochastic);
     NUMEPISODES = 100;
-  }
-
-  // explore domain
-  else if (strcmp(argv[P_ENV], "explore") == 0){
-    if (PRINTS) cout << "Environment: Explore\n";
-    e = new Explore(rng, stochastic);
-  }
-
-  /*
-  // webots sim
-  else if (*argv[P_ENV] == 'x'){
-  if (PRINTS) cout << "Environment: Penalty Kick\n";
-  // random ball
-  e = new PenaltyKick(rng, false, true, 4);
-  // static ball
-  //e = new PenaltyKick(rng, true, true, 4);
-  }
-  */
-
-  /*
-  // minesweeper
-  else if (*argv[P_ENV] == 'm'){
-  if (PRINTS) cout << "Environment: Minesweeper\n";
-  e = new Minesweeper(rng);
-  }
-  */
-
-  // multi room domain
-  //else if (*argv[P_ENV] == 'm'){
-  //  e = new MultiRoom(rng, stochastic);
-  //}
-
-  // large domain
-  //else if (*argv[P_ENV] == 'l'){
-  // e = new LargeDomain(rng, stochastic);
-  //}
-
-  // austin map domain
-  else if (strcmp(argv[P_ENV], "map") == 0){
-    e = new AustinMap(rng, stochastic);
-  }
-
-  // Lights domain
-  else if (strcmp(argv[P_ENV], "lights") == 0){
-    if (PRINTS) cout << "Environment: Lights\n";
-    e = new Lights(rng, stochastic);
-  }
-
-  // Varying grid, normal
-  else if (strcmp(argv[P_ENV], "varynormal") == 0){
-    if (PRINTS) cout << "Environment: VaryingGrid, Normal\n";
-    e = new VaryingGrid(rng, false, stochastic);
-  }
-
-  // Varying grid, extra variation
-  else if (strcmp(argv[P_ENV], "varyextra") == 0){
-    if (PRINTS) cout << "Environment: VaryingGrid, Extra variation\n";
-    e = new VaryingGrid(rng, true, stochastic);
-  }
-
-  // Varying grid, varies every row
-  else if (strcmp(argv[P_ENV], "varyevery") == 0){
-    if (PRINTS) cout << "Environment: VaryingGrid, Every row\n";
-    e = new VaryingGrid(rng, 120, true, stochastic, true);
-  }
-
-  // castle
-  else if (strcmp(argv[P_ENV], "castle") == 0){
-    if (PRINTS) cout << "Environment: Castle\n";
-    e = new Castle(rng, stochastic);
-  }
-
-
-  else if (strcmp(argv[P_ENV], "chain") == 0){
-    if (PRINTS) cout << "Environment: Chain\n";
-    e = new Chain(rng, stochastic);
-  }
-
-  // castle with no energy and more terminal squares
-  //else if (*argv[P_ENV] == 'g'){
-  //  if (PRINTS) cout << "Environment: Castle w/o energy + terminals\n";
-  //  e = new CastleR(rng, stochastic);
-  //}
-
-  // large gridworld
-  else if (strcmp(argv[P_ENV], "large") == 0){
-    MAXSTEPS = 100000;
-    if (PRINTS) cout << "Environment: Large Gridworld\n";
-    e = new LargeGrid(rng, stochastic, true);
   }
 
   // stocks
@@ -997,37 +689,6 @@ int main(int argc, char **argv) {
                      << " sectors and " << nstocks << " stocks\n";
     e = new Stocks(rng, stochastic, nsectors, nstocks);
   }
-
-  /*
-  // rising optimum
-  else if (*argv[P_ENV] == 'o'){
-  if (PRINTS) cout << "Environment: Rising Optimum\n";
-  e = new RisingOptimum(rng);
-  }
-  */
-
-  // castle
-  else if (strcmp(argv[P_ENV], "smallcastle") == 0){
-    if (PRINTS) cout << "Environment: SmallCastle\n";
-    e = new SmallCastle(rng, stochastic);
-  }
-
-  //else if (*argv[P_ENV] == 's'){
-  // e = new SmallCastle(rng, stochastic);
-  //}
-
-  else if (strcmp(argv[P_ENV], "playroom") == 0){
-    // last boolean tells if there's reward or not
-    e = new PlayRoom(rng, stochastic, false, true); //false);
-  }
-
-  /*
-    else if (*argv[P_ENV] == 'n'){
-    if (PRINTS) cout << "Environment: NFL\n";
-    // last boolean tells if there's reward or not
-    e = new NFL(rng, stochastic); //false);
-    }
-  */
 
   else {
     std::cerr << "Invalid env type" << endl;
@@ -1136,17 +797,6 @@ int main(int argc, char **argv) {
                            rng);
     }
 
-    else if (*argv[P_AGENT] == 'd'){
-      if (PRINTS) cout << "Agent: dQLearner" << endl;
-      agent = new dQLearner(numactions,
-                            gamma,
-                            initialvalue, //0.0, // initialvalue
-                            0.3, // alpha
-                            0.1, // epsilon
-                            history,
-                            rng);
-    }
-
     else if (*argv[P_AGENT] == 'y'){
       if (PRINTS) cout << "Agent: Dyna, actrate:" << actrate << endl;
       agent = new Dyna(numactions,
@@ -1180,60 +830,7 @@ int main(int argc, char **argv) {
                            rng);
     }
 
-    /*
-    else if (*argv[P_AGENT] == 'n'){
-      if (PRINTS) cout << "Agent: Nick's Fitted R-max" << endl;
-      agent = new NickAgent(numactions, gamma, 
-                            maxValues, minValues, rMax);
-    }
-    */
-
-    /*
-      else if (*argv[P_AGENT] == 'o'){
-      if (PRINTS) cout << "Agent: OptimalExplorer" << endl;
-      agent = new OptimalExplorer(numactions,
-      gamma,
-      initialvalue-20.0, //0.0, // initialvalue
-      0.3, // alpha
-      0.1, // epsilon
-      rng);
-      }
-    */
-
-    else if (*argv[P_AGENT] == 'i'){
-      if (PRINTS) cout << "Agent: Interactive Manual Agent" << endl;
-      agent = new ManualAgent(numactions, *argv[P_ENV]);
-    }
-
-
-    else if (*argv[P_AGENT] == 'a'){
-      if (PRINTS) cout << "Agent: QLearner with Tile Coding" << endl;
-      agent = new QwithFA(numactions,
-                          gamma,
-                          0.3, // alpha
-                          0.5, // beta
-                          0.1, // epsilon
-                          minValues, maxValues,
-                          rng);
-    }
-
-    else if (*argv[P_AGENT] == 'f'){
-      if (PRINTS) cout << "Agent: Flat RMax M: " << M << endl;
-      agent = new FlatRMax(numactions,
-                           gamma,
-                           M,
-                           rMax,
-                           rng);
-    }
-
-    else if (*argv[P_AGENT] == 't'){
-      if (PRINTS) cout << "Agent: RLDT M: " << M << endl;
-      agent = new RLDT(numactions,
-                       gamma,
-                       rMax, rRange, M,
-                       minValues, maxValues,
-                       rng);
-    }
+    
 
     else if (*argv[P_AGENT] == 'm'){
       if (PRINTS) cout << "Agent: Model Based" << endl;
@@ -1289,28 +886,6 @@ int main(int argc, char **argv) {
       agent = new SavedPolicy(numactions,"policy.pol");
     }
 
-    /*
-      else if (*argv[P_AGENT] == 'h'){
-      if (PRINTS) cout << "Agent: Hand Coded" << endl;
-      if (*argv[P_ENV] == 'f')
-      agent = new HandCodedFuel(numactions);
-      else if (*argv[P_ENV] == 'x')
-      agent = new HandCodedExplore(numactions);
-      else{
-      std::cerr << "Hand coded not valid for env " << *argv[P_ENV] << endl;
-      exit(-1);
-      }
-      }
-
-      else if (*argv[P_AGENT] == 's'){
-      agent = new TestRMax(numactions,
-      gamma,
-      M,
-      rMax,
-      rng);
-      }
-    */
-
     else {
       std::cerr << "ERROR: Invalid agent type" << endl;
       exit(-1);
@@ -1331,9 +906,9 @@ int main(int argc, char **argv) {
     if (nstates > 0 && *argv[P_AGENT] != 'c'){
       totalStates = powf(nstates,minValues.size());
       if (PRINTS) cout << "Discretize with " << nstates << ", total: " << totalStates << endl;
-      //agent = new DiscretizationAgent(discAmt, a2, *argv[P_AGENT],
+      //agent = new DiscretizationAgent(discAmt, a2, 
       //                              minValues, maxValues, PRINTS);
-      agent = new DiscretizationAgent(statesPerDim, a2, *argv[P_AGENT],
+      agent = new DiscretizationAgent(statesPerDim, a2, 
                                       minValues, maxValues, PRINTS);
     }
     else {
