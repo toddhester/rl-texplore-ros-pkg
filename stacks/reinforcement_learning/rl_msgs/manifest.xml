@@ -1,0 +1,13 @@
+<package>
+  <description brief="rl_msgs">
+    Provides the set of ROS messages to be passed between reinforcement learning (RL) agent nodes and environment nodes.
+
+  </description>
+  <author>Michael Quinlan</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/rl_msgs</url>
+
+</package>
+
+

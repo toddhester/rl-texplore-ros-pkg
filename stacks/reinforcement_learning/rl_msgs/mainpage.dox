@@ -1,0 +1,7 @@
+/**
+\mainpage
+\htmlinclude manifest.html
+
+This package contains only ROS message definitions. It has no code API.
+
+*/
