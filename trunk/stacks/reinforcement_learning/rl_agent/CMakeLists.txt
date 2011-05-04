@@ -37,6 +37,7 @@ rosbuild_add_executable(agent
   src/Agent/ModelBasedAgent.cc
   src/Agent/SavedPolicy.cc
   src/Agent/Dyna.cc
+  src/Agent/Sarsa.cc
   src/Models/MDPTree.cc
   src/Models/M5Tree.cc
   src/Models/LinearSplitsTree.cc
