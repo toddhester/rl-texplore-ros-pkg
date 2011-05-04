@@ -221,8 +221,9 @@ int main(int argc, char *argv[])
   ros::init(argc, argv, NODE);
   ros::NodeHandle node;
 
-  // agent and seed are required
+  // agent is required required
   if (argc < 3){
+    cout << "--agent type  option is required" << endl;
     displayHelp();
     exit(-1);
   }
