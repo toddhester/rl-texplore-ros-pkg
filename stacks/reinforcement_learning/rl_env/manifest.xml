@@ -1,0 +1,14 @@
+<package>
+  <description brief="rl_env">
+
+     Provides a set of reinforcement learning environments (gridworlds, mountain car, cart pole, stock trading, robot car simulations) for RL agents to learn in.
+
+  </description>
+  <author>Todd Hester</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/rl_env</url>
+
+</package>
+
+
