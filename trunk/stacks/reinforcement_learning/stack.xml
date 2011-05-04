@@ -1,0 +1,9 @@
+<stack>
+  <description brief="reinforcement_learning">reinforcement_learning</description>
+  <author>Maintained by Todd Hester</author>
+  <license>BSD</license>  
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/reinforcement_learning</url>
+  <depend stack="ros" />
+
+</stack>
