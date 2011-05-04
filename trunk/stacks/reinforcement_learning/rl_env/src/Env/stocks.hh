@@ -1,8 +1,8 @@
 #ifndef _STOCKS_H_
 #define _STOCKS_H_
 
-#include "../Common/Random.h"
-#include "../Common/core.hh"
+#include <rl_common/Random.h>
+#include <rl_common/core.hh>
 #include <set>
 
 

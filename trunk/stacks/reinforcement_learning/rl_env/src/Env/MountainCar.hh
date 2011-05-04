@@ -9,8 +9,8 @@
 
 #include <set>
 #include <deque>
-#include "../Common/Random.h"
-#include "../Common/core.hh"
+#include <rl_common/Random.h>
+#include <rl_common/core.hh>
 
 /** This class defines the Mountain Car domain, with possible action delays or linearized 
       transition dynamics.

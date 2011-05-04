@@ -10,8 +10,8 @@
 #define _ROBOTCAR_H_
 
 #include <set>
-#include "../Common/Random.h"
-#include "../Common/core.hh"
+#include <rl_common/Random.h>
+#include <rl_common/core.hh>
 
 /** This class defines a domain that is a simulation of velocity control for the Austin Robot 
     Technology autonomous vehicle. */
