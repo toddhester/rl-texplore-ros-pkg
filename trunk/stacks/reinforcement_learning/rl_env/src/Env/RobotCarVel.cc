@@ -6,7 +6,7 @@
     \author Todd Hester
 */
 
-#include "RobotCarVel.hh"
+#include <rl_env/RobotCarVel.hh>
 
 // normal: true values of each
 RobotCarVel::RobotCarVel(Random &rand, bool randomVel, bool upVel, bool tenToSix, bool lag):

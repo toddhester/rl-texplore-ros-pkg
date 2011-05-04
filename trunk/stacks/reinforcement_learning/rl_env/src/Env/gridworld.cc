@@ -1,4 +1,4 @@
-#include "gridworld.hh"
+#include <rl_env/gridworld.hh>
 #include <cmath>
 
 std::ostream &operator<<(std::ostream &out, const Gridworld &g) {

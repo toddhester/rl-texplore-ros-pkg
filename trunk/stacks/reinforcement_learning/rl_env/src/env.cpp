@@ -13,15 +13,15 @@
 #include <rl_common/core.hh>
 #include <rl_common/Random.h>
 
-#include "Env/RobotCarVel.hh"
-#include "Env/fourrooms.hh"
-#include "Env/tworooms.hh"
-#include "Env/taxi.hh"
-#include "Env/FuelRooms.hh"
-#include "Env/stocks.hh"
-#include "Env/energyrooms.hh"
-#include "Env/MountainCar.hh"
-#include "Env/CartPole.hh"
+#include <rl_env/RobotCarVel.hh>
+#include <rl_env/fourrooms.hh>
+#include <rl_env/tworooms.hh>
+#include <rl_env/taxi.hh>
+#include <rl_env/FuelRooms.hh>
+#include <rl_env/stocks.hh>
+#include <rl_env/energyrooms.hh>
+#include <rl_env/MountainCar.hh>
+#include <rl_env/CartPole.hh>
 
 #include <getopt.h>
 #include <stdlib.h>
