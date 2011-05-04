@@ -17,6 +17,8 @@
 #include <rl_agent/ModelBasedAgent.hh>
 #include <rl_agent/SavedPolicy.hh>
 #include <rl_agent/Dyna.hh>
+#include <rl_agent/Sarsa.hh>
+
 #include "std_msgs/String.h"
 
 #include <getopt.h>
@@ -58,7 +60,7 @@ char *filename = NULL;
 
 void displayHelp(){
   cout << "\n Call agent --agent type [options]\n";
-  cout << "Agent types: qlearner, modelbased, rmax, texplore, dyna, savedpolicy\n";
+  cout << "Agent types: qlearner sarsa modelbased rmax texplore dyna savedpolicy\n";
   cout << "\n Options:\n";
   cout << "--seed value (integer seed for random number generator)\n";
   cout << "--gamma value (discount factor between 0 and 1)\n";
@@ -185,6 +187,13 @@ void processEnvDescription(const rl_msgs::RLEnvDescription::ConstPtr &envIn){
     agent = new Dyna(envIn->num_actions, discountfactor,
                      initialvalue, alpha, k, epsilon,
                      rng);
+  }
+
+  else if (strcmp(agentType, "sarsa") == 0){
+    cout << "Agent: Sarsa" << endl;
+    agent = new Sarsa(envIn->num_actions, discountfactor,
+                      initialvalue, alpha, epsilon, lambda,
+                      rng);
   }
 
   else if (strcmp(agentType, "savedpolicy") == 0){

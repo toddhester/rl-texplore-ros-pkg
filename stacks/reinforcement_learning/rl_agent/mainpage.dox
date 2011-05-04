@@ -14,7 +14,7 @@ model learning method, planner, etc:
 
 
  Call agent --agent type [options]
-Agent types: qlearner, modelbased, rmax, texplore, dyna, savedpolicy
+Agent types: qlearner sarsa modelbased rmax texplore dyna savedpolicy
 
  Options:
 --seed value (integer seed for random number generator)
