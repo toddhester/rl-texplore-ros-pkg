@@ -28,3 +28,18 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 #rosbuild_link_boost(${PROJECT_NAME} thread)
 #rosbuild_add_executable(example examples/example.cpp)
 #target_link_libraries(example ${PROJECT_NAME})
+
+
+rosbuild_add_executable(env
+  src/env.cpp
+  src/Env/tworooms.cc
+  src/Env/taxi.cc
+  src/Env/MountainCar.cc
+  src/Env/FuelRooms.cc
+  src/Env/CartPole.cc
+  src/Env/fourrooms.cc
+  src/Env/RobotCarVel.cc
+  src/Env/energyrooms.cc
+  src/Env/gridworld.cc
+  src/Env/stocks.cc
+)
