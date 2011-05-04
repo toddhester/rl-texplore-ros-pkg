@@ -3,10 +3,25 @@
     \author Todd Hester
 */
 
-#include "ModelBasedAgent.hh"
+#include <rl_agent/ModelBasedAgent.hh>
 #include <algorithm>
 
 #include <sys/time.h>
+
+// planners
+#include "../Planners/ValueIteration.hh"
+#include "../Planners/PolicyIteration.hh"
+#include "../Planners/PrioritizedSweeping.hh"
+#include "../Planners/ETUCT.hh"
+#include "../Planners/ParallelETUCT.hh"
+#include "../Planners/PO_ETUCT.hh"
+#include "../Planners/PO_ParallelETUCT.hh"
+#include "../Planners/MBS.hh"
+
+// models
+#include "../Models/RMaxModel.hh"
+#include "../Models/MDPTree.hh"
+#include "../Models/ExplorationModel.hh"
 
 ModelBasedAgent::ModelBasedAgent(int numactions, float gamma, 
                                  float rmax, float rrange,

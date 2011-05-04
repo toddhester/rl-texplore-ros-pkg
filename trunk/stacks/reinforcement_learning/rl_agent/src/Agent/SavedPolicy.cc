@@ -1,4 +1,4 @@
-#include "SavedPolicy.hh"
+#include <rl_agent/SavedPolicy.hh>
 #include <algorithm>
 
 SavedPolicy::SavedPolicy(int numactions, const char* filename):

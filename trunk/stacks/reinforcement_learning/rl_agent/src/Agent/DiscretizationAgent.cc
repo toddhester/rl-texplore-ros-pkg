@@ -1,4 +1,4 @@
-#include "DiscretizationAgent.hh"
+#include <rl_agent/DiscretizationAgent.hh>
 #include <algorithm>
 
 DiscretizationAgent::DiscretizationAgent(int n, Agent* a, 

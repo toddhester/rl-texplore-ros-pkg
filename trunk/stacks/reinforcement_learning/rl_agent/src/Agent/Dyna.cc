@@ -1,4 +1,4 @@
-#include "Dyna.hh"
+#include <rl_agent/Dyna.hh>
 #include <algorithm>
 
 #include <sys/time.h>
