@@ -133,26 +133,6 @@ bool MDPTree::initMDPModel(int nfactors){
         if (episodic) terminalTree = new Stump((id * (nfactors+1)) +1+ nfactors, 1, 5, M, 0, rng);
       }
     }
-    else if (modelType == GPREGRESS && nModels == 1){
-      float v = 0.2;
-      float sigma_v = 0.85;
-      outputTrees[i] = new GPregress((id * (nfactors+1)) + i, v, sigma_v, rng);
-      if (i == 0){
-        rewardTree = new GPregress((id * (nfactors+1)) + nfactors, v, sigma_v, rng);
-        if (episodic) terminalTree = new GPregress((id * (nfactors+1)) +1+ nfactors, v, sigma_v, rng);
-      }
-    }
-    else if (modelType == GPTREE && nModels == 1){
-      float v = 0.2;
-      float sigma_v = 0.85;
-      outputTrees[i] = new GPTree((id * (nfactors+1)) + i, treeBuildType, 5, M, 0, treeThresh *featRange[i], v, sigma_v, rng);
-
-      if (i == 0){
-        rewardTree = new GPTree((id * (nfactors+1)) + nfactors, treeBuildType, 5, M, 0, treeThresh *featRange[i], v, sigma_v, rng);
-
-        if (episodic) terminalTree = new GPTree((id * (nfactors+1)) + 1+nfactors, treeBuildType, 5, M, 0, treeThresh *featRange[i], v, sigma_v, rng);
-      }
-    }
     else if (predType == SEPARATE && nModels > 1){
       outputTrees[i] = new SepPlanExplore((id * (nfactors+1)) + i,
                                           modelType, predType,

@@ -292,12 +292,6 @@ void ModelBasedAgent::initPlanner(){
   else if (plannerType == MOD_PRI_SWEEPING){
     planner = new PrioritizedSweeping(numactions, gamma, 10.0, false, modelType, featmax, featmin, rng);
   }
-  else if (plannerType == UCT){
-    planner = new UCTPlanner(numactions, gamma, rrange, 500000, MAX_TIME, max_path, modelType, featmax, featmin, rng);
-  }
-  else if (plannerType == UCT_WITH_L){
-    planner = new UCTPlanner(numactions, gamma, rrange, 500000, MAX_TIME, max_path, modelType, featmax, featmin, lambda, rng);
-  }
   else if (plannerType == ET_UCT){
     planner = new ETUCT(numactions, gamma, rrange, lambda, 500000, MAX_TIME, max_path, modelType, featmax, featmin, statesPerDim, false, history, rng);
   }
@@ -318,12 +312,6 @@ void ModelBasedAgent::initPlanner(){
   }
   else if (plannerType == ET_UCT_L1){
     planner = new ETUCT(numactions, gamma, rrange, 1.0, 500000, MAX_TIME, max_path, modelType, featmax, featmin, statesPerDim, false, history, rng);
-  }
-  else if (plannerType == CMAC_PLANNER){
-    planner = new FunctionApprox(numactions, gamma, 0.3, 0.5, 1, MAX_TIME, false, featmax, featmin, rng);
-  }
-  else if (plannerType == NN_PLANNER){
-    planner = new FunctionApprox(numactions, gamma, 0.2, 0.2, 1, MAX_TIME, true, featmax, featmin, rng);
   }
   else {
     std::cerr << "ERROR: invalid planner type: " << plannerType << endl;
