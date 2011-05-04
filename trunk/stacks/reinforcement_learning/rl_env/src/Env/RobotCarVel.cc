@@ -221,16 +221,6 @@ std::vector<experience> RobotCarVel::getSeedings() {
 
   reset();
 
-  // save seeds to file
-  string filename("car.seeds");
-  ExperienceFile seedFile;
-  seedFile.initFile("car.seeds", 4);
-  for (unsigned i = 0; i < seeds.size(); i++){
-    seedFile.saveExperience(seeds[i]);
-  }
-  seedFile.closeFile();
-
-
   return seeds;
 }
 

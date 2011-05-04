@@ -12,7 +12,6 @@
 #include <set>
 #include "../Common/Random.h"
 #include "../Common/core.hh"
-#include "../Common/ExperienceFile.hh"
 
 /** This class defines a domain that is a simulation of velocity control for the Austin Robot 
     Technology autonomous vehicle. */
