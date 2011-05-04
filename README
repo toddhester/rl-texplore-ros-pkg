@@ -6,11 +6,17 @@
                              4 May 2011
 
 
-The stacks directory contains a ROS stack for reinforcement learning (RL). It 
-includes multiple packages, one with RL agents, one with environments, one with
-some common files defining an inteface for each, and one defining ROS messages
-used to communicate between the agents and environments.
+The stacks directory contains a ROS stack for reinforcement learning (RL). The
+code in this repository provides agents, environments, and multiple ways for
+them to communicate (through ROS messages, or by including the agent and 
+environment libraries. There are 5 packages in the repository:
 
+  rl_common:     Some files that are common to both agents and environments.
+  rl_msgs:       Definitions of ROS messages for agents and envs to communicate.
+  rl_agent:      A library of some RL agents including Q-Learning and TEXPLORE.
+  rl_env:        A library of some RL environments such as Taxi and Fuel World.
+  rl_experiment: Code to run some RL experiments without ROS message passing.
+ 
 Documentation for these packages is here:
 
   http://www.ros.org/wiki/rl-texplore-ros-pkg
@@ -24,6 +30,7 @@ definitely worthwhile when starting out.  Documentation:
 The interfaces themselves are quite good.  So are the visualization
 and debugging tools.  And, there is an impressive amount of useful
 robotics software already available in the ROS package system.
+
 
 
 Directions:
@@ -130,6 +137,23 @@ Directions:
      play back the recorded actions:
 
      $ rosbag play <bagfile>
+
+
+ (7) Finally, we can also run experiments without passing ROS messages using
+     the rl_experiment package. It includes both the agent and env libraries
+     directly, instead of doing message passing. First, compile this package:
+
+     $ rosmake rl_experiment
+
+     To run an experiment, we pass an agent and an environment on the 
+     command line, and we can also pass other options. Once it starts running,
+     it will print out the sum of rewards per episode for episodic tasks, or 
+     the per step rewards for non-episodic tasks. Let's try running R-Max with
+     M = 1 on deterministic Fuel World:
+
+     $ rosrun rl_experiment experiment --agent rmax --m 1 --env fuelworld --deterministic
+
+
 
 
 
