@@ -1,0 +1,21 @@
+<package>
+  <description brief="rl_experiment">
+
+     A package to run RL experiments using the rl_agent and rl_env packages, by directly calling agents and environments without using the ROS message interface. 
+
+  </description>
+  <author>Todd Hester</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/rl_experiment</url>
+  <depend package="std_msgs"/>
+  <depend package="roscpp"/>
+  <depend package="rl_msgs"/>
+  <depend package="tf"/>
+  <depend package="rl_common"/>
+  <depend package="rl_agent"/>
+  <depend package="rl_env"/>
+
+</package>
+
+
