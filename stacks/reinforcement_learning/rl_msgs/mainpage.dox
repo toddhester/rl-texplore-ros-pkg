@@ -2,6 +2,8 @@
 \mainpage
 \htmlinclude manifest.html
 
+\b rl_msgs is a package of ROS message definitions, which are used for a reinforcement learning agent to communicate with an environment.
+
 This package contains only ROS message definitions. It has no code API.
 
 */

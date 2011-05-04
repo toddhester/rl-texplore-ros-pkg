@@ -2,11 +2,38 @@
 \mainpage
 \htmlinclude manifest.html
 
-\b rl_agent is ... 
+\b rl_agent is a package containing reinforcement learning (RL) agents. 
 
-<!-- 
-Provide an overview of your package.
--->
+There are multiple RL agents included wihtin this package. Q-Learning
+and Dyna are provided as well as a Model Based method which can accept
+a variety of model learning and planning methods. Two standard model-based
+methods that are provided are TEXPLORE and R-Max.
+
+There are a variety of options for running the agent to select the agent type,
+model learning method, planner, etc:
+
+
+ Call agent --agent type [options]
+Agent types: qlearner, modelbased, rmax, texplore
+
+ Options:
+--seed value (integer seed for random number generator)
+--gamma value (discount factor between 0 and 1)
+--epsilon value (epsilon for epsilon-greedy exploration)
+--alpha value (learning rate alpha)
+--initialvalue value (initial q values)
+--actrate value (action selection rate (Hz))
+--lamba value (lamba for eligibility traces)
+--m value (parameter for R-Max)
+--model type (tabular,tree,m5tree)
+--planner type (vi,pi,sweeping,uct,parallel-uct,delayed-uct,delayed-parallel-uct)
+--explore type (unknowns,greedy,epsilongreedy)
+--combo type (average,best,separate)
+--nmodels value (# of models)
+--nstates value (optionally discreteize domain into value # of states on each feature)
+--reltrans (learn relative transitions)
+--abstrans (learn absolute transitions)
+--prints (turn on debug printing of actions/rewards)
 
 
 \section codeapi Code API
