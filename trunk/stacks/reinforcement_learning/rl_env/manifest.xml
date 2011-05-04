@@ -12,6 +12,7 @@
   <depend package="roscpp"/>
   <depend package="rl_msgs"/>
   <depend package="tf"/>
+  <depend package="rl_common"/>
 
 </package>
 

@@ -10,8 +10,8 @@
 #include <ros/callback_queue.h>
 #include <tf/transform_broadcaster.h>
 
-#include "Common/core.hh"
-#include "Common/Random.h"
+#include <rl_common/core.hh>
+#include <rl_common/Random.h>
 
 #include "Env/RobotCarVel.hh"
 #include "Env/fourrooms.hh"
