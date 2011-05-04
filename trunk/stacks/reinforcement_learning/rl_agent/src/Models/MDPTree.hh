@@ -13,8 +13,6 @@
 #include "../Models/Stump.hh"
 #include "../Models/MultipleClassifiers.hh"
 #include "../Models/SepPlanExplore.hh"
-#include "../Models/GPregress.hh"
-#include "../Models/GPTree.hh"
 
 #include "../Common/Random.h"
 #include "../Common/core.hh"

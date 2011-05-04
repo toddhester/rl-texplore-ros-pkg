@@ -6,19 +6,14 @@
 #ifndef _MODELBASED_HH_
 #define _MODELBASED_HH_
 
-#include "../Common/Random.h"
-#include "../Common/core.hh"
+#include <rl_common/Random.h>
+#include <rl_common/core.hh>
 
 // planners
 #include "../Planners/ValueIteration.hh"
 #include "../Planners/PolicyIteration.hh"
 #include "../Planners/PrioritizedSweeping.hh"
-#include "../Planners/UCT.hh"
 #include "../Planners/ETUCT.hh"
-//#include "../Planners/ETUCTCompleteModel.hh"
-//#include "../Planners/SweepingETUCTHybrid.hh"
-#include "../Planners/FunctionApprox.hh"
-//#include "../Planners/UCTCompleteModel.hh"
 #include "../Planners/ParallelETUCT.hh"
 #include "../Planners/PO_ETUCT.hh"
 #include "../Planners/PO_ParallelETUCT.hh"
@@ -28,7 +23,6 @@
 #include "../Models/RMaxModel.hh"
 #include "../Models/MDPTree.hh"
 #include "../Models/ExplorationModel.hh"
-#include "../Models/GPmdp.hh"
 
 #include <ext/hash_map>
 #include <set>
