@@ -55,6 +55,7 @@ bool reltrans = true;
 int nstates = 0;
 int k = 1000;
 char *filename = NULL;
+int history = 0;
 // possibly over-written by command line arguments
 
 
@@ -71,6 +72,7 @@ void displayHelp(){
   cout << "--lamba value (lamba for eligibility traces)\n";
   cout << "--m value (parameter for R-Max)\n";
   cout << "--k value (For Dyna: # of model based updates to do between each real world update)\n";
+  cout << "--history value (# steps of history to use for planning with delay)\n";
   cout << "--filename file (file to load saved policy from for savedpolicy agent)\n";
   cout << "--model type (tabular,tree,m5tree)\n";
   cout << "--planner type (vi,pi,sweeping,uct,parallel-uct,delayed-uct,delayed-parallel-uct)\n";
@@ -176,7 +178,7 @@ void processEnvDescription(const rl_msgs::RLEnvDescription::ConstPtr &envIn){
                                 M,
                                 envIn->min_state_range, envIn->max_state_range,
                                 nstates,
-                                0, 0, false, reltrans, 0.2, 
+                                history, 0, false, reltrans, 0.2, 
                                 envIn->stochastic, envIn->episodic,
                                 rng);
     
@@ -297,7 +299,8 @@ int main(int argc, char *argv[])
     {"prints", 0, 0, 'd'},
     {"nstates", 1, 0, 'w'},
     {"k", 1, 0, 'k'},
-    {"filename", 1, 0, 'f'}
+    {"filename", 1, 0, 'f'},
+    {"history", 1, 0, 'y'}
 
   };
 
@@ -314,6 +317,11 @@ int main(int argc, char *argv[])
       cout << "epsilon: " << epsilon << endl;
       break;
       
+    case 'y':
+      history = std::atoi(optarg);
+      cout << "history: " << history << endl;
+      break;
+
     case 'k':
       k = std::atoi(optarg);
       cout << "k: " << k << endl;
