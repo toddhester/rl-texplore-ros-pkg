@@ -32,7 +32,6 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
 rosbuild_add_executable(agent
   src/agent.cpp
-  src/Common/ExperienceFile.cc
   src/Agent/DiscretizationAgent.cc 
   src/Agent/QLearner.cc
   src/Agent/ModelBasedAgent.cc
