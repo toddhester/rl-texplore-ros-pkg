@@ -10,8 +10,8 @@
 #ifndef _PO_ETUCT_HH_
 #define _PO_ETUCT_HH_
 
-#include "../Common/Random.h"
-#include "../Common/core.hh"
+#include <rl_common/Random.h>
+#include <rl_common/core.hh>
 
 #include "../Models/MDPTree.hh"
 

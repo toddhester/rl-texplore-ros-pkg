@@ -6,8 +6,8 @@
 #ifndef _VALUEITERATION_HH_
 #define _VALUEITERATION_HH_
 
-#include "../Common/Random.h"
-#include "../Common/core.hh"
+#include <rl_common/Random.h>
+#include <rl_common/core.hh>
 
 #include <ext/hash_map>
 #include <set>
