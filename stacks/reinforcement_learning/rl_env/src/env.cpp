@@ -44,17 +44,18 @@ int nstocks = 3;
 int nsectors = 3;
 int delay = 0;
 bool lag = false;
-
+bool highvar = false;
 
 void displayHelp(){
   cout << "\n Call env --env type [options]\n";
-  cout << "Env types: taxi tworooms fuellow fuelhigh mcar cartpole car2to7 stocks\n";
+  cout << "Env types: taxi tworooms fourrooms energy fuelworld mcar cartpole car2to7 car7to2 carrandom stocks\n";
   cout << "\n Options:\n";
   cout << "--seed value (integer seed for random number generator)\n";
   cout << "--deterministic (deterministic version of domain)\n";
   cout << "--stochastic (stochastic version of domain)\n";
   cout << "--delay value (# steps of action delay (for mcar and tworooms)\n";
   cout << "--lag (turn on brake lag for car driving domain)\n";
+  cout << "--highvar (have variation fuel costs in Fuel World)\n";
   cout << "--nsectors value (# sectors for stocks domain)\n";
   cout << "--nstocks value (# stocks for stocks domain)\n";
   cout << "--prints (turn on debug printing of actions/rewards)\n";
@@ -120,7 +121,7 @@ void initEnvironment(){
   }
 
   // two rooms
-  else if (strcmp(envType, "tworoom") == 0){
+  else if (strcmp(envType, "tworooms") == 0){
     desc.title = "Environment: TwoRooms\n";
     e = new TwoRooms(rng, stochastic, true, delay, false);
   }
@@ -128,41 +129,21 @@ void initEnvironment(){
   // car vel, 2 to 7
   else if (strcmp(envType, "car2to7") == 0){
     desc.title = "Environment: Car Velocity 2 to 7 m/s\n";
-    e = new RobotCarVel(rng, false, true, false, false);
+    e = new RobotCarVel(rng, false, true, false, lag);
   }
   // car vel, 7 to 2
   else if (strcmp(envType, "car7to2") == 0){
     desc.title = "Environment: Car Velocity 7 to 2 m/s\n";
-    e = new RobotCarVel(rng, false, false, false, false);
+    e = new RobotCarVel(rng, false, false, false, lag);
   }
   // car vel, random vels
   else if (strcmp(envType, "carrandom") == 0){
     desc.title = "Environment: Car Velocity Random Velocities\n";
-    e = new RobotCarVel(rng, true, false, false, false);
-  }
-  // car vel, random vels, with lag
-  else if (strcmp(envType, "carrandomlag") == 0){
-    desc.title = "Environment: Car Velocity Random Velocities with lag\n";
-    e = new RobotCarVel(rng, true, false, false, true);
-  }
-  // car vel, 7 to 2 with lag
-  else if (strcmp(envType, "car7to2lag") == 0){
-    desc.title = "Environment: Car Velocity 7 to 2 m/s with lag\n";
-    e = new RobotCarVel(rng, false, false, false, true);
-  }
-  // car vel, 10 to 6 with lag
-  else if (strcmp(envType, "car10to6lag") == 0){
-    desc.title = "Environment: Car Velocity 10 to 6 m/s with lag\n";
-    e = new RobotCarVel(rng, false, false, true, true);
-  }
-  // car vel, 10 to 6 no lag
-  else if (strcmp(envType, "car10to6") == 0){
-    desc.title = "Environment: Car Velocity 10 to 6 m/s\n";
-    e = new RobotCarVel(rng, false, false, true, false);
+    e = new RobotCarVel(rng, true, false, false, lag);
   }
 
   // four rooms
-  else if (strcmp(envType, "fourroom") == 0){
+  else if (strcmp(envType, "fourrooms") == 0){
     desc.title = "Environment: FourRooms\n";
     e = new FourRooms(rng, stochastic, true, false);
   }
@@ -174,20 +155,14 @@ void initEnvironment(){
   }
 
   // gridworld with fuel (fuel stations on top and bottom with random costs)
-  else if (strcmp(envType, "fuellow") == 0){
-    desc.title = "Environment: FuelRooms, Little variation in fuel cost\n";
-    e = new FuelRooms(rng, false, stochastic);
-  }
-
-  // gridworld with fuel (fuel stations on top and bottom with random costs)
-  else if (strcmp(envType, "fuelhigh") == 0){
-    desc.title = "Environment: FuelRooms, Large variation in fuel cost\n";
-    e = new FuelRooms(rng, true, stochastic);
+  else if (strcmp(envType, "fuelworld") == 0){
+    desc.title = "Environment: FuelWorld\n";
+    e = new FuelRooms(rng, highvar, stochastic);
   }
 
   // stocks
   else if (strcmp(envType, "stocks") == 0){
-    desc.title = "Enironment: Stocks\n";
+    desc.title = "Environment: Stocks\n";
     e = new Stocks(rng, stochastic, nsectors, nstocks);
   }
 
@@ -252,7 +227,8 @@ int main(int argc, char *argv[])
   ros::NodeHandle node;
 
   if (argc < 2){
-    cout << "Wrong number of arguments: <env> <stochastic> <seed>\n";
+    cout << "--env type  option is required" << endl;
+    displayHelp();
     exit(-1);
   }
 
@@ -293,7 +269,8 @@ int main(int argc, char *argv[])
     {"lag", 0, 0, 'l'},
     {"nolag", 0, 0, 'o'},
     {"seed", 1, 0, 'x'},
-    {"prints", 0, 0, 'p'}
+    {"prints", 0, 0, 'p'},
+    {"highvar", 0, 0, 'v'}
   };
 
   while(-1 != (ch = getopt_long_only(argc, argv, optflags, long_options, &option_index))) {
@@ -307,6 +284,11 @@ int main(int argc, char *argv[])
     case 'd':
       stochastic = false;
       cout << "stochastic: " << stochastic << endl;
+      break;
+
+    case 'v':
+      highvar = true;
+      cout << "fuel world fuel cost variation: " << highvar << endl;
       break;
 
     case 's':
