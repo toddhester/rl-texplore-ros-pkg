@@ -2,11 +2,9 @@
 \mainpage
 \htmlinclude manifest.html
 
-\b rl_common is ... 
-
-<!-- 
-Provide an overview of your package.
--->
+\b rl_common is a package of common RL files needed by both the agent and the
+environment. Mainly the interfaces defining their class methods, and some other
+utility mothods.
 
 
 \section codeapi Code API

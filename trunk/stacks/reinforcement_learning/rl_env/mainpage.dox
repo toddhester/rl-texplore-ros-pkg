@@ -2,11 +2,26 @@
 \mainpage
 \htmlinclude manifest.html
 
-\b rl_env is ... 
+\b rl_env is is a package containing reinforcement learning (RL) environments.
 
-<!-- 
-Provide an overview of your package.
--->
+These environments include gridworlds, taxi, mountain car, cart-pole, and a 
+simulation of the texas ART car. There are some options to change variables
+of these environments:
+
+
+ Call env --env type [options]
+Env types: taxi tworooms fuellow fuelhigh mcar cartpole car2to7 stocks
+
+ Options:
+--seed value (integer seed for random number generator)
+--deterministic (deterministic version of domain)
+--stochastic (stochastic version of domain)
+--delay value (# steps of action delay (for mcar and tworooms)
+--lag (turn on brake lag for car driving domain)
+--nsectors value (# sectors for stocks domain)
+--nstocks value (# stocks for stocks domain)
+--prints (turn on debug printing of actions/rewards)
+
 
 
 \section codeapi Code API
