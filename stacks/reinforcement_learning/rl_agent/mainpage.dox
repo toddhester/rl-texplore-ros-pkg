@@ -14,7 +14,7 @@ model learning method, planner, etc:
 
 
  Call agent --agent type [options]
-Agent types: qlearner, modelbased, rmax, texplore
+Agent types: qlearner, modelbased, rmax, texplore, dyna, savedpolicy
 
  Options:
 --seed value (integer seed for random number generator)
@@ -25,6 +25,8 @@ Agent types: qlearner, modelbased, rmax, texplore
 --actrate value (action selection rate (Hz))
 --lamba value (lamba for eligibility traces)
 --m value (parameter for R-Max)
+--k value (For Dyna: # of model based updates to do between each real world update)
+--filename file (file to load saved policy from for savedpolicy agent)
 --model type (tabular,tree,m5tree)
 --planner type (vi,pi,sweeping,uct,parallel-uct,delayed-uct,delayed-parallel-uct)
 --explore type (unknowns,greedy,epsilongreedy)

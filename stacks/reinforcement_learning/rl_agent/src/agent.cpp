@@ -51,12 +51,14 @@ int planner = PAR_ETUCT_ACTUAL;
 int nmodels = 5;
 bool reltrans = true;
 int nstates = 0;
+int k = 1000;
+char *filename = NULL;
 // possibly over-written by command line arguments
 
 
 void displayHelp(){
   cout << "\n Call agent --agent type [options]\n";
-  cout << "Agent types: qlearner, modelbased, rmax, texplore\n";
+  cout << "Agent types: qlearner, modelbased, rmax, texplore, dyna, savedpolicy\n";
   cout << "\n Options:\n";
   cout << "--seed value (integer seed for random number generator)\n";
   cout << "--gamma value (discount factor between 0 and 1)\n";
@@ -66,6 +68,8 @@ void displayHelp(){
   cout << "--actrate value (action selection rate (Hz))\n";
   cout << "--lamba value (lamba for eligibility traces)\n";
   cout << "--m value (parameter for R-Max)\n";
+  cout << "--k value (For Dyna: # of model based updates to do between each real world update)\n";
+  cout << "--filename file (file to load saved policy from for savedpolicy agent)\n";
   cout << "--model type (tabular,tree,m5tree)\n";
   cout << "--planner type (vi,pi,sweeping,uct,parallel-uct,delayed-uct,delayed-parallel-uct)\n";
   cout << "--explore type (unknowns,greedy,epsilongreedy)\n";
@@ -176,6 +180,18 @@ void processEnvDescription(const rl_msgs::RLEnvDescription::ConstPtr &envIn){
     
   }
 
+  else if (strcmp(agentType, "dyna") == 0){
+    cout << "Agent: Dyna" << endl;
+    agent = new Dyna(envIn->num_actions, discountfactor,
+                     initialvalue, alpha, k, epsilon,
+                     rng);
+  }
+
+  else if (strcmp(agentType, "savedpolicy") == 0){
+    cout << "Agent: Saved Policy" << endl;
+    agent = new SavedPolicy(envIn->num_actions, filename);
+  }
+
   else {
     cout << "Invalid Agent!" << endl;
     displayHelp();
@@ -269,7 +285,9 @@ int main(int argc, char *argv[])
     {"seed", 1, 0, 's'},
     {"agent", 1, 0, 'q'},
     {"prints", 0, 0, 'd'},
-    {"nstates", 1, 0, 'w'}
+    {"nstates", 1, 0, 'w'},
+    {"k", 1, 0, 'k'},
+    {"filename", 1, 0, 'f'}
 
   };
 
@@ -286,6 +304,16 @@ int main(int argc, char *argv[])
       cout << "epsilon: " << epsilon << endl;
       break;
       
+    case 'k':
+      k = std::atoi(optarg);
+      cout << "k: " << k << endl;
+      break;
+
+    case 'f':
+      filename = optarg;
+      cout << "policy filename: " <<  filename << endl;
+      break;
+
     case 'a':
       alpha = std::atof(optarg);
       cout << "alpha: " << alpha << endl;
