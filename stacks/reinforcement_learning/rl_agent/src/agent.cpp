@@ -12,11 +12,11 @@
 #include <rl_common/Random.h>
 #include <rl_common/ExperienceFile.hh>
 
-#include "Agent/DiscretizationAgent.hh"
-#include "Agent/QLearner.hh"
-#include "Agent/ModelBasedAgent.hh"
-#include "Agent/SavedPolicy.hh"
-#include "Agent/Dyna.hh"
+#include <rl_agent/DiscretizationAgent.hh>
+#include <rl_agent/QLearner.hh>
+#include <rl_agent/ModelBasedAgent.hh>
+#include <rl_agent/SavedPolicy.hh>
+#include <rl_agent/Dyna.hh>
 #include "std_msgs/String.h"
 
 #include <getopt.h>
