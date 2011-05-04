@@ -3,7 +3,7 @@
     \author Todd Hester
 */
 
-#include "CartPole.hh"
+#include <rl_env/CartPole.hh>
 
  
 CartPole::CartPole(Random &rand):

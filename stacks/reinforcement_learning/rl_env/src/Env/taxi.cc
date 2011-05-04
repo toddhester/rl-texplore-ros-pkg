@@ -5,7 +5,7 @@
     \author Nick Jong
 */
 
-#include "taxi.hh"
+#include <rl_env/taxi.hh>
 
 const Taxi::DefaultLandmarks Taxi::defaultlandmarks;
 

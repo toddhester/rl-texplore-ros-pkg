@@ -1,4 +1,4 @@
-#include "fourrooms.hh"
+#include <rl_env/fourrooms.hh>
 
 /*
 FourRooms::FourRooms(Random &rand, const Gridworld *gridworld, bool stochastic):

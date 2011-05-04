@@ -5,7 +5,7 @@
     \author Todd Hester
 */
 
-#include "FuelRooms.hh"
+#include <rl_env/FuelRooms.hh>
 
 
 FuelRooms::FuelRooms(Random &rand, bool extraVariation, bool stoch):
