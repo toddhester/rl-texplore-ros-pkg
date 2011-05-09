@@ -40,6 +40,9 @@ Agent types: qlearner sarsa modelbased rmax texplore dyna savedpolicy
 
 \section codeapi Code API
 
+ModelBasedAgent provides code for the general model based agent.
+ParallelETUCT provides the code for the real-time paralell architecture.
+
 <!--
 Provide links to specific auto-generated API documentation within your
 package that is of particular interest to a reader. Doxygen will

@@ -27,6 +27,11 @@ Env types: taxi tworooms fourrooms energy fuelworld mcar cartpole car2to7 car7to
 
 \section codeapi Code API
 
+There are a variety of domains provided in this package.
+CartPole provides source for the CartPole balancing task.
+fuelrooms provides code for the Fuel world task.
+RobotCarVel provides code for the car velocity control simulation.
+
 <!--
 Provide links to specific auto-generated API documentation within your
 package that is of particular interest to a reader. Doxygen will

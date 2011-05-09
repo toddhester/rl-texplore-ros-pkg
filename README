@@ -9,7 +9,7 @@
 The stacks directory contains a ROS stack for reinforcement learning (RL). The
 code in this repository provides agents, environments, and multiple ways for
 them to communicate (through ROS messages, or by including the agent and 
-environment libraries. There are 5 packages in the repository:
+environment libraries). There are 5 packages in the repository:
 
   rl_common:     Some files that are common to both agents and environments.
   rl_msgs:       Definitions of ROS messages for agents and envs to communicate.
