@@ -9,6 +9,8 @@ utility mothods.
 
 \section codeapi Code API
 
+core.hh defines the interface used by the agents, environments, models, and planners for them to interact in a standard way.
+
 <!--
 Provide links to specific auto-generated API documentation within your
 package that is of particular interest to a reader. Doxygen will
