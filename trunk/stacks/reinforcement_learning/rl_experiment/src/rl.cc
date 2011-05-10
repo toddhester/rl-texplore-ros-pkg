@@ -69,7 +69,7 @@ void displayHelp(){
   cout << "--explore type (unknowns,greedy,epsilongreedy)\n";
   cout << "--combo type (average,best,separate)\n";
   cout << "--nmodels value (# of models)\n";
-  cout << "--nstates value (optionally discreteize domain into value # of states on each feature)\n";
+  cout << "--nstates value (optionally discretize domain into value # of states on each feature)\n";
   cout << "--reltrans (learn relative transitions)\n";
   cout << "--abstrans (learn absolute transitions)\n";
 

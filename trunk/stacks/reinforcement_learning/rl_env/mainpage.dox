@@ -10,26 +10,39 @@ of these environments:
 
 
  Call env --env type [options]
+
 Env types: taxi tworooms fourrooms energy fuelworld mcar cartpole car2to7 car7to2 carrandom stocks
 
  Options:
+
 --seed value (integer seed for random number generator)
+
 --deterministic (deterministic version of domain)
+
 --stochastic (stochastic version of domain)
+
 --delay value (# steps of action delay (for mcar and tworooms)
+
 --lag (turn on brake lag for car driving domain)
+
 --highvar (have variation fuel costs in Fuel World)
+
 --nsectors value (# sectors for stocks domain)
+
 --nstocks value (# stocks for stocks domain)
+
 --prints (turn on debug printing of actions/rewards)
 
 
 
 \section codeapi Code API
 
-There are a variety of domains provided in this package.
+There are a variety of domains provided in this package. Here are a few examples:
+
 CartPole provides source for the CartPole balancing task.
-fuelrooms provides code for the Fuel world task.
+
+FuelRooms provides code for the Fuel World task.
+
 RobotCarVel provides code for the car velocity control simulation.
 
 <!--
