@@ -3,6 +3,8 @@
     Technology autonomous vehicle. 
     This vehicle is described in:
     Beeson et al, "Multiagent Interactions in Urban Driving," Journal of Physical Agents, March 2008.
+    The velocity control task is described in:
+    Hester, Quinlan, and Stone, "A Real-Time Model-Based Reinforcement Learning Architecture for Robot Control", arXiv 1105.1749, 2011.
     \author Todd Hester
 */
 
