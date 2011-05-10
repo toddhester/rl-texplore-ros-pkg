@@ -3,7 +3,8 @@
     The modified version of UCT used is presented in:
     L. Kocsis and C. Szepesv´ari, "Bandit based monte-carlo planning," in
     ECML-06. Number 4212 in LNCS. Springer, 2006, pp. 282-293.
-    The real-time architecture is presented in: TODO
+    The real-time architecture is presented in: 
+    Hester, Quinlan, and Stone, "A Real-Time Model-Based Reinforcement Learning Architecture for Robot Control", arXiv 1105.1749, 2011.
     \author Todd Hester
 */
 
