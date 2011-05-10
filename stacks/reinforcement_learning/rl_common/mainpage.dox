@@ -4,12 +4,22 @@
 
 \b rl_common is a package of common RL files needed by both the agent and the
 environment. Mainly the interfaces defining their class methods, and some other
-utility mothods.
+utility methods.
 
 
 \section codeapi Code API
 
-core.hh defines the interface used by the agents, environments, models, and planners for them to interact in a standard way.
+core.hh defines the interface used by the agents, environments, models, and planners for them to interact in a standard way. Here are links to each of the important interfaces you may want to implement:
+
+Agent is the interface for RL agents.
+
+Environment is the interface for RL environments.
+
+Planner is the interface for MDP planners.
+
+MDPModel is the interface for MDP models.
+
+
 
 <!--
 Provide links to specific auto-generated API documentation within your

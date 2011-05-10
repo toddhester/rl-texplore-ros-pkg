@@ -6,46 +6,80 @@
 
 This package includes both libraries and calls their methods directly, instead of running each one separately and having them communicate by passing ROS messages.
 
-The agent and environment to ues are specified on the command line, and there are many options for each:
+The agent and environment to use are specified on the command line, and there are many options for each:
 
  Call experiment --agent type --env type [options]
+
 Agent types: qlearner sarsa modelbased rmax texplore dyna savedpolicy
+
 Env types: taxi tworooms fourrooms energy fuelworld mcar cartpole car2to7 car7to2 carrandom stocks
 
  Agent Options:
+
 --gamma value (discount factor between 0 and 1)
+
 --epsilon value (epsilon for epsilon-greedy exploration)
+
 --alpha value (learning rate alpha)
+
 --initialvalue value (initial q values)
+
 --actrate value (action selection rate (Hz))
+
 --lamba value (lamba for eligibility traces)
+
 --m value (parameter for R-Max)
+
 --k value (For Dyna: # of model based updates to do between each real world update)
+
 --history value (# steps of history to use for planning with delay)
+
 --filename file (file to load saved policy from for savedpolicy agent)
+
 --model type (tabular,tree,m5tree)
+
 --planner type (vi,pi,sweeping,uct,parallel-uct,delayed-uct,delayed-parallel-uct)
+
 --explore type (unknowns,greedy,epsilongreedy)
+
 --combo type (average,best,separate)
+
 --nmodels value (# of models)
---nstates value (optionally discreteize domain into value # of states on each feature)
+
+--nstates value (optionally discretize domain into value # of states on each feature)
+
 --reltrans (learn relative transitions)
+
 --abstrans (learn absolute transitions)
 
+
+
  Env Options:
+
 --deterministic (deterministic version of domain)
+
 --stochastic (stochastic version of domain)
+
 --delay value (# steps of action delay (for mcar and tworooms)
+
 --lag (turn on brake lag for car driving domain)
+
 --highvar (have variation fuel costs in Fuel World)
+
 --nsectors value (# sectors for stocks domain)
+
 --nstocks value (# stocks for stocks domain)
 
+
+
 --prints (turn on debug printing of actions/rewards)
+
 --seed value (integer seed for random number generator)
 
 
 \section codeapi Code API
+
+rl.cc is the only file in this package, it creates an Agent and Environment can runs the experiment by calling the appropriate methods in each. It will then print out the sum of rewards for each episode.
 
 <!--
 Provide links to specific auto-generated API documentation within your

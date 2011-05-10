@@ -4,7 +4,7 @@
 
 \b rl_agent is a package containing reinforcement learning (RL) agents. 
 
-There are multiple RL agents included wihtin this package. Q-Learning
+There are multiple RL agents included within this package. Q-Learning
 and Dyna are provided as well as a Model Based method which can accept
 a variety of model learning and planning methods. Two standard model-based
 methods that are provided are TEXPLORE and R-Max.
@@ -14,34 +14,57 @@ model learning method, planner, etc:
 
 
  Call agent --agent type [options]
+
 Agent types: qlearner sarsa modelbased rmax texplore dyna savedpolicy
 
  Options:
+
 --seed value (integer seed for random number generator)
+
 --gamma value (discount factor between 0 and 1)
+
 --epsilon value (epsilon for epsilon-greedy exploration)
+
 --alpha value (learning rate alpha)
+
 --initialvalue value (initial q values)
+
 --actrate value (action selection rate (Hz))
+
 --lamba value (lamba for eligibility traces)
+
 --m value (parameter for R-Max)
+
 --k value (For Dyna: # of model based updates to do between each real world update)
+
 --filename file (file to load saved policy from for savedpolicy agent)
+
 --model type (tabular,tree,m5tree)
+
 --planner type (vi,pi,sweeping,uct,parallel-uct,delayed-uct,delayed-parallel-uct)
+
 --explore type (unknowns,greedy,epsilongreedy)
+
 --combo type (average,best,separate)
+
 --nmodels value (# of models)
---nstates value (optionally discreteize domain into value # of states on each feature)
+
+--nstates value (optionally discretize domain into value # of states on each feature)
+
 --reltrans (learn relative transitions)
+
 --abstrans (learn absolute transitions)
+
 --prints (turn on debug printing of actions/rewards)
 
 
 \section codeapi Code API
 
 ModelBasedAgent provides code for the general model based agent.
-ParallelETUCT provides the code for the real-time paralell architecture.
+
+ParallelETUCT provides the code for the real-time parallel architecture.
+
+QLearner provides the code for the Q-Learning agent.
 
 <!--
 Provide links to specific auto-generated API documentation within your
