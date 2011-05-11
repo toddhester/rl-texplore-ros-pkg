@@ -19,7 +19,7 @@ environment libraries). There are 5 packages in the repository:
  
 Documentation for these packages is here:
 
-  http://www.ros.org/wiki/rl-texplore-ros-pkg
+  http://www.ros.org/wiki/reinforcement_learning
 
 And there is a more thorough tutorial here:
  
