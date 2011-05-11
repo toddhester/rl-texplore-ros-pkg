@@ -21,6 +21,10 @@ Documentation for these packages is here:
 
   http://www.ros.org/wiki/rl-texplore-ros-pkg
 
+And there is a more thorough tutorial here:
+ 
+  http://www.ros.org/wiki/reinforcement_learning/Tutorials/Reinforcement%20Learning%20Tutorial
+
 Working with the ROS build system is difficult at first.  Expect a
 steep learning curve.  Working through some of the ROS tutorials is
 definitely worthwhile when starting out.  Documentation:
