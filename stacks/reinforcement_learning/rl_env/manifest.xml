@@ -1,7 +1,7 @@
 <package>
   <description brief="rl_env">
 
-     Provides a set of reinforcement learning environments (gridworlds, mountain car, cart pole, stock trading, robot car simulations) for RL agents to learn in.
+     Provides a set of reinforcement learning environments (gridworlds, mountain car, cart pole, stock trading, robot car simulations) for RL agents to learn in. Developed by <a href="http://www.cs.utexas.edu/~todd/">Todd Hester</a> and <a href="http://www.cs.utexas.edu/~pstone/">Peter Stone</a> at the University of Texas at Austin.
 
   </description>
   <author>Todd Hester</author>

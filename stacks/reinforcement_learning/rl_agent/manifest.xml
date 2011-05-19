@@ -1,7 +1,7 @@
 <package>
   <description brief="rl_agent">
 
-     A set of reinforcement learning agents to learn various tasks. In addition, a framework for model based agents where any model learning and/or planning methods can be substituted in.
+     A set of reinforcement learning agents to learn various tasks. In addition, a framework for model based agents where any model learning and/or planning methods can be substituted in. Developed by <a href="http://www.cs.utexas.edu/~todd/">Todd Hester</a> and <a href="http://www.cs.utexas.edu/~pstone/">Peter Stone</a> at the University of Texas at Austin.
 
   </description>
   <author>Todd Hester</author>
