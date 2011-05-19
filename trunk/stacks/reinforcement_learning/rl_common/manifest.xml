@@ -1,7 +1,7 @@
 <package>
   <description brief="rl_common">
 
-     Common files required for RL agents and environments. Including the interface defining agents and environments.
+     Common files required for RL agents and environments. Including the interface defining agents and environments. Developed by <a href="http://www.cs.utexas.edu/~todd/">Todd Hester</a> and <a href="http://www.cs.utexas.edu/~pstone/">Peter Stone</a> at the University of Texas at Austin.
 
   </description>
   <author>Todd Hester</author>

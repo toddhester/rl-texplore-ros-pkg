@@ -1,7 +1,7 @@
 <package>
   <description brief="rl_experiment">
 
-     A package to run RL experiments using the rl_agent and rl_env packages, by directly calling agents and environments without using the rl_msgs interface. 
+     A package to run RL experiments using the rl_agent and rl_env packages, by directly calling agents and environments without using the rl_msgs interface. Developed by <a href="http://www.cs.utexas.edu/~todd/">Todd Hester</a> and <a href="http://www.cs.utexas.edu/~pstone/">Peter Stone</a> at the University of Texas at Austin.
 
   </description>
   <author>Todd Hester</author>
