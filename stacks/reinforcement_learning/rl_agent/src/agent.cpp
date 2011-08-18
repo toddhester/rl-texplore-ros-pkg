@@ -102,6 +102,7 @@ void processState(const rl_msgs::RLStateReward::ConstPtr &stateIn){
   if (firstAction){
     a.action = agent->first_action(stateIn->state);
     info.episode_reward = 0;
+    info.number_actions = 1;
   } else {
     info.episode_reward += stateIn->reward;
     // if terminal, no action, but calculate reward sum
@@ -116,6 +117,7 @@ void processState(const rl_msgs::RLStateReward::ConstPtr &stateIn){
       return;
     } else {
       a.action = agent->next_action(stateIn->reward, stateIn->state);
+      info.number_actions++;
     }
   }
   firstAction = false;
