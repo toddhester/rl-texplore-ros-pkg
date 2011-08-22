@@ -475,7 +475,11 @@ int main(int argc, char *argv[])
   //  ros::getGlobalCallbackQueue()->callAvailable(ros::WallDuration(0.1));
   //}
 
-
+  if(agent != NULL) {
+    if(filename != NULL) {
+      agent->savePolicy(filename);
+    }
+  }
 
   return 0;
 }
