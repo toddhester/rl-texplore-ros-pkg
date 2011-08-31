@@ -13,14 +13,14 @@
 // normal: true values of each
 RobotCarVel::RobotCarVel(Random &rand, bool randomVel, bool upVel, bool tenToSix, bool lag):
   rng(rand),
-  s(6),
-  junk(0),
+  s(4),
+  junk(2),
   targetVel(s[0]),
   currVel(s[1]),
-  trueThrottle(s[2]),
-  trueBrake(s[3]),
-  throttleTarget(s[4]),
-  brakeTarget(s[5]),
+  trueThrottle(junk[0]),
+  trueBrake(junk[1]),
+  throttleTarget(s[2]),
+  brakeTarget(s[3]),
   randomVel(randomVel),
   upVel(upVel),
   tenToSix(tenToSix),
@@ -288,8 +288,6 @@ void RobotCarVel::getMinMaxFeatures(std::vector<float> *minFeat,
 
   (*maxFeat)[2] = 0.4;
   (*maxFeat)[3] = 1.0;
-  (*maxFeat)[4] = 0.4;
-  (*maxFeat)[5] = 1.0;
 
 }
 
