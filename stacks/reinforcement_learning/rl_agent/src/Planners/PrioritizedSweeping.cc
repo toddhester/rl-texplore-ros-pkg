@@ -72,7 +72,7 @@ void PrioritizedSweeping::initNewState(state_t s){
   for (int j = 0; j < numactions; j++){
     // update q values
     updateQValues(*s, j);
-    info->Q[j] += rng.uniform(0,1);
+    info->Q[j] += rng.uniform(0,0.01);
   }
 
   if (PLANNERDEBUG) cout << "done with initNewState()" << endl;
