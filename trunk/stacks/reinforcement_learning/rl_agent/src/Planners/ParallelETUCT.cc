@@ -731,7 +731,7 @@ void ParallelETUCT::initStateInfo(state_t s, state_info* info, int id){
   info->visited = 0; //false;
 
   for (int i = 0; i < numactions; i++){
-    info->Q[i] = rng.uniform(-500,-498);
+    info->Q[i] = rng.uniform(0,0.01);
   }
 
   info->needsUpdate = true;

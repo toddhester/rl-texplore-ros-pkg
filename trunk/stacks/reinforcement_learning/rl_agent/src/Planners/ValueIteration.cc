@@ -552,7 +552,7 @@ void ValueIteration::initStateInfo(state_info* info){
   info->Q.resize(numactions, 0);
 
   for (int i = 0; i < numactions; i++){
-    info->Q[i] = rng.uniform(0,1);
+    info->Q[i] = rng.uniform(0,0.01);
   }
 
   if (PLANNERDEBUG) cout << "done with initStateInfo()" << endl;
