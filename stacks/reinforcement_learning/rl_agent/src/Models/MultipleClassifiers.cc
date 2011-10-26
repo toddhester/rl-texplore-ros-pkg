@@ -26,7 +26,6 @@ MultipleClassifiers::MultipleClassifiers(int id, int modelType, int predType,
   CONF_DEBUG = false;
   COPYDEBUG = false;
   nsteps = 0;
-  conf = 0;
   
   cout << "Created MultClass " << id << " with nModels: " << nModels << ", addNoise: " << addNoise << endl;
 
@@ -52,7 +51,6 @@ MultipleClassifiers::MultipleClassifiers(const MultipleClassifiers &t):
   PRED_DEBUG = t.PRED_DEBUG;
   CONF_DEBUG = t.CONF_DEBUG;
   nsteps = t.nsteps;
-  conf = t.conf;
 
   accuracy = t.accuracy;
 
@@ -303,6 +301,8 @@ float MultipleClassifiers::getConf(const std::vector<float> &input){
       models[j]->testInstance(input, &(infos[j]));
     }
   }
+
+  float conf = 0;
 
   // for deterministic trees, calculating a distribution of outcomes
   // calculate kl divergence

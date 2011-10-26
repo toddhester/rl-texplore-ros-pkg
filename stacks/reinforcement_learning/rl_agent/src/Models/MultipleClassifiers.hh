@@ -93,8 +93,6 @@ private:
   int nsteps;
   std::vector<std::map<float, float> >infos;
 
-  float conf;
-
 };
 
 
