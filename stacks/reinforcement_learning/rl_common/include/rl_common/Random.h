@@ -202,7 +202,6 @@ public:
 
   ~Random( void )   // default destructor
    {
-     pthread_mutex_init(&random_mutex, NULL);
 
    }
    
