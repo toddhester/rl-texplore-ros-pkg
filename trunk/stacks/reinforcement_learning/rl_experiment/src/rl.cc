@@ -83,6 +83,7 @@ void displayHelp(){
   cout << "--nstocks value (# stocks for stocks domain)\n";
 
   cout << "\n--prints (turn on debug printing of actions/rewards)\n";
+  cout << "--nepisodes value (# of episodes to run (1000 default)\n";
   cout << "--seed value (integer seed for random number generator)\n";
 
   exit(-1);
@@ -207,7 +208,8 @@ int main(int argc, char **argv) {
     {"nstocks", 1, 0, 6},
     {"lag", 0, 0, 7},
     {"nolag", 0, 0, 8},
-    {"highvar", 0, 0, 11}
+    {"highvar", 0, 0, 11},
+    {"nepisodes", 1, 0, 12}
 
   };
 
@@ -396,6 +398,11 @@ int main(int argc, char **argv) {
       cout << "env: " << envType << endl;
       break;
 
+    case 12:
+      NUMEPISODES = std::atoi(optarg);
+      cout << "Num Episodes: " << NUMEPISODES << endl;
+      break;
+
     case 'h':
     case '?':
     case 0:
@@ -450,7 +457,6 @@ int main(int argc, char **argv) {
     statesPerDim[2] = 4;
     statesPerDim[3] = 10;
     MAXSTEPS = 100;
-    NUMEPISODES = 201;
   }
   // car vel, 7 to 2
   else if (strcmp(envType, "car7to2") == 0){
@@ -462,7 +468,6 @@ int main(int argc, char **argv) {
     statesPerDim[2] = 4;
     statesPerDim[3] = 10;
     MAXSTEPS = 100;
-    NUMEPISODES = 201;
   }
   // car vel, random vels
   else if (strcmp(envType, "carrandom") == 0){
@@ -474,7 +479,6 @@ int main(int argc, char **argv) {
     statesPerDim[2] = 4;
     statesPerDim[3] = 10;
     MAXSTEPS = 100;
-    NUMEPISODES = 401;
   }
 
   // four rooms
