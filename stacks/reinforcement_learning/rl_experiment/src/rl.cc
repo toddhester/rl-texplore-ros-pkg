@@ -452,6 +452,7 @@ int main(int argc, char **argv) {
   else if (strcmp(envType, "car2to7") == 0){
     if (PRINTS) cout << "Environment: Car Velocity 2 to 7 m/s\n";
     e = new RobotCarVel(rng, false, true, false, lag);
+    statesPerDim.resize(4,0);
     statesPerDim[0] = 12;
     statesPerDim[1] = 120;
     statesPerDim[2] = 4;
