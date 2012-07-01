@@ -35,7 +35,8 @@ public:
       \param featmax max values of each feature
       \param statesPerDim # of values to discretize each feature into
       \param history # of previous actions to use for delayed domains
-      \param b bonus reward used when models disagree
+      \param b\v bonus reward used when models disagree
+      \param n bonus reward used for novel states
       \param depTrans assume dependent or indep. feature transitions
       \param relTrans model transitions relatively vs absolutely
       \param featPct pct of feature to remove from set used for each split in tree
@@ -48,7 +49,7 @@ public:
                   float epsilon, float lambda, float MAX_TIME,
                   float m, const std::vector<float> &featmin, 
                   const std::vector<float> &featmax,
-                  int statesPerDim, int history, float b, 
+                  int statesPerDim, int history, float v, float n,
                   bool depTrans, bool relTrans, float featPct,
                   bool stoch, bool episodic, Random rng = Random());
 
@@ -83,7 +84,7 @@ public:
                   float epsilon, float lambda, float MAX_TIME,
                   float m, const std::vector<float> &featmin, 
                   const std::vector<float> &featmax,
-                  std::vector<int> statesPerDim, int history, float b, 
+                  std::vector<int> statesPerDim, int history, float v, float n,
                   bool depTrans, bool relTrans, float featPct,
                   bool stoch, bool episodic, Random rng = Random());
   
@@ -190,7 +191,8 @@ private:
   const float M;
   const std::vector<int> statesPerDim;
   const int history;
-  const float b;
+  const float v;
+  const float n;
   const bool depTrans;
   const bool relTrans;
   const float featPct;

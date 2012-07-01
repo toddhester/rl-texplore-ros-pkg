@@ -1,6 +1,8 @@
 /** \file ExplorationModel.hh
     Defines the ExplorationModel class.
     Reward bonuses based on the variance in model predictions are described in: Hester and Stone, "Real Time Targeted Exploration in Large Domains", ICDL 2010.
+    And intrinsic reward bonuses based on variance novelty as described in:
+    Hester and Stone, "Intinrisically Motivated Model Learning for a Developing Curious Agent", AAMAS ALA 2012.
     \author Todd Hester
 */
 
@@ -32,7 +34,8 @@ public:
       \param qmax maximum possible q-value in a domain
       \param rrange range of one-step rewards in the domain
       \param nfactors # of state features in the domain
-      \param b coefficient used to determine how much reward to add to models
+      \param b/v coefficient to determine magnitude of variance reward 
+      \param n coefficient to determine magnitude of novelty reward
       \param featmax the maximum value of each state feature
       \param featmin the minimum value of each state feature
       \param rng Random Number Generator
@@ -40,7 +43,7 @@ public:
   ExplorationModel(MDPModel * model, int modelType, 
                    int exploreType, int predType, int nModels,
                    float m, int numactions, float rmax, 
-                   float qmax, float rrange, int nfactors, float b, 
+                   float qmax, float rrange, int nfactors, float v, float n,
                    const std::vector<float> &featmax, 
                    const std::vector<float> &featmin, 
                    Random rng); 
@@ -56,10 +59,13 @@ public:
   virtual bool getStateActionInfo(const std::vector<float> &state, int act, StateActionInfo* retval);
 
   /** Add state to a set of visited states */
-  void addStateToSet(const std::vector<float> &s);
+  bool addStateToSet(const std::vector<float> &s);
 
   /** Check if the given state is in the set of visited states */
   bool checkForState(const std::vector<float> &s);
+
+  /** Find distance in feature space to nearest visited state-action */
+  float getFeatDistToVisitedSA(const std::vector<float> &s);
 
 
   bool MODEL_DEBUG;
@@ -87,7 +93,8 @@ private:
   float M; 
   int numactions; float rmax; float qmax; float rrange;
   int nfactors; 
-  const float b;
+  const float v;
+  const float n;
 
   Random rng;
   
