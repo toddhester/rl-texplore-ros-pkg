@@ -72,6 +72,8 @@ void displayHelp(){
   cout << "--nstates value (optionally discretize domain into value # of states on each feature)\n";
   cout << "--reltrans (learn relative transitions)\n";
   cout << "--abstrans (learn absolute transitions)\n";
+  cout << "--v value (For TEXPLORE: b/v coefficient for rewarding state-actions where models disagree)\n";
+  cout << "--n value (For TEXPLORE: n coefficient for rewarding state-actions which are novel)\n";
 
   cout << "\n Env Options:\n";
   cout << "--deterministic (deterministic version of domain)\n";
@@ -110,7 +112,8 @@ int main(int argc, char **argv) {
   int nmodels = 5;
   bool reltrans = true;
   bool deptrans = false;
-  float b = 0;
+  float v = 0;
+  float n = 0;
   float featPct = 0.2;
   int nstates = 0;
   int k = 1000;
@@ -150,7 +153,9 @@ int main(int argc, char **argv) {
     history = 0;
   } else if (strcmp(agentType, "texplore") == 0){
     modelType = C45TREE;
-    exploreType = GREEDY;
+    exploreType = DIFF_AND_NOVEL_BONUS;
+    v = 0;
+    n = 0;
     predType = AVERAGE;
     plannerType = PAR_ETUCT_ACTUAL;
     nmodels = 5;
@@ -189,9 +194,9 @@ int main(int argc, char **argv) {
     {"explore", 1, 0, 'x'},
     {"planner", 1, 0, 'p'},
     {"combo", 1, 0, 'c'},
-    {"nmodels", 1, 0, 'n'},
+    {"nmodels", 1, 0, '#'},
     {"reltrans", 0, 0, 't'},
-    {"abstrans", 0, 0, 'b'},
+    {"abstrans", 0, 0, '0'},
     {"seed", 1, 0, 's'},
     {"agent", 1, 0, 'q'},
     {"prints", 0, 0, 'd'},
@@ -199,6 +204,9 @@ int main(int argc, char **argv) {
     {"k", 1, 0, 'k'},
     {"filename", 1, 0, 'f'},
     {"history", 1, 0, 'y'},
+    {"b", 1, 0, 'b'},
+    {"v", 1, 0, 'v'},
+    {"n", 1, 0, 'n'},
 
     {"env", 1, 0, 1},
     {"deterministic", 0, 0, 2},
@@ -319,7 +327,7 @@ int main(int argc, char **argv) {
         break;
       }
 
-    case 'n':
+    case '#':
       nmodels = std::atoi(optarg);
       cout << "nmodels: " << nmodels << endl;
       break;
@@ -329,7 +337,7 @@ int main(int argc, char **argv) {
       cout << "reltrans: " << reltrans << endl;
       break;
 
-    case 'b':
+    case '0':
       reltrans = false;
       cout << "reltrans: " << reltrans << endl;
       break;
@@ -351,6 +359,17 @@ int main(int argc, char **argv) {
     case 'w':
       nstates = std::atoi(optarg);
       cout << "nstates for discretization: " << nstates << endl;
+      break;
+
+    case 'v':
+    case 'b':
+      v = std::atof(optarg);
+      cout << "v coefficient (variance bonus): " << v << endl;
+      break;
+
+    case 'n':
+      n = std::atof(optarg);
+      cout << "n coefficient (novelty bonus): " << n << endl;
       break;
 
     case 2:
@@ -411,6 +430,10 @@ int main(int argc, char **argv) {
       break;
     }
   }
+
+  // default back to greedy if no coefficients
+  if (exploreType == DIFF_AND_NOVEL_BONUS && v == 0 && n == 0)
+    exploreType = GREEDY;
 
   if (PRINTS){
     if (stochastic)
@@ -607,7 +630,7 @@ int main(int argc, char **argv) {
                                   M,
                                   minValues, maxValues,
                                   statesPerDim,//0,
-                                  history, b,
+                                  history, v, n,
                                   deptrans, reltrans, featPct, stochastic, episodic,
                                   rng);
     }

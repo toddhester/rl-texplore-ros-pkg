@@ -77,6 +77,9 @@ const std::string comboNames[] = {
 #define VISITS_CONF        9
 #define UNVISITED_BONUS    11
 #define UNVISITED_ACT_BONUS 13
+#define DIFF_AND_VISIT_BONUS 16
+#define NOVEL_STATE_BONUS    18
+#define DIFF_AND_NOVEL_BONUS 19
 
 const std::string exploreNames[] = {
   "Explore Unknowns",
@@ -90,7 +93,13 @@ const std::string exploreNames[] = {
   "Epsilon-Greedy",
   "Visits Confidence",
   "Unvisited State Bonus",
-  "Unvisited Action Bonus"
+  "Unvisited Action Bonus",
+  "Type 14",
+  "Type 15",
+  "Model Diff & Visit Bonus",
+  "Type 17",
+  "FeatDist Bonus",
+  "Model Diff & FeatDist Bonus"
 };
 
 // types of planners

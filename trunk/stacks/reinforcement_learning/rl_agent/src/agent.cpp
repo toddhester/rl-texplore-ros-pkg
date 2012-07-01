@@ -56,6 +56,8 @@ int nstates = 0;
 int k = 1000;
 char *filename = NULL;
 int history = 0;
+float v = 0;
+float n = 0;
 // possibly over-written by command line arguments
 
 
@@ -82,6 +84,8 @@ void displayHelp(){
   cout << "--nstates value (optionally discretize domain into value # of states on each feature)\n";
   cout << "--reltrans (learn relative transitions)\n";
   cout << "--abstrans (learn absolute transitions)\n";
+  cout << "--v value (For TEXPLORE: b/v coefficient for rewarding state-actions where models disagree)\n";
+  cout << "--n value (For TEXPLORE: n coefficient for rewarding state-actions which are novel)\n";
   cout << "--prints (turn on debug printing of actions/rewards)\n";
 
   exit(-1);
@@ -180,7 +184,7 @@ void processEnvDescription(const rl_msgs::RLEnvDescription::ConstPtr &envIn){
                                 M,
                                 envIn->min_state_range, envIn->max_state_range,
                                 nstates,
-                                history, 0, false, reltrans, 0.2, 
+                                history, v, n, false, reltrans, 0.2, 
                                 envIn->stochastic, envIn->episodic,
                                 rng);
     
@@ -269,7 +273,9 @@ int main(int argc, char *argv[])
     M = 5;
   } else if (strcmp(agentType, "texplore") == 0){
     model = C45TREE;
-    explore = GREEDY;
+    explore = DIFF_AND_NOVEL_BONUS;
+    v = 0;
+    n = 0;
     modelcombo = AVERAGE;
     planner = PAR_ETUCT_ACTUAL;
     nmodels = 5;
@@ -293,17 +299,19 @@ int main(int argc, char *argv[])
     {"explore", 1, 0, 'x'},
     {"planner", 1, 0, 'p'},
     {"combo", 1, 0, 'c'},
-    {"nmodels", 1, 0, 'n'},
+    {"nmodels", 1, 0, '#'},
     {"reltrans", 0, 0, 't'},
-    {"abstrans", 0, 0, 'b'},
+    {"abstrans", 0, 0, '0'},
     {"seed", 1, 0, 's'},
     {"agent", 1, 0, 'q'},
     {"prints", 0, 0, 'd'},
     {"nstates", 1, 0, 'w'},
     {"k", 1, 0, 'k'},
     {"filename", 1, 0, 'f'},
-    {"history", 1, 0, 'y'}
-
+    {"history", 1, 0, 'y'},
+    {"b", 1, 0, 'b'},
+    {"v", 1, 0, 'v'},
+    {"n", 1, 0, 'n'}
   };
 
   while(-1 != (ch = getopt_long_only(argc, argv, optflags, long_options, &option_index))) {
@@ -412,7 +420,7 @@ int main(int argc, char *argv[])
         break;
       }
 
-    case 'n':
+    case '#':
       nmodels = std::atoi(optarg);
       cout << "nmodels: " << nmodels << endl;
       break;
@@ -422,7 +430,7 @@ int main(int argc, char *argv[])
       cout << "reltrans: " << reltrans << endl;
       break;
 
-    case 'b':
+    case '0':
       reltrans = false;
       cout << "reltrans: " << reltrans << endl;
       break;
@@ -446,6 +454,17 @@ int main(int argc, char *argv[])
       cout << "nstates for discretization: " << nstates << endl;
       break;
 
+    case 'v':
+    case 'b':
+      v = std::atof(optarg);
+      cout << "v coefficient (variance bonus): " << v << endl;
+      break;
+
+    case 'n':
+      n = std::atof(optarg);
+      cout << "n coefficient (novelty bonus): " << n << endl;
+      break;
+
     case 'h':
     case '?':
     case 0:
@@ -454,6 +473,10 @@ int main(int argc, char *argv[])
       break;
     }
   }
+
+  // default back to greedy if no coefficients
+  if (explore == DIFF_AND_NOVEL_BONUS && v == 0 && n == 0)
+    explore = GREEDY;
 
   int qDepth = 1;
 
