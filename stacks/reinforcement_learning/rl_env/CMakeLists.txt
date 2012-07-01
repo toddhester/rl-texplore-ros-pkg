@@ -41,6 +41,7 @@ rosbuild_add_library(envlib
   src/Env/energyrooms.cc
   src/Env/gridworld.cc
   src/Env/stocks.cc
+  src/Env/LightWorld.cc
 )
 
 rosbuild_add_executable(env

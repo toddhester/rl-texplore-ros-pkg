@@ -21,6 +21,7 @@
 #include <rl_env/energyrooms.hh>
 #include <rl_env/MountainCar.hh>
 #include <rl_env/CartPole.hh>
+#include <rl_env/LightWorld.hh>
 
 
 ////////////
@@ -51,7 +52,7 @@ bool PRINTS = false;
 void displayHelp(){
   cout << "\n Call experiment --agent type --env type [options]\n";
   cout << "Agent types: qlearner sarsa modelbased rmax texplore dyna savedpolicy\n";
-  cout << "Env types: taxi tworooms fourrooms energy fuelworld mcar cartpole car2to7 car7to2 carrandom stocks\n";
+  cout << "Env types: taxi tworooms fourrooms energy fuelworld mcar cartpole car2to7 car7to2 carrandom stocks lightworld\n";
 
   cout << "\n Agent Options:\n";
   cout << "--gamma value (discount factor between 0 and 1)\n";
@@ -463,6 +464,12 @@ int main(int argc, char **argv) {
   else if (strcmp(envType, "taxi") == 0){
     if (PRINTS) cout << "Environment: Taxi\n";
     e = new Taxi(rng, stochastic);
+  }
+
+  // Light World
+  else if (strcmp(envType, "lightworld") == 0){
+    if (PRINTS) cout << "Environment: Light World\n";
+    e = new LightWorld(rng, stochastic, 4);
   }
 
   // two rooms
