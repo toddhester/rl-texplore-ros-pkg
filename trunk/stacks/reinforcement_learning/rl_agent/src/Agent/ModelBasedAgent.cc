@@ -364,8 +364,7 @@ void ModelBasedAgent::updateWithNewExperience(const std::vector<float> &last,
 
   // tell the planner to update with the updated model
   if ((modelChanged && (!seeding || modelType == RMAX) 
-       && (nactions % BATCH_FREQ == 0))
-      || exploreType == UNVISITED_BONUS || exploreType == UNVISITED_ACT_BONUS){
+       && (nactions % BATCH_FREQ == 0))){
     planner->planOnNewModel();
     modelChanged = false;
   }
