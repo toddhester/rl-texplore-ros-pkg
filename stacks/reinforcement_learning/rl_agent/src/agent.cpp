@@ -48,9 +48,9 @@ float lambda = 0.1;
 int M = 5;
 int model = C45TREE;
 int explore = GREEDY;
-int modelcombo = AVERAGE;
+int modelcombo = BEST;
 int planner = PAR_ETUCT_ACTUAL;
-int nmodels = 5;
+int nmodels = 1;
 bool reltrans = true;
 int nstates = 0;
 int k = 1000;
@@ -78,7 +78,7 @@ void displayHelp(){
   cout << "--filename file (file to load saved policy from for savedpolicy agent)\n";
   cout << "--model type (tabular,tree,m5tree)\n";
   cout << "--planner type (vi,pi,sweeping,uct,parallel-uct,delayed-uct,delayed-parallel-uct)\n";
-  cout << "--explore type (unknowns,greedy,epsilongreedy,variancenovelty)\n";
+  cout << "--explore type (unknown,greedy,epsilongreedy,variancenovelty)\n";
   cout << "--combo type (average,best,separate)\n";
   cout << "--nmodels value (# of models)\n";
   cout << "--nstates value (optionally discretize domain into value # of states on each feature)\n";
@@ -102,7 +102,7 @@ void processState(const rl_msgs::RLStateReward::ConstPtr &stateIn){
   }
 
   rl_msgs::RLAction a;
-  
+
   // first action
   if (firstAction){
     a.action = agent->first_action(stateIn->state);
@@ -139,7 +139,7 @@ void processSeed(const rl_msgs::RLEnvSeedExperience::ConstPtr &seedIn){
     cout << "no agent yet" << endl;
     return;
   }
-  
+
   std::vector<experience> seeds;
   experience seed1;
   seed1.s = seedIn->from_state;
@@ -169,7 +169,7 @@ void processEnvDescription(const rl_msgs::RLEnvDescription::ConstPtr &envIn){
                          alpha, // alpha
                          epsilon, // epsilon
                          rng);
-  } 
+  }
 
   else if (strcmp(agentType, "rmax") == 0 || strcmp(agentType, "texplore") == 0 || strcmp(agentType, "modelbased") == 0){
     cout << "Agent: Model Based" << endl;
@@ -185,10 +185,10 @@ void processEnvDescription(const rl_msgs::RLEnvDescription::ConstPtr &envIn){
                                 M,
                                 envIn->min_state_range, envIn->max_state_range,
                                 nstates,
-                                history, v, n, false, reltrans, 0.2, 
+                                history, v, n, false, reltrans, 0.2,
                                 envIn->stochastic, envIn->episodic,
                                 rng);
-    
+
   }
 
   else if (strcmp(agentType, "dyna") == 0){
@@ -221,11 +221,11 @@ void processEnvDescription(const rl_msgs::RLEnvDescription::ConstPtr &envIn){
   if (nstates > 0 && (model != M5ALLMULTI || strcmp(agentType, "qlearner") == 0)){
     int totalStates = powf(nstates,envIn->min_state_range.size());
     if (PRINTS) cout << "Discretize with " << nstates << ", total: " << totalStates << endl;
-    agent = new DiscretizationAgent(nstates, a2, 
-                                    envIn->min_state_range, 
+    agent = new DiscretizationAgent(nstates, a2,
+                                    envIn->min_state_range,
                                     envIn->max_state_range, PRINTS);
   }
-  
+
 
   firstAction = true;
   info.episode_number = 0;
@@ -282,7 +282,7 @@ int main(int argc, char *argv[])
     nmodels = 5;
     reltrans = true;
     M = 0;
-  } 
+  }
 
   char ch;
   const char* optflags = "geairlmoxpcn:";
@@ -328,13 +328,13 @@ int main(int argc, char *argv[])
       discountfactor = std::atof(optarg);
       cout << "discountfactor: " << discountfactor << endl;
       break;
-      
+
     case 'e':
       epsilonChanged = true;
       epsilon = std::atof(optarg);
       cout << "epsilon: " << epsilon << endl;
       break;
-      
+
     case 'y':
       {
         if (strcmp(agentType, "texplore") == 0 || strcmp(agentType, "modelbased") == 0){
@@ -356,7 +356,7 @@ int main(int argc, char *argv[])
           cout << "--k is only a valid option for the Dyna agent" << endl;
           exit(-1);
         }
-      break;
+        break;
       }
 
     case 'f':
@@ -387,7 +387,7 @@ int main(int argc, char *argv[])
         }
         break;
       }
-      
+
     case 'r':
       {
         actrateChanged = true;
@@ -402,7 +402,7 @@ int main(int argc, char *argv[])
       }
 
     case 'l':
-      {                                                                 
+      {
         lambdaChanged = true;
         if (strcmp(agentType, "texplore") == 0 || strcmp(agentType, "modelbased") == 0 || strcmp(agentType, "rmax") == 0 || strcmp(agentType, "sarsa") == 0){
           lambda = std::atof(optarg);
@@ -446,7 +446,7 @@ int main(int argc, char *argv[])
         cout << "model: " << modelNames[model] << endl;
         break;
       }
-      
+
     case 'x':
       {
         if (strcmp(optarg, "unknown") == 0) explore = EXPLORE_UNKNOWN;
@@ -458,7 +458,7 @@ int main(int argc, char *argv[])
         if (strcmp(agentType, "rmax") == 0 && explore != EXPLORE_UNKNOWN){
           cout << "R-Max should use \"--explore unknown\" exploration" << endl;
           exit(-1);
-        } 
+        }
         else if (strcmp(agentType, "texplore") != 0 && strcmp(agentType, "modelbased") != 0 && strcmp(agentType, "rmax") != 0 && (explore != GREEDY && explore != EPSILONGREEDY)) {
           cout << "Model free methods must use either greedy or epsilon-greedy exploration!" << endl;
           explore = EPSILONGREEDY;
@@ -526,7 +526,7 @@ int main(int argc, char *argv[])
         }
         break;
       }
-      
+
     case 't':
       {
         if (strcmp(agentType, "texplore") == 0 || strcmp(agentType, "modelbased") == 0){
@@ -538,7 +538,7 @@ int main(int argc, char *argv[])
         }
         break;
       }
-      
+
     case '0':
       {
         if (strcmp(agentType, "texplore") == 0 || strcmp(agentType, "modelbased") == 0){
@@ -550,7 +550,7 @@ int main(int argc, char *argv[])
         }
         break;
       }
-      
+
     case 's':
       seed = std::atoi(optarg);
       cout << "seed: " << seed << endl;
@@ -560,7 +560,7 @@ int main(int argc, char *argv[])
       // already processed this one
       cout << "agent: " << agentType << endl;
       break;
-    
+
     case 'd':
       PRINTS = true;
       break;
