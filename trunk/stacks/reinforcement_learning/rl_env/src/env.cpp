@@ -60,6 +60,8 @@ void displayHelp(){
   cout << "--nsectors value (# sectors for stocks domain)\n";
   cout << "--nstocks value (# stocks for stocks domain)\n";
   cout << "--prints (turn on debug printing of actions/rewards)\n";
+
+  cout << "\n For more info, see: http://www.ros.org/wiki/rl_env\n";
   exit(-1);
 }
 

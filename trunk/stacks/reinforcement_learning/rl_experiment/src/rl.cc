@@ -89,6 +89,8 @@ void displayHelp(){
   cout << "--nepisodes value (# of episodes to run (1000 default)\n";
   cout << "--seed value (integer seed for random number generator)\n";
 
+  cout << "\n For more info, see: http://www.ros.org/wiki/rl_experiment\n";
+
   exit(-1);
 
 }
