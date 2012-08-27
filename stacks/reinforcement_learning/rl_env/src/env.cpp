@@ -296,9 +296,16 @@ int main(int argc, char *argv[])
       break;
 
     case 'v':
-      highvar = true;
-      cout << "fuel world fuel cost variation: " << highvar << endl;
-      break;
+      {
+        if (strcmp(envType, "fuelworld") == 0){
+          highvar = true;
+          cout << "fuel world fuel cost variation: " << highvar << endl;
+        } else {
+          cout << "--highvar is only a valid option for the fuelworld domain." << endl;
+          exit(-1);
+        }
+        break;
+      }
 
     case 's':
       stochastic = true;
@@ -306,29 +313,64 @@ int main(int argc, char *argv[])
       break;
 
     case 'a':
-      delay = std::atoi(optarg);
-      cout << "delay steps: " << delay << endl;
-      break;
+      {
+        if (strcmp(envType, "mcar") == 0 || strcmp(envType, "tworooms") == 0){
+          delay = std::atoi(optarg);
+          cout << "delay steps: " << delay << endl;
+        } else {
+          cout << "--delay option is only valid for the mcar and tworooms domains" << endl;
+          exit(-1);
+        }
+        break;
+      }
 
     case 'c':
-      nsectors = std::atoi(optarg);
-      cout << "nsectors: " << nsectors << endl;
-      break;
+      {
+        if (strcmp(envType, "stocks") == 0){
+          nsectors = std::atoi(optarg);
+          cout << "nsectors: " << nsectors << endl;
+        } else {
+          cout << "--nsectors option is only valid for the stocks domain" << endl;
+          exit(-1);
+        }
+        break;
+      }
     
     case 't':
-      nstocks = std::atoi(optarg);
-      cout << "nstocks: " << nstocks << endl;
-      break;
-
+      {
+        if (strcmp(envType, "stocks") == 0){
+          nstocks = std::atoi(optarg);
+          cout << "nstocks: " << nstocks << endl;
+        } else {
+          cout << "--nstocks option is only valid for the stocks domain" << endl;
+          exit(-1);
+        }
+        break;
+      }
+      
     case 'l':
-      lag = true;
-      cout << "lag: " << lag << endl;
-      break;
+      {
+        if (strcmp(envType, "car2to7") == 0 || strcmp(envType, "car7to2") == 0 || strcmp(envType, "carrandom") == 0){
+          lag = true;
+          cout << "lag: " << lag << endl;
+        } else {
+          cout << "--lag option is only valid for car velocity tasks" << endl;
+          exit(-1);
+        }
+        break;
+      }
 
     case 'o':
-      lag = false;
-      cout << "lag: " << lag << endl;
-      break;
+       {
+         if (strcmp(envType, "car2to7") == 0 || strcmp(envType, "car7to2") == 0 || strcmp(envType, "carrandom") == 0){
+           lag = false;
+           cout << "lag: " << lag << endl;
+         } else {
+           cout << "--nolag option is only valid for car velocity tasks" << endl;
+           exit(-1);
+         }
+         break;
+       }
 
     case 'e':
       // already processed this one
