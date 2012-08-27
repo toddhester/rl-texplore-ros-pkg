@@ -37,6 +37,8 @@ C45Tree::C45Tree(int id, int trainMode, int trainFreq, int m,
   cout << "Created C4.5 decision tree " << id;
   if (DTDEBUG) {
     cout << " mode: " << mode << " freq: " << freq << endl;
+  } else {
+    cout << endl;
   }
 
   initNodes();
