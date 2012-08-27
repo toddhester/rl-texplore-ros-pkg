@@ -15,7 +15,7 @@
 #include <rl_common/core.hh>
 #include <rl_common/ExperienceFile.hh>
 
-#include "../Models/MDPTree.hh"
+#include "../Models/FactoredModel.hh"
 #include "../Models/C45Tree.hh"
 
 #include <ext/hash_map>

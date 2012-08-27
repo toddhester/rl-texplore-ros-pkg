@@ -20,7 +20,7 @@
 
 // models
 #include "../Models/RMaxModel.hh"
-#include "../Models/MDPTree.hh"
+#include "../Models/FactoredModel.hh"
 #include "../Models/ExplorationModel.hh"
 
 ModelBasedAgent::ModelBasedAgent(int numactions, float gamma, 
@@ -261,7 +261,7 @@ void ModelBasedAgent::initModel(int nfactors){
            modelType == LSTMULTI || modelType == LSTSINGLE ||
            modelType == GPREGRESS || modelType == GPTREE){
 
-    model = new MDPTree(0,numactions, M, modelType, predType, nModels, treeRangePct, featRange, rrange, needConf, depTrans, relTrans, featPct, stoch, episodic, rng);
+    model = new FactoredModel(0,numactions, M, modelType, predType, nModels, treeRangePct, featRange, rrange, needConf, depTrans, relTrans, featPct, stoch, episodic, rng);
   }
   
   /*
