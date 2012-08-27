@@ -1,18 +1,18 @@
-/** \file MDPTree.cc
-    Implements the MDPTree class, which uses decision trees to model each feature of an MDP.
+/** FactoredModel.cc
+    Implements the FactoredModel class, which uses separate supervised learners to model each feature of an MDP.
     Please cite: Hester and Stone, "Real Time Targeted Exploration in Large Domains", ICDL 2010.
     \author Todd Hester
 */
 
-#include "MDPTree.hh"
+#include "FactoredModel.hh"
 
 
-MDPTree::MDPTree(int id, int numactions, int M, int modelType,
+FactoredModel::FactoredModel(int id, int numactions, int M, int modelType,
                  int predType, int nModels, float treeThreshold,
                  const std::vector<float> &featRange, float rRange,
                  bool needConf, bool dep, bool relTrans, float featPct, 
 		 bool stoch, bool episodic, Random rng):
-  rewardTree(NULL), terminalTree(NULL), 
+  rewardModel(NULL), terminalModel(NULL), 
   id(id), nact(numactions), M(M), modelType(modelType),
   predType(predType), nModels(nModels),
   treeBuildType(BUILD_ON_ERROR), // build tree after prediction error
@@ -22,7 +22,7 @@ MDPTree::MDPTree(int id, int numactions, int M, int modelType,
 {
 
   //cout << "MDP Tree explore type: " << predType << endl;
-  TREE_DEBUG = false; //true;
+  MODEL_DEBUG = false; //true;
   COPYDEBUG = false;
 
   // percent of experiences to use for each model
@@ -36,8 +36,8 @@ MDPTree::MDPTree(int id, int numactions, int M, int modelType,
 }
 
 
-MDPTree::MDPTree(const MDPTree & m):
-  rewardTree(NULL), terminalTree(NULL), 
+FactoredModel::FactoredModel(const FactoredModel & m):
+  rewardModel(NULL), terminalModel(NULL), 
   id(m.id), nact(m.nact), M(m.M), modelType(m.modelType),
   predType(m.predType), nModels(m.nModels),
   treeBuildType(m.treeBuildType),
@@ -48,49 +48,49 @@ MDPTree::MDPTree(const MDPTree & m):
   COPYDEBUG = m.COPYDEBUG;
 
   if (COPYDEBUG) cout << "MDP Tree copy constructor" << endl;
-  TREE_DEBUG = m.TREE_DEBUG;
+  MODEL_DEBUG = m.MODEL_DEBUG;
   EXP_PCT = m.EXP_PCT;
   nfactors = m.nfactors;
 
 
-  if (m.outputTrees.size() > 0){
-    if (COPYDEBUG) cout << " MDPTree copy trees" << endl;
-    rewardTree = m.rewardTree->getCopy();
-    if (m.terminalTree != NULL) terminalTree = m.terminalTree->getCopy();
+  if (m.outputModels.size() > 0){
+    if (COPYDEBUG) cout << " FactoredModel copy trees" << endl;
+    rewardModel = m.rewardModel->getCopy();
+    if (m.terminalModel != NULL) terminalModel = m.terminalModel->getCopy();
     if (COPYDEBUG) cout << " copy output trees" << endl;
-    outputTrees.resize(m.outputTrees.size());
-    for (unsigned i = 0; i < m.outputTrees.size(); i++){
-      outputTrees[i] = m.outputTrees[i]->getCopy();
+    outputModels.resize(m.outputModels.size());
+    for (unsigned i = 0; i < m.outputModels.size(); i++){
+      outputModels[i] = m.outputModels[i]->getCopy();
     }
-    if (COPYDEBUG) cout << " MDPTree trees copied" << endl;
+    if (COPYDEBUG) cout << " FactoredModel trees copied" << endl;
   }
-  if (COPYDEBUG) cout << "MDPTree copy complete " << endl;
+  if (COPYDEBUG) cout << "FactoredModel copy complete " << endl;
 }
 
-MDPTree* MDPTree::getCopy(){
+FactoredModel* FactoredModel::getCopy(){
 
-  MDPTree* copy = new MDPTree(*this);
+  FactoredModel* copy = new FactoredModel(*this);
   return copy;
 
 }
 
 
-MDPTree::~MDPTree() {
-  if (rewardTree != NULL) delete rewardTree;
-  if (terminalTree != NULL) delete terminalTree;
-  for (unsigned i = 0; i < outputTrees.size(); i++){
-    delete outputTrees[i];
+FactoredModel::~FactoredModel() {
+  if (rewardModel != NULL) delete rewardModel;
+  if (terminalModel != NULL) delete terminalModel;
+  for (unsigned i = 0; i < outputModels.size(); i++){
+    delete outputModels[i];
   }
-  outputTrees.clear();
+  outputModels.clear();
 }
 
 
 
 // init the trees
-bool MDPTree::initMDPModel(int nfactors){
-  if (TREE_DEBUG) cout << "Init trees for each state factor and reward" << endl;
+bool FactoredModel::initMDPModel(int nfactors){
+  if (MODEL_DEBUG) cout << "Init trees for each state factor and reward" << endl;
 
-  outputTrees.resize(nfactors);
+  outputModels.resize(nfactors);
 
   bool simpleRegress = false;
   if (modelType == M5SINGLE || modelType == M5ALLSINGLE || modelType == LSTSINGLE)
@@ -99,55 +99,55 @@ bool MDPTree::initMDPModel(int nfactors){
   // institute a model for each state factor, depending on model type
   for (int i = 0; i < nfactors; i++){
     if (modelType == C45TREE && nModels == 1){
-      outputTrees[i] = new C45Tree((id * (nfactors+1)) + i, treeBuildType, 5, M, 0, rng);
+      outputModels[i] = new C45Tree((id * (nfactors+1)) + i, treeBuildType, 5, M, 0, rng);
       if (i == 0){
-        rewardTree = new C45Tree((id*(nfactors+1))+nfactors, treeBuildType,5, M, 0, rng);
-        if (episodic) terminalTree = new C45Tree((id*(nfactors+1))+nfactors+1, treeBuildType,5, M, 0, rng);
+        rewardModel = new C45Tree((id*(nfactors+1))+nfactors, treeBuildType,5, M, 0, rng);
+        if (episodic) terminalModel = new C45Tree((id*(nfactors+1))+nfactors+1, treeBuildType,5, M, 0, rng);
       }
     }
     else if ((modelType == M5MULTI || modelType == M5SINGLE) && nModels == 1){
-      outputTrees[i] = new M5Tree((id * (nfactors+1)) + i, treeBuildType, 5, M, 0, simpleRegress, false, treeThresh *featRange[i], rng);
+      outputModels[i] = new M5Tree((id * (nfactors+1)) + i, treeBuildType, 5, M, 0, simpleRegress, false, treeThresh *featRange[i], rng);
       if (i == 0){
-        rewardTree = new M5Tree((id * (nfactors+1)) + nfactors, treeBuildType, 5, M, 0, simpleRegress, false, treeThresh *rRange, rng);
-        if (episodic) terminalTree = new M5Tree((id * (nfactors+1)) + 1+nfactors, treeBuildType, 5, M, 0, simpleRegress, false, treeThresh, rng);
+        rewardModel = new M5Tree((id * (nfactors+1)) + nfactors, treeBuildType, 5, M, 0, simpleRegress, false, treeThresh *rRange, rng);
+        if (episodic) terminalModel = new M5Tree((id * (nfactors+1)) + 1+nfactors, treeBuildType, 5, M, 0, simpleRegress, false, treeThresh, rng);
       }
     }
     else if ((modelType == M5ALLMULTI || modelType == M5ALLSINGLE) && nModels == 1){
-      outputTrees[i] = new M5Tree((id * (nfactors+1)) + i, treeBuildType, 5, M, 0, simpleRegress, true, treeThresh *featRange[i], rng);
+      outputModels[i] = new M5Tree((id * (nfactors+1)) + i, treeBuildType, 5, M, 0, simpleRegress, true, treeThresh *featRange[i], rng);
       if (i == 0){
-        rewardTree = new M5Tree((id * (nfactors+1)) + nfactors, treeBuildType, 5, M, 0, simpleRegress, true, treeThresh *rRange, rng);
-        if (episodic) terminalTree = new M5Tree((id * (nfactors+1)) + 1+nfactors, treeBuildType, 5, M, 0, simpleRegress, true, treeThresh, rng);
+        rewardModel = new M5Tree((id * (nfactors+1)) + nfactors, treeBuildType, 5, M, 0, simpleRegress, true, treeThresh *rRange, rng);
+        if (episodic) terminalModel = new M5Tree((id * (nfactors+1)) + 1+nfactors, treeBuildType, 5, M, 0, simpleRegress, true, treeThresh, rng);
       }
     }
     else if ((modelType == LSTMULTI || modelType == LSTSINGLE) && nModels == 1){
-      outputTrees[i] = new LinearSplitsTree((id * (nfactors+1)) + i, treeBuildType, 5, M, 0, simpleRegress, treeThresh *featRange[i], rng);
+      outputModels[i] = new LinearSplitsTree((id * (nfactors+1)) + i, treeBuildType, 5, M, 0, simpleRegress, treeThresh *featRange[i], rng);
       if (i == 0){
-        rewardTree = new LinearSplitsTree((id * (nfactors+1)) + nfactors, treeBuildType, 5, M, 0, simpleRegress, treeThresh *rRange, rng);
-        if (episodic) terminalTree = new LinearSplitsTree((id * (nfactors+1)) + 1+nfactors, treeBuildType, 5, M, 0, simpleRegress, treeThresh, rng);
+        rewardModel = new LinearSplitsTree((id * (nfactors+1)) + nfactors, treeBuildType, 5, M, 0, simpleRegress, treeThresh *rRange, rng);
+        if (episodic) terminalModel = new LinearSplitsTree((id * (nfactors+1)) + 1+nfactors, treeBuildType, 5, M, 0, simpleRegress, treeThresh, rng);
       }
     }
     else if (modelType == STUMP && nModels == 1){
-      outputTrees[i] = new Stump((id * (nfactors+1)) + i, 1, 5, M, 0, rng);
+      outputModels[i] = new Stump((id * (nfactors+1)) + i, 1, 5, M, 0, rng);
       if (i == 0){
-        rewardTree = new Stump((id * (nfactors+1)) + nfactors, 1, 5, M, 0, rng);
-        if (episodic) terminalTree = new Stump((id * (nfactors+1)) +1+ nfactors, 1, 5, M, 0, rng);
+        rewardModel = new Stump((id * (nfactors+1)) + nfactors, 1, 5, M, 0, rng);
+        if (episodic) terminalModel = new Stump((id * (nfactors+1)) +1+ nfactors, 1, 5, M, 0, rng);
       }
     }
     else if (predType == SEPARATE && nModels > 1){
-      outputTrees[i] = new SepPlanExplore((id * (nfactors+1)) + i,
+      outputModels[i] = new SepPlanExplore((id * (nfactors+1)) + i,
                                           modelType, predType,
                                           nModels, treeBuildType, 5,
                                           FEAT_PCT,
                                           EXP_PCT,
                                           treeThresh *featRange[i], stoch, rng);
       if (i == 0){
-        rewardTree = new SepPlanExplore((id * (nfactors+1)) + nfactors,
+        rewardModel = new SepPlanExplore((id * (nfactors+1)) + nfactors,
                                         modelType, predType,
                                         nModels, treeBuildType, 5,
                                         FEAT_PCT, // remove this pct of feats
                                         EXP_PCT, treeThresh *rRange, stoch, rng);
 	if (episodic){
-	  terminalTree = new SepPlanExplore((id * (nfactors+1)) +1+ nfactors,
+	  terminalModel = new SepPlanExplore((id * (nfactors+1)) +1+ nfactors,
 					    modelType, predType,
 					    nModels, treeBuildType, 5,
 					    FEAT_PCT, // remove this pct of feats
@@ -156,20 +156,20 @@ bool MDPTree::initMDPModel(int nfactors){
       }
     }
     else if (nModels > 1 || modelType == ALLM5TYPES){
-      outputTrees[i] = new MultipleClassifiers((id * (nfactors+1)) + i,
+      outputModels[i] = new MultipleClassifiers((id * (nfactors+1)) + i,
                                                modelType, predType,
                                                nModels, treeBuildType, 5,
                                                FEAT_PCT,
                                                EXP_PCT,
                                                treeThresh *featRange[i], stoch, rng);
       if (i == 0){
-        rewardTree = new MultipleClassifiers((id * (nfactors+1)) + nfactors,
+        rewardModel = new MultipleClassifiers((id * (nfactors+1)) + nfactors,
                                              modelType, predType,
                                              nModels, treeBuildType, 5,
                                              FEAT_PCT, // remove this pct of feats
                                              EXP_PCT, treeThresh *rRange, stoch, rng);
 	if (episodic){
-	  terminalTree = new MultipleClassifiers((id * (nfactors+1)) +1+ nfactors,
+	  terminalModel = new MultipleClassifiers((id * (nfactors+1)) +1+ nfactors,
 						 modelType, predType,
 						 nModels, treeBuildType, 5,
 						 FEAT_PCT, // remove this pct of feats
@@ -189,26 +189,26 @@ bool MDPTree::initMDPModel(int nfactors){
 
 
 // update all trees with multiple experiences
-bool MDPTree::updateWithExperiences(std::vector<experience> &instances){
-  if (TREE_DEBUG) cout << "MDPTree updateWithExperiences : " << instances.size() << endl;
+bool FactoredModel::updateWithExperiences(std::vector<experience> &instances){
+  if (MODEL_DEBUG) cout << "FactoredModel updateWithExperiences : " << instances.size() << endl;
 
   bool changed = false;
-  if (outputTrees.size() == 0){
+  if (outputModels.size() == 0){
     nfactors = instances[0].next.size();
     initMDPModel(instances[0].next.size());
   }
 
   // make sure size is right
-  if (outputTrees.size() != instances[0].next.size()){
-    if (TREE_DEBUG)
+  if (outputModels.size() != instances[0].next.size()){
+    if (MODEL_DEBUG)
       cout << "ERROR: size mismatch between input vector and # trees "
-           << outputTrees.size() << ", " << instances[0].next.size() << endl;
+           << outputModels.size() << ", " << instances[0].next.size() << endl;
     return false;
     exit(-1);
   }
 
   // separate these experience instances into classPairs
-  std::vector<std::vector<classPair> > stateData(outputTrees.size());
+  std::vector<std::vector<classPair> > stateData(outputModels.size());
   std::vector<classPair> rewardData(instances.size());
   std::vector<classPair> termData(instances.size());
 
@@ -218,7 +218,7 @@ bool MDPTree::updateWithExperiences(std::vector<experience> &instances){
     if (!instances[i].terminal)
       nonTerm++;
   }
-  for (unsigned i = 0; i < outputTrees.size(); i++){
+  for (unsigned i = 0; i < outputModels.size(); i++){
     stateData[i].resize(nonTerm);
   }
   int nonTermIndex = 0;
@@ -254,7 +254,7 @@ bool MDPTree::updateWithExperiences(std::vector<experience> &instances){
 
     // add to each vector
     if (!e.terminal){
-      for (unsigned j = 0; j < outputTrees.size(); j++){
+      for (unsigned j = 0; j < outputModels.size(); j++){
         classPair cp;
         cp.in = inputs;
 
@@ -276,16 +276,16 @@ bool MDPTree::updateWithExperiences(std::vector<experience> &instances){
   // build trees on all data
   for (unsigned k = 0; k < stateData.size(); k++){
     if (stateData[k].size() > 0){
-      bool singleChange = outputTrees[k]->trainInstances(stateData[k]);
+      bool singleChange = outputModels[k]->trainInstances(stateData[k]);
       changed = changed || singleChange;
     }
   }
 
-  bool singleChange = rewardTree->trainInstances(rewardData);
+  bool singleChange = rewardModel->trainInstances(rewardData);
   changed = changed || singleChange;
 
   if (episodic){
-    singleChange = terminalTree->trainInstances(termData);
+    singleChange = terminalModel->trainInstances(termData);
     changed = changed || singleChange;
   }
 
@@ -294,11 +294,11 @@ bool MDPTree::updateWithExperiences(std::vector<experience> &instances){
 
 
 // update all the trees, check if model has changed
-bool MDPTree::updateWithExperience(experience &e){
-  if (TREE_DEBUG) cout << "updateWithExperience " << &(e.s) << ", " << e.act
+bool FactoredModel::updateWithExperience(experience &e){
+  if (MODEL_DEBUG) cout << "updateWithExperience " << &(e.s) << ", " << e.act
                        << ", " << &(e.next) << ", " << e.reward << endl;
 
-  if (TREE_DEBUG){
+  if (MODEL_DEBUG){
     cout << "From: ";
     for (unsigned i = 0; i < e.s.size(); i++){
       cout << e.s[i] << ", ";
@@ -314,15 +314,15 @@ bool MDPTree::updateWithExperience(experience &e){
 
   bool changed = false;
 
-  if (outputTrees.size() == 0){
+  if (outputModels.size() == 0){
     nfactors = e.next.size();
     initMDPModel(e.next.size());
   }
 
   // make sure size is right
-  if (outputTrees.size() != e.next.size()){
-    if (TREE_DEBUG) cout << "ERROR: size mismatch between input vector and # trees "
-                         << outputTrees.size() << ", " << e.next.size() << endl;
+  if (outputModels.size() != e.next.size()){
+    if (MODEL_DEBUG) cout << "ERROR: size mismatch between input vector and # trees "
+                         << outputModels.size() << ", " << e.next.size() << endl;
     return false;
     exit(-1);
   }
@@ -350,13 +350,13 @@ bool MDPTree::updateWithExperience(experience &e){
 
   // reward model
   cp.out = e.reward;
-  bool singleChange = rewardTree->trainInstance(cp);
+  bool singleChange = rewardModel->trainInstance(cp);
   changed = changed || singleChange;
 
   // termination model
   if (episodic){
     cp.out = e.terminal;
-    singleChange = terminalTree->trainInstance(cp);
+    singleChange = terminalModel->trainInstance(cp);
     changed = changed || singleChange;
   }
 
@@ -366,7 +366,7 @@ bool MDPTree::updateWithExperience(experience &e){
       cp.in = inputs;
       cp.out = e.next[i];
 
-      bool singleChange = outputTrees[i]->trainInstance(cp);
+      bool singleChange = outputModels[i]->trainInstance(cp);
       changed = changed || singleChange;
 
       // add this model's target to input for next model
@@ -376,17 +376,17 @@ bool MDPTree::updateWithExperience(experience &e){
     }
   }
 
-  if (TREE_DEBUG) cout << "Model updated, changed: " << changed << endl;
+  if (MODEL_DEBUG) cout << "Model updated, changed: " << changed << endl;
   return changed;
 
 }
 
 
-bool MDPTree::getSingleSAInfo(const std::vector<float> &state, int act, StateActionInfo* retval){
+bool FactoredModel::getSingleSAInfo(const std::vector<float> &state, int act, StateActionInfo* retval){
 
   retval->transitionProbs.clear();
 
-  if (outputTrees.size() == 0){
+  if (outputModels.size() == 0){
     retval->reward = -0.001;
 
     // add to transition map
@@ -416,7 +416,7 @@ bool MDPTree::getSingleSAInfo(const std::vector<float> &state, int act, StateAct
 
     // get prediction
     std::map<float, float> outputPreds;
-    outputTrees[i]->testInstance(inputs, &outputPreds);
+    outputModels[i]->testInstance(inputs, &outputPreds);
 
     // sample a value
     float randProb = rng.uniform();
@@ -440,7 +440,7 @@ bool MDPTree::getSingleSAInfo(const std::vector<float> &state, int act, StateAct
   float rewardSum = 0.0;
   // each value
   std::map<float, float> rewardPreds;
-  rewardTree->testInstance(inputs, &rewardPreds);
+  rewardModel->testInstance(inputs, &rewardPreds);
 
   float totalVisits = 0.0;
   for (std::map<float, float>::iterator it = rewardPreds.begin(); it != rewardPreds.end(); it++){
@@ -448,15 +448,15 @@ bool MDPTree::getSingleSAInfo(const std::vector<float> &state, int act, StateAct
     float val = (*it).first;
     float prob = (*it).second;
     totalVisits += prob;
-    if (TREE_DEBUG) cout << "Reward value " << val << " had prob of " << prob << endl;
+    if (MODEL_DEBUG) cout << "Reward value " << val << " had prob of " << prob << endl;
     rewardSum += (prob * val);
   }
 
   retval->reward = rewardSum / totalVisits;
-  if (TREE_DEBUG) cout << "Average reward was " << retval->reward << endl;
+  if (MODEL_DEBUG) cout << "Average reward was " << retval->reward << endl;
 
   if (isnan(retval->reward))
-    cout << "MDPTree setting model reward to NaN" << endl;
+    cout << "FactoredModel setting model reward to NaN" << endl;
 
 
   // get termination prob
@@ -464,7 +464,7 @@ bool MDPTree::getSingleSAInfo(const std::vector<float> &state, int act, StateAct
   if (!episodic){
     termProbs[0.0] = 1.0;
   } else {
-    terminalTree->testInstance(inputs, &termProbs);
+    terminalModel->testInstance(inputs, &termProbs);
   }
   // this needs to be a weighted sum.
   // discrete trees will give some probabilty of termination (outcome 1)
@@ -477,7 +477,7 @@ bool MDPTree::getSingleSAInfo(const std::vector<float> &state, int act, StateAct
     if (val > 1.0) val = 1.0;
     if (val < 0.0) val = 0.0;
     float prob = (*it).second;
-    if (TREE_DEBUG) cout << "Term value " << val << " had prob of " << prob << endl;
+    if (MODEL_DEBUG) cout << "Term value " << val << " had prob of " << prob << endl;
     termSum += (prob * val);
     probSum += prob;
   }
@@ -486,7 +486,7 @@ bool MDPTree::getSingleSAInfo(const std::vector<float> &state, int act, StateAct
   if (retval->termProb < 0 || retval->termProb > 1){
     cout << "Invalid termination probability!!! " << retval->termProb << endl;
   }
-  if (TREE_DEBUG) cout << "Termination prob is " << retval->termProb << endl;
+  if (MODEL_DEBUG) cout << "Termination prob is " << retval->termProb << endl;
 
   return retval;
 
@@ -494,12 +494,12 @@ bool MDPTree::getSingleSAInfo(const std::vector<float> &state, int act, StateAct
 
 
 // fill in StateActionInfo struct and return it
-bool MDPTree::getStateActionInfo(const std::vector<float> &state, int act, StateActionInfo* retval){
-  if (TREE_DEBUG) cout << "getStateActionInfo, " << &state <<  ", " << act << endl;
+bool FactoredModel::getStateActionInfo(const std::vector<float> &state, int act, StateActionInfo* retval){
+  if (MODEL_DEBUG) cout << "getStateActionInfo, " << &state <<  ", " << act << endl;
 
 
 
-  if (TREE_DEBUG){
+  if (MODEL_DEBUG){
     for (unsigned i = 0; i < state.size(); i++){
       cout << state[i] << ", ";
     }
@@ -509,7 +509,7 @@ bool MDPTree::getStateActionInfo(const std::vector<float> &state, int act, State
 
   retval->transitionProbs.clear();
 
-  if (outputTrees.size() == 0){
+  if (outputModels.size() == 0){
     retval->reward = -0.001;
 
     // add to transition map
@@ -555,8 +555,8 @@ bool MDPTree::getStateActionInfo(const std::vector<float> &state, int act, State
     for (int i = 0; i < nfactors; i++){
       // get single outcome for this factor
       std::map<float, float> outputPreds;
-      outputTrees[i]->testInstance(inputCopy, &outputPreds);
-      if (needConf && dep) confSum += outputTrees[i]->getConf(inputCopy);
+      outputModels[i]->testInstance(inputCopy, &outputPreds);
+      if (needConf && dep) confSum += outputModels[i]->getConf(inputCopy);
       float val = outputPreds.begin()->first;
       if (relTrans) val = val + inputs[i];
       MLnext[i] = val;
@@ -566,7 +566,7 @@ bool MDPTree::getStateActionInfo(const std::vector<float> &state, int act, State
     }
     //add this one
     retval->transitionProbs[MLnext] = 1.0;
-    if (TREE_DEBUG){
+    if (MODEL_DEBUG){
       cout << "Final prob of outcome: ";
       for (int i = 0; i < nfactors; i++){
         cout << MLnext[i] << ", ";
@@ -585,7 +585,7 @@ bool MDPTree::getStateActionInfo(const std::vector<float> &state, int act, State
     std::vector< std::map<float,float> > predictions(nfactors);
     if (!dep){
       for (int i = 0; i < nfactors; i++){
-        outputTrees[i]->testInstance(inputs, &(predictions[i]));
+        outputModels[i]->testInstance(inputs, &(predictions[i]));
       }
     }
 
@@ -603,10 +603,10 @@ bool MDPTree::getStateActionInfo(const std::vector<float> &state, int act, State
   float rewardSum = 0.0;
   // each value
   std::map<float, float> rewardPreds;
-  rewardTree->testInstance(inputs, &rewardPreds);
+  rewardModel->testInstance(inputs, &rewardPreds);
 
   if (rewardPreds.size() == 0){
-    //cout << "MDPTree setting state known false" << endl;
+    //cout << "FactoredModel setting state known false" << endl;
     retval->known = false;
     return retval;
   }
@@ -617,16 +617,16 @@ bool MDPTree::getStateActionInfo(const std::vector<float> &state, int act, State
     float val = (*it).first;
     float prob = (*it).second;
     totalVisits += prob;
-    if (TREE_DEBUG) cout << "Reward value " << val << " had prob of " << prob << endl;
+    if (MODEL_DEBUG) cout << "Reward value " << val << " had prob of " << prob << endl;
     rewardSum += (prob * val);
 
   }
 
   retval->reward = rewardSum / totalVisits;
-  if (TREE_DEBUG) cout << "Average reward was " << retval->reward << endl;
+  if (MODEL_DEBUG) cout << "Average reward was " << retval->reward << endl;
 
   if (isnan(retval->reward))
-    cout << "MDPTree setting model reward to NaN" << endl;
+    cout << "FactoredModel setting model reward to NaN" << endl;
 
 
   // get termination prob
@@ -634,7 +634,7 @@ bool MDPTree::getStateActionInfo(const std::vector<float> &state, int act, State
   if (!episodic){
     termProbs[0.0] = 1.0;
   } else {
-    terminalTree->testInstance(inputs, &termProbs);
+    terminalModel->testInstance(inputs, &termProbs);
   }
   // this needs to be a weighted sum.
   // discrete trees will give some probabilty of termination (outcome 1)
@@ -647,7 +647,7 @@ bool MDPTree::getStateActionInfo(const std::vector<float> &state, int act, State
     if (val > 1.0) val = 1.0;
     if (val < 0.0) val = 0.0;
     float prob = (*it).second;
-    if (TREE_DEBUG) cout << "Term value " << val << " had prob of " << prob << endl;
+    if (MODEL_DEBUG) cout << "Term value " << val << " had prob of " << prob << endl;
     termSum += (prob * val);
     probSum += prob;
   }
@@ -656,16 +656,16 @@ bool MDPTree::getStateActionInfo(const std::vector<float> &state, int act, State
   if (retval->termProb < 0 || retval->termProb > 1){
     cout << "Invalid termination probability!!! " << retval->termProb << endl;
   }
-  if (TREE_DEBUG) cout << "Termination prob is " << retval->termProb << endl;
+  if (MODEL_DEBUG) cout << "Termination prob is " << retval->termProb << endl;
 
   // if we need confidence measure
   if (needConf){
     // conf is avg of each variable's model's confidence
     retval->conf = confSum;
-    float rConf = rewardTree->getConf(inputs);
+    float rConf = rewardModel->getConf(inputs);
     float tConf = 1.0;
     if (episodic)
-      tConf = terminalTree->getConf(inputs);
+      tConf = terminalModel->getConf(inputs);
 
     //cout << "conf is " << confSum << ", r: " << rConf << ", " << tConf << endl;
 
@@ -673,7 +673,7 @@ bool MDPTree::getStateActionInfo(const std::vector<float> &state, int act, State
 
     if (!dep){
       for (int i = 0; i < nfactors; i++){
-        float featConf = outputTrees[i]->getConf(inputs);
+        float featConf = outputModels[i]->getConf(inputs);
         retval->conf += featConf;
         //cout << "indep, conf for " << i << ": " << featConf << endl;
       }
@@ -683,7 +683,7 @@ bool MDPTree::getStateActionInfo(const std::vector<float> &state, int act, State
     retval->conf = 1.0;
   }
 
-  if (TREE_DEBUG) cout << "avg conf returned " << retval->conf << endl;
+  if (MODEL_DEBUG) cout << "avg conf returned " << retval->conf << endl;
 
   //cout << "now has " << retval->transitionProbs.size() << " outcomes" << endl;
 
@@ -696,19 +696,19 @@ bool MDPTree::getStateActionInfo(const std::vector<float> &state, int act, State
 
 
 // gets the values/probs for index and adds them to the appropriate spot in the array
-void MDPTree::addFactorProb(float* probs, std::vector<float>* next, std::vector<float> x, StateActionInfo* retval, int index, std::vector< std::map<float,float> > predictions, float* confSum){
+void FactoredModel::addFactorProb(float* probs, std::vector<float>* next, std::vector<float> x, StateActionInfo* retval, int index, std::vector< std::map<float,float> > predictions, float* confSum){
 
   // get values, probs etc for this index
   std::map<float, float> outputPreds = predictions[index];
 
   // get prediction each time for dep
   if (dep){
-    outputTrees[index]->testInstance(x, &outputPreds);
+    outputModels[index]->testInstance(x, &outputPreds);
   }
 
   // sum up confidences
   if (dep && needConf){
-    float conf = outputTrees[index]->getConf(x);
+    float conf = outputModels[index]->getConf(x);
     if (index > 0)
       (*confSum) += conf * probs[index-1];
     else
@@ -719,11 +719,11 @@ void MDPTree::addFactorProb(float* probs, std::vector<float>* next, std::vector<
     // get key from iterator
     float val = (*it1).first;
 
-    if (TREE_DEBUG) cout << "Prob of outcome " << val << " on factor " << index << " is " << (*it1).second << endl;
+    if (MODEL_DEBUG) cout << "Prob of outcome " << val << " on factor " << index << " is " << (*it1).second << endl;
 
     // ignore it if it has prob 0
     if ((*it1).second == 0){
-      if (TREE_DEBUG) cout << "Prob 0, ignore" << endl;
+      if (MODEL_DEBUG) cout << "Prob 0, ignore" << endl;
       continue;
     }
 
@@ -743,7 +743,7 @@ void MDPTree::addFactorProb(float* probs, std::vector<float>* next, std::vector<
     // if last one, lets set it in our transition prob map
     if (index == nfactors - 1 && probs[index] > 0.0){
 
-      if (TREE_DEBUG){
+      if (MODEL_DEBUG){
         cout << "Final prob of outcome: ";
         for (int i = 0; i < nfactors; i++){
           cout << (*next)[i] << ", ";
@@ -763,7 +763,7 @@ void MDPTree::addFactorProb(float* probs, std::vector<float>* next, std::vector<
   }
 }
 
-std::vector<float> MDPTree::addVec(const std::vector<float> &a, const std::vector<float> &b){
+std::vector<float> FactoredModel::addVec(const std::vector<float> &a, const std::vector<float> &b){
   //if (a.size() != b.size())
   // cout << "ERROR: vector sizes wrong" << endl;
 
@@ -780,7 +780,7 @@ std::vector<float> MDPTree::addVec(const std::vector<float> &a, const std::vecto
   return c;
 }
 
-std::vector<float> MDPTree::subVec(const std::vector<float> &a, const std::vector<float> &b){
+std::vector<float> FactoredModel::subVec(const std::vector<float> &a, const std::vector<float> &b){
   //if (a.size() != b.size())
   // cout << "ERROR: vector sizes wrong" << endl;
 

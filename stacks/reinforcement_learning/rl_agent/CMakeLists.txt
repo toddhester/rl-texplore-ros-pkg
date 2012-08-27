@@ -36,7 +36,7 @@ rosbuild_add_library(agentlib
   src/Agent/SavedPolicy.cc
   src/Agent/Dyna.cc
   src/Agent/Sarsa.cc
-  src/Models/MDPTree.cc
+  src/Models/FactoredModel.cc
   src/Models/M5Tree.cc
   src/Models/LinearSplitsTree.cc
   src/Models/C45Tree.cc

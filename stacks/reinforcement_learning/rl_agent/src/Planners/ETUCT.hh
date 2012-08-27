@@ -13,7 +13,7 @@
 #include <rl_common/Random.h>
 #include <rl_common/core.hh>
 
-#include "../Models/MDPTree.hh"
+#include "../Models/FactoredModel.hh"
 
 #include <ext/hash_map>
 #include <set>

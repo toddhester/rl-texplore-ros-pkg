@@ -1,11 +1,11 @@
-/** \file MDPTree.hh
-    Defines the MDPTree class
+/** \file FactoredModel.hh
+    Defines the FactoredModel class
     Please cite: Hester and Stone, "Real Time Targeted Exploration in Large Domains", ICDL 2010.
     \author Todd Hester
 */
 
-#ifndef _MDPTREE_HH_
-#define _MDPTREE_HH_
+#ifndef _FACTOREDMODEL_HH_
+#define _FACTOREDMODEL_HH_
 
 #include "../Models/C45Tree.hh"
 #include "../Models/M5Tree.hh"
@@ -20,7 +20,7 @@
 
 
 /** Builds an mdp model consisting of a tree (or ensemble of trees) to predict each feature, reward, and termination probability. Thus forming a complete model of the MDP. */
-class MDPTree: public MDPModel {
+class FactoredModel: public MDPModel {
 public:
 
   /** Default constructor
@@ -41,16 +41,16 @@ public:
       \param episodic if the domain is episodic
       \param rng Random Number Generator 
   */
-  MDPTree(int id, int numactions, int M, int modelType, 
+  FactoredModel(int id, int numactions, int M, int modelType, 
           int predType, int nModels, float treeThreshold,
           const std::vector<float> &featRange, float rRange,
           bool needConf, bool dep, bool relTrans, float featPct, 
 	  bool stoch, bool episodic, Random rng = Random());
 
   /** Copy Constructor for MDP Tree */
-  MDPTree(const MDPTree &);
+  FactoredModel(const FactoredModel &);
 
-  virtual ~MDPTree();
+  virtual ~FactoredModel();
 
   virtual bool updateWithExperiences(std::vector<experience> &instances);
   virtual bool updateWithExperience(experience &e);
@@ -58,7 +58,7 @@ public:
   /** Initialize the MDP model with the given # of state features */
   bool initMDPModel(int nfactors);
   virtual bool getStateActionInfo(const std::vector<float> &state, int act, StateActionInfo* retval);
-  virtual MDPTree* getCopy();
+  virtual FactoredModel* getCopy();
 
   /** Method to get a single sample of the predicted next state for the given state-action, rather than the full distribution given by getStateActionInfo */
   bool getSingleSAInfo(const std::vector<float> &state, int act, StateActionInfo* retval);
@@ -78,13 +78,13 @@ public:
 private:
   
   /** Classifier to predict each feature */
-  std::vector<Classifier*> outputTrees;
+  std::vector<Classifier*> outputModels;
 
   /** Classifier to predict reward */
-  Classifier* rewardTree;
+  Classifier* rewardModel;
 
   /** Classifier to prediction termination probability */
-  Classifier* terminalTree;
+  Classifier* terminalModel;
 
   int id;
   int nfactors;
@@ -109,7 +109,7 @@ private:
   
   float EXP_PCT;
 
-  bool TREE_DEBUG;
+  bool MODEL_DEBUG;
   bool COPYDEBUG;
 
 };
