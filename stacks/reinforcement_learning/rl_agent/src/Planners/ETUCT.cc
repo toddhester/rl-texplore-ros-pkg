@@ -290,7 +290,7 @@ void ETUCT::updateStateActionHistoryFromModel(const std::vector<float> modState,
   model->getStateActionInfo(modState, a, newModel);
   newModel->frameUpdated = nactions;
 
-  canonNextStates(newModel);
+  //canonNextStates(newModel);
 
 }
 
