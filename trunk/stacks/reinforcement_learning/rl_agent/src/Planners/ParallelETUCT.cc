@@ -370,7 +370,7 @@ void ParallelETUCT::updateStateActionHistoryFromModel(const std::vector<float> m
 
   pthread_mutex_unlock(&model_mutex);
 
-  canonNextStates(newModel);
+  //canonNextStates(newModel);
 
 }
 

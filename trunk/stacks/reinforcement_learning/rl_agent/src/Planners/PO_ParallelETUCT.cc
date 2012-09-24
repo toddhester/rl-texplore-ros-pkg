@@ -391,7 +391,7 @@ void PO_ParallelETUCT::updateStateActionHistoryFromModel(const std::vector<float
   }
 
 
-  canonNextStates(newModel);
+  //canonNextStates(newModel);
 
 }
 

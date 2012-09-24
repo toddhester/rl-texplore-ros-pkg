@@ -307,7 +307,7 @@ void PO_ETUCT::updateStateActionHistoryFromModel(const std::vector<float> modSta
     }
   }
 
-  canonNextStates(newModel);
+  //canonNextStates(newModel);
 
 }
 
