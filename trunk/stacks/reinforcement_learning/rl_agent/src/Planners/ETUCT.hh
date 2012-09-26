@@ -15,7 +15,7 @@
 
 #include "../Models/FactoredModel.hh"
 
-#include <ext/hash_map>
+
 #include <set>
 #include <vector>
 #include <map>

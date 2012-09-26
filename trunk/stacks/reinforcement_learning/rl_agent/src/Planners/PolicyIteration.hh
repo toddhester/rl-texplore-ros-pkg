@@ -4,7 +4,6 @@
 #include <rl_common/Random.h>
 #include <rl_common/core.hh>
 
-#include <ext/hash_map>
 #include <set>
 #include <vector>
 #include <map>

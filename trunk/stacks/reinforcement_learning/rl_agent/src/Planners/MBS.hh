@@ -5,7 +5,6 @@
 #include <rl_common/core.hh>
 #include "ValueIteration.hh"
 
-#include <ext/hash_map>
 #include <set>
 #include <vector>
 #include <map>

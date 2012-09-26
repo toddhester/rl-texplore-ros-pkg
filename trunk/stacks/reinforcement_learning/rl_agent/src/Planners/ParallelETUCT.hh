@@ -18,7 +18,6 @@
 #include "../Models/FactoredModel.hh"
 #include "../Models/C45Tree.hh"
 
-#include <ext/hash_map>
 #include <set>
 #include <vector>
 #include <map>

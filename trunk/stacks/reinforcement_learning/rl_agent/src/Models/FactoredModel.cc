@@ -382,7 +382,7 @@ bool FactoredModel::updateWithExperience(experience &e){
 }
 
 
-bool FactoredModel::getSingleSAInfo(const std::vector<float> &state, int act, StateActionInfo* retval){
+float FactoredModel::getSingleSAInfo(const std::vector<float> &state, int act, StateActionInfo* retval){
 
   retval->transitionProbs.clear();
 
@@ -392,9 +392,8 @@ bool FactoredModel::getSingleSAInfo(const std::vector<float> &state, int act, St
     // add to transition map
     retval->transitionProbs[state] = 1.0;
     retval->known = false;
-    retval->conf = 0.0;
     retval->termProb = 0.0;
-    return false;
+    return 0;
   }
 
   // input we want predictions for
@@ -488,13 +487,13 @@ bool FactoredModel::getSingleSAInfo(const std::vector<float> &state, int act, St
   }
   if (MODEL_DEBUG) cout << "Termination prob is " << retval->termProb << endl;
 
-  return retval;
+  return 1.0;
 
 }
 
 
 // fill in StateActionInfo struct and return it
-bool FactoredModel::getStateActionInfo(const std::vector<float> &state, int act, StateActionInfo* retval){
+float FactoredModel::getStateActionInfo(const std::vector<float> &state, int act, StateActionInfo* retval){
   if (MODEL_DEBUG) cout << "getStateActionInfo, " << &state <<  ", " << act << endl;
 
 
@@ -515,9 +514,8 @@ bool FactoredModel::getStateActionInfo(const std::vector<float> &state, int act,
     // add to transition map
     retval->transitionProbs[state] = 1.0;
     retval->known = false;
-    retval->conf = 0.0;
     retval->termProb = 0.0;
-    return false;
+    return 0;
   }
 
   // input we want predictions for
@@ -608,7 +606,7 @@ bool FactoredModel::getStateActionInfo(const std::vector<float> &state, int act,
   if (rewardPreds.size() == 0){
     //cout << "FactoredModel setting state known false" << endl;
     retval->known = false;
-    return retval;
+    return 0;
   }
 
   float totalVisits = 0.0;
@@ -661,7 +659,6 @@ bool FactoredModel::getStateActionInfo(const std::vector<float> &state, int act,
   // if we need confidence measure
   if (needConf){
     // conf is avg of each variable's model's confidence
-    retval->conf = confSum;
     float rConf = rewardModel->getConf(inputs);
     float tConf = 1.0;
     if (episodic)
@@ -669,27 +666,27 @@ bool FactoredModel::getStateActionInfo(const std::vector<float> &state, int act,
 
     //cout << "conf is " << confSum << ", r: " << rConf << ", " << tConf << endl;
 
-    retval->conf += rConf + tConf;
+    confSum += rConf + tConf;
 
     if (!dep){
       for (int i = 0; i < nfactors; i++){
         float featConf = outputModels[i]->getConf(inputs);
-        retval->conf += featConf;
+        confSum += featConf;
         //cout << "indep, conf for " << i << ": " << featConf << endl;
       }
     }
-    retval->conf /= (float)(state.size() + 2.0);
+    confSum /= (float)(state.size() + 2.0);
   } else {
-    retval->conf = 1.0;
+    confSum = 1.0;
   }
 
-  if (MODEL_DEBUG) cout << "avg conf returned " << retval->conf << endl;
+  if (MODEL_DEBUG) cout << "avg conf returned " << confSum << endl;
 
   //cout << "now has " << retval->transitionProbs.size() << " outcomes" << endl;
 
   // return filled-in struct
   retval->known = true;
-  return true;
+  return confSum;
 
 }
 
