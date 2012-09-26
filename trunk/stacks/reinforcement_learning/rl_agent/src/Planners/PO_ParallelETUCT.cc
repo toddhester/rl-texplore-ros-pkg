@@ -3,7 +3,7 @@
     The modified version of UCT used is presented in:
     L. Kocsis and C. Szepesv´ari, "Bandit based monte-carlo planning," in
     ECML-06. Number 4212 in LNCS. Springer, 2006, pp. 282-293.
-    The real-time architecture is presented in: 
+    The real-time architecture is presented in:
     Hester, Quinlan, and Stone, "A Real-Time Model-Based Reinforcement Learning Architecture for Robot Control", arXiv 1105.1749, 2011.
     \author Todd Hester
 */
@@ -15,9 +15,9 @@
 
 
 PO_ParallelETUCT::PO_ParallelETUCT(int numactions, float gamma, float rrange, float lambda,
-                             int MAX_ITER, float MAX_TIME, int MAX_DEPTH, int modelType,
-                             const std::vector<float> &fmax, const std::vector<float> &fmin, 
-                             const std::vector<int> &nstatesPerDim, bool trackActual, int historySize, Random r):
+                                   int MAX_ITER, float MAX_TIME, int MAX_DEPTH, int modelType,
+                                   const std::vector<float> &fmax, const std::vector<float> &fmin,
+                                   const std::vector<int> &nstatesPerDim, bool trackActual, int historySize, Random r):
   numactions(numactions), gamma(gamma), rrange(rrange), lambda(lambda),
   MAX_ITER(MAX_ITER), MAX_TIME(MAX_TIME),
   MAX_DEPTH(MAX_DEPTH), modelType(modelType), statesPerDim(nstatesPerDim),
@@ -62,8 +62,8 @@ PO_ParallelETUCT::PO_ParallelETUCT(int numactions, float gamma, float rrange, fl
   featmax = fmax;
   featmin = fmin;
 
-  pthread_mutex_init(&update_mutex, NULL);  
-  pthread_mutex_init(&nactions_mutex, NULL);  
+  pthread_mutex_init(&update_mutex, NULL);
+  pthread_mutex_init(&nactions_mutex, NULL);
   pthread_mutex_init(&history_mutex, NULL);
   pthread_mutex_init(&plan_state_mutex, NULL);
   pthread_mutex_init(&statespace_mutex, NULL);
@@ -85,9 +85,9 @@ PO_ParallelETUCT::PO_ParallelETUCT(int numactions, float gamma, float rrange, fl
   else {
     if (HISTORYDEBUG) {
       cout << "History size of " << HISTORY_SIZE
-	   << " float size of " << HISTORY_FL_SIZE
-	   << " with state size: " << fmin.size()
-	   << " and numact: " << numactions << endl;
+           << " float size of " << HISTORY_FL_SIZE
+           << " with state size: " << fmin.size()
+           << " and numact: " << numactions << endl;
     }
     for (int i = 0; i < HISTORY_FL_SIZE; i++){
       saHistory.push_back(0.0);
@@ -112,11 +112,11 @@ PO_ParallelETUCT::~PO_ParallelETUCT() {
 
   //pthread_join(planThread, NULL);
   //pthread_join(modelThread, NULL);
-  
+
   //pthread_detach(planThread);//, NULL);
   //pthread_detach(modelThread);//, NULL);
-  
-  
+
+
   pthread_mutex_lock(&plan_state_mutex);
   pthread_mutex_lock(&statespace_mutex);
   pthread_mutex_lock(&model_mutex);
@@ -128,7 +128,7 @@ PO_ParallelETUCT::~PO_ParallelETUCT() {
 
   for (std::map<state_t, state_info>::iterator i = statedata.begin();
        i != statedata.end(); i++){
-    
+
     // get state's info
     //cout << "  planner got info" << endl;
     state_info* info = &((*i).second);
@@ -164,9 +164,9 @@ void PO_ParallelETUCT::setModel(MDPModel* m){
 
 
 bool PO_ParallelETUCT::updateModelWithExperience(const std::vector<float> &laststate,
-                                              int lastact,
-                                              const std::vector<float> &currstate,
-                                              float reward, bool term){
+                                                 int lastact,
+                                                 const std::vector<float> &currstate,
+                                                 float reward, bool term){
   //  if (PLANNERDEBUG) cout << "updateModelWithExperience(last = " << &laststate
   //     << ", curr = " << &currstate
   //        << ", lastact = " << lastact
@@ -252,12 +252,6 @@ bool PO_ParallelETUCT::updateModelWithExperience(const std::vector<float> &lasts
   previnfo = &(statedata[last]);
   pthread_mutex_unlock(&statespace_mutex);
 
-  // update the state visit count
-  pthread_mutex_lock(&previnfo->stateinfo_mutex);
-  previnfo->visits[lastact]++;
-  previnfo->totalVisits++;
-  pthread_mutex_unlock(&previnfo->stateinfo_mutex);
-
   if (MODELDEBUG){
     cout << "Update with exp from state: ";
     for (unsigned i = 0; i < last->size(); i++){
@@ -293,11 +287,11 @@ bool PO_ParallelETUCT::updateModelWithExperience(const std::vector<float> &lasts
   pthread_mutex_unlock(&list_mutex);
 
   /*
-  if (e.reward > -0.5 && e.reward < 0){
+    if (e.reward > -0.5 && e.reward < 0){
     expfile.saveExperience(e);
     nsaved++;
     cout << "Saved Experience " << e.reward << endl;
-  }
+    }
   */
 
   if (timingType)
@@ -324,7 +318,7 @@ void PO_ParallelETUCT::updateStateActionHistoryFromModel(const std::vector<float
   // update state info
   // get state action info for each action
   pthread_mutex_lock(&model_mutex);
-  
+
   model->getStateActionInfo(modState, a, newModel);
 
   pthread_mutex_lock(&nactions_mutex);
@@ -332,7 +326,7 @@ void PO_ParallelETUCT::updateStateActionHistoryFromModel(const std::vector<float
   pthread_mutex_unlock(&nactions_mutex);
 
   pthread_mutex_unlock(&model_mutex);
- 
+
   if (HISTORY_SIZE > 0){
 
     // figure out new history
@@ -404,7 +398,7 @@ void PO_ParallelETUCT::canonNextStates(StateActionInfo* modelInfo){
        outIt != modelInfo->transitionProbs.end(); outIt++){
 
     std::vector<float> nextstate = (*outIt).first;
-    bool badState = false; 
+    bool badState = false;
 
     // check that it is valid, otherwise replace with current
     for (unsigned j = 0; j < featmax.size(); j++){
@@ -531,12 +525,12 @@ void PO_ParallelETUCT::planOnNewModel(){
     modelThreadStarted = true;
     pthread_create(&modelThread, NULL, poParallelModelLearningStart, this);
   }
-  
+
   if (!planThreadStarted){
     planThreadStarted = true;
     pthread_create(&(planThread), NULL, poParallelSearchStart, this);
   }
-  
+
 }
 
 void* poParallelModelLearningStart(void* arg){
@@ -545,10 +539,10 @@ void* poParallelModelLearningStart(void* arg){
   while(true){
     pe->parallelModelLearning();
     /*
-    if (!pe->planThreadStarted){
+      if (!pe->planThreadStarted){
       pe->planThreadStarted = true;
       pthread_create(&(pe->planThread), NULL, poParallelSearchStart, pe);
-    }
+      }
     */
   }
   return NULL;
@@ -583,14 +577,14 @@ void PO_ParallelETUCT::parallelModelLearning(){
   if (MTHREADDEBUG) cout << "  Model updated" << endl << flush;
   pthread_mutex_unlock(&model_mutex);
   */
-  
+
   modelcopy = model->getCopy();
   //if (COPYDEBUG) cout << "*** PO: model copied" << endl;
 
-  // update model copy with new experience                                                                                    
+  // update model copy with new experience
   bool modelChanged = modelcopy->updateWithExperiences(updateList);
 
-  // set model pointer to point at copy, delete original model                    cout << "acquire model_mutex for update" << endl;                                            
+  // set model pointer to point at copy, delete original model                    cout << "acquire model_mutex for update" << endl;
   pthread_mutex_lock(&model_mutex);
   //cout << "model_mutex acquired for update" << endl;
   //if (COPYDEBUG) cout << "*** PO: delete original model and change pointer" << endl;
@@ -599,7 +593,7 @@ void PO_ParallelETUCT::parallelModelLearning(){
   if (MTHREADDEBUG) cout << "  Model updated" << endl << flush;
   //if (COPYDEBUG) cout << "*** PO: pointer set to updated model copy" << endl;
   pthread_mutex_unlock(&model_mutex);
-  
+
 
 
   // if it changed, reset counts, update state actions
@@ -631,7 +625,7 @@ void PO_ParallelETUCT::setBetweenEpisodes(){
 void PO_ParallelETUCT::resetAndUpdateStateActions(){
   //cout << "*** Model changed, updating state actions ***" << endl << flush;
   const int MIN_VISITS = 10;
-  
+
   pthread_mutex_lock(&nactions_mutex);
   int updateTime = nactions;
   pthread_mutex_unlock(&nactions_mutex);
@@ -645,7 +639,7 @@ void PO_ParallelETUCT::resetAndUpdateStateActions(){
     pthread_mutex_unlock(&statespace_mutex);
 
     state_t s = canonicalize(*i);
-    
+
     if (MTHREADDEBUG) cout << "  *** Model thread wants search lock ***" << endl;
 
     if (MTHREADDEBUG) cout << "  *** Model thread got search lock " << endl;
@@ -672,7 +666,7 @@ void PO_ParallelETUCT::resetAndUpdateStateActions(){
     pthread_yield();
 
     pthread_mutex_lock(&statespace_mutex);
-    
+
   }
   pthread_mutex_unlock(&statespace_mutex);
 
@@ -738,14 +732,12 @@ void PO_ParallelETUCT::initStateInfo(state_t s, state_info* info, int id){
   info->model = new StateActionInfo[numactions];
   pthread_mutex_unlock(&info->statemodel_mutex);
 
-  
+
 
   info->id = id;
   if (PLANNERDEBUG) cout << " id = " << info->id << endl;
 
   // model q values, visit counts
-  info->visits.resize(numactions, 0);
-  info->totalVisits = 0;
   info->Q.resize(numactions, 0);
   info->uctActions.resize(numactions, 1);
   info->uctVisits = 1;
@@ -786,8 +778,7 @@ void PO_ParallelETUCT::printStates(){
     pthread_mutex_lock(&info->stateinfo_mutex);
     //pthread_mutex_lock(&info->statemodel_mutex);
     for (int act = 0; act < numactions; act++){
-      cout << " visits[" << act << "] = " << info->visits[act]
-           << " Q: " << info->Q[act] << endl;
+      cout << " Q: " << info->Q[act] << endl;
       // << " R: " << info->modelInfo[act].reward << endl;
     }
     // pthread_mutex_unlock(&info->statemodel_mutex);
@@ -920,7 +911,7 @@ float PO_ParallelETUCT::uctSearch(const std::vector<float> &actS, state_t discS,
   float newQ = reward + gamma * uctSearch(actualNext, discNext, depth+1);
 
   pthread_mutex_lock(&info->stateinfo_mutex);
-    
+
   if (info->visited == 1){
 
     // update q and visit counts
@@ -1014,7 +1005,7 @@ int PO_ParallelETUCT::selectUCTAction(state_info* info){
 std::vector<float> PO_ParallelETUCT::simulateNextState(const std::vector<float> &actualState, state_t discState, state_info* info, int action, float* reward, bool* term){
   //if (UCTDEBUG) cout << "  simulateNextState" << endl;
 
-  
+
   // check if its up to date
   pthread_mutex_lock(&info->statemodel_mutex);
   StateActionInfo* modelInfo = NULL;
@@ -1039,20 +1030,20 @@ std::vector<float> PO_ParallelETUCT::simulateNextState(const std::vector<float> 
 
   float probSum = 0.0;
   std::vector<float> nextstate;
-  
+
   if (REALSTATEDEBUG) cout << "randProb: " << randProb << " numNext: " << modelInfo->transitionProbs.size() << endl;
 
   if (modelInfo->transitionProbs.size() == 0)
     nextstate = actualState;
 
   for (std::map<std::vector<float>, float>::iterator outIt
-	 = modelInfo->transitionProbs.begin();
+         = modelInfo->transitionProbs.begin();
        outIt != modelInfo->transitionProbs.end(); outIt++){
-    
+
     float prob = (*outIt).second;
     probSum += prob;
     if (REALSTATEDEBUG) cout << randProb << ", " << probSum << ", " << prob << endl;
-    
+
     if (randProb <= probSum){
       nextstate = (*outIt).first;
       if (REALSTATEDEBUG) cout << "selected state " << randProb << ", " << probSum << ", " << prob << endl;
@@ -1064,13 +1055,13 @@ std::vector<float> PO_ParallelETUCT::simulateNextState(const std::vector<float> 
 
   if (trackActual){
 
-    
+
     // find the relative change from discrete center
     std::vector<float> relChange = subVec(nextstate, *discState);
-    
+
     // add that on to actual current state value
     nextstate = addVec(actualState, relChange);
-    
+
 
   }
 
@@ -1097,10 +1088,9 @@ std::vector<float> PO_ParallelETUCT::simulateNextState(const std::vector<float> 
 
   // return new actual state
   return nextstate;
-  
+
 }
 
-// has to have had real visits
 std::vector<float> PO_ParallelETUCT::selectRandomState(){
 
   pthread_mutex_lock(&statespace_mutex);
@@ -1112,46 +1102,27 @@ std::vector<float> PO_ParallelETUCT::selectRandomState(){
 
   // take a random state from the space of ones we've visited
   int index = 0;
-  state_t s = NULL;
   std::vector<float> state;
- 
-  // try 5 times to get one with real visits
-  for (int k = 0; k < 5; k++){
 
-    pthread_mutex_lock(&statespace_mutex);
-    if (statespace.size() > 1){
-      index = rng.uniformDiscrete(0, statespace.size()-1);
-    }
-    pthread_mutex_unlock(&statespace_mutex);
+  pthread_mutex_lock(&statespace_mutex);
+  if (statespace.size() > 1){
+    index = rng.uniformDiscrete(0, statespace.size()-1);
+  }
+  pthread_mutex_unlock(&statespace_mutex);
 
-    int cnt = 0;
+  int cnt = 0;
 
-    if (PTHREADDEBUG) cout << "*** Planning thread wants search lock (randomstate) ***" << endl << flush;
+  if (PTHREADDEBUG) cout << "*** Planning thread wants search lock (randomstate) ***" << endl << flush;
 
-    pthread_mutex_lock(&statespace_mutex);
-    for (std::set<std::vector<float> >::iterator i = statespace.begin();
-         i != statespace.end(); i++, cnt++){
-      if (cnt == index){
-        state = *i;
-        break;
-      }
-    }
-    pthread_mutex_unlock(&statespace_mutex);
-
-    s = canonicalize(state);
-
-    pthread_mutex_lock(&statespace_mutex);
-    state_info* info = &(statedata[s]);
-    pthread_mutex_unlock(&statespace_mutex);
-
-    pthread_mutex_lock(&info->stateinfo_mutex);
-    if (info->totalVisits > 0){
-      pthread_mutex_unlock(&info->stateinfo_mutex);
+  pthread_mutex_lock(&statespace_mutex);
+  for (std::set<std::vector<float> >::iterator i = statespace.begin();
+       i != statespace.end(); i++, cnt++){
+    if (cnt == index){
+      state = *i;
       break;
     }
-    pthread_mutex_unlock(&info->stateinfo_mutex);
-
   }
+  pthread_mutex_unlock(&statespace_mutex);
 
   return state;
 }
@@ -1173,7 +1144,7 @@ void PO_ParallelETUCT::parallelSearch(){
 
   std::vector<float> actS;
   state_t discS;
- 
+
   // get new planning state
   if (PTHREADDEBUG) {
     cout << "*** Planning thread wants planning state lock ***" << endl << flush;
@@ -1397,32 +1368,32 @@ std::vector<float> PO_ParallelETUCT::discretizeState(const std::vector<float> &s
 std::vector<float> PO_ParallelETUCT::addVec(const std::vector<float> &a, const std::vector<float> &b){
   if (a.size() != b.size())
     cout << "ERROR: add vector sizes wrong " << a.size() << ", " << b.size() << endl;
-  
+
   std::vector<float> c(a.size(), 0.0);
   for (unsigned i = 0; i < a.size(); i++){
     c[i] = a[i] + b[i];
   }
-  
+
   return c;
 }
 
 std::vector<float> PO_ParallelETUCT::subVec(const std::vector<float> &a, const std::vector<float> &b){
   if (a.size() != b.size())
     cout << "ERROR: sub vector sizes wrong " << a.size() << ", " << b.size() << endl;
-  
+
   std::vector<float> c(a.size(), 0.0);
   for (unsigned i = 0; i < a.size(); i++){
     c[i] = a[i] - b[i];
   }
-  
+
   return c;
 }
 
 void PO_ParallelETUCT::setFirst(){
   if (HISTORY_SIZE == 0) return;
-  
+
   if (HISTORYDEBUG) cout << "first action, set sahistory to 0s" << endl;
-  
+
   pthread_mutex_lock(&(history_mutex));
   // first action, reset history vector
   saHistory.resize(saHistory.size(), 0.0);

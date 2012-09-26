@@ -165,9 +165,6 @@ bool ETUCT::updateModelWithExperience(const std::vector<float> &laststate,
   // get state info
   previnfo = &(statedata[last]);
 
-  // update the state visit count
-  previnfo->visits[lastact]++;
-
   // init model?
   if (model == NULL){
     cout << "ERROR IN MODEL OR MODEL SIZE" << endl;
@@ -491,7 +488,6 @@ void ETUCT::initStateInfo(state_t s, state_info* info){
   info->historyModel = new std::map< std::deque<float>, StateActionInfo>[numactions];
 
   // model q values, visit counts
-  info->visits.resize(numactions, 0);
   info->Q.resize(numactions, 0);
   info->uctActions.resize(numactions, 1);
   info->uctVisits = 1;
@@ -523,8 +519,7 @@ void ETUCT::printStates(){
     cout << endl;
 
     for (int act = 0; act < numactions; act++){
-      cout << " visits[" << act << "] = " << info->visits[act]
-           << " Q: " << info->Q[act] << endl;
+      cout << " Q: " << info->Q[act] << endl;
     }
 
   }

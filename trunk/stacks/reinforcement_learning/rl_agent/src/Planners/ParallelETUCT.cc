@@ -1,9 +1,9 @@
 /** \file ParallelETUCT.cc
-    Implements my real-time model-based RL architecture which uses UCT with eligiblity traces for planning. 
+    Implements my real-time model-based RL architecture which uses UCT with eligiblity traces for planning.
     The modified version of UCT used is presented in:
     L. Kocsis and C. Szepesv´ari, "Bandit based monte-carlo planning," in
     ECML-06. Number 4212 in LNCS. Springer, 2006, pp. 282-293.
-    The real-time architecture is presented in: 
+    The real-time architecture is presented in:
     Hester, Quinlan, and Stone, "A Real-Time Model-Based Reinforcement Learning Architecture for Robot Control", arXiv 1105.1749, 2011.
     \author Todd Hester
 */
@@ -192,12 +192,6 @@ bool ParallelETUCT::updateModelWithExperience(const std::vector<float> &laststat
   previnfo = &(statedata[last]);
   pthread_mutex_unlock(&statespace_mutex);
 
-  // update the state visit count
-  pthread_mutex_lock(&previnfo->stateinfo_mutex);
-  previnfo->visits[lastact]++;
-  previnfo->totalVisits++;
-  pthread_mutex_unlock(&previnfo->stateinfo_mutex);
-
   if (MODELDEBUG){
     cout << "Update with exp from state: ";
     for (unsigned i = 0; i < last->size(); i++){
@@ -255,9 +249,9 @@ bool ParallelETUCT::updateModelWithExperience(const std::vector<float> &laststat
         saHistory.push_back((*last)[i]);
         saHistory.pop_front();
         }
-      
-      saHistory.push_back((*last)[3]);
-      saHistory.pop_front();
+
+        saHistory.push_back((*last)[3]);
+        saHistory.pop_front();
       */
       for (int i = 0; i < numactions; i++){
         if (i == lastact)
@@ -266,7 +260,7 @@ bool ParallelETUCT::updateModelWithExperience(const std::vector<float> &laststat
           saHistory.push_back(0.0);
         saHistory.pop_front();
       }
-      
+
       //      saHistory.push_back(lastact);
       //saHistory.pop_front();
       if (HISTORYDEBUG) {
@@ -399,7 +393,7 @@ void ParallelETUCT::canonNextStates(StateActionInfo* modelInfo){
     }
 
     if (!badState){
-      
+
       canonicalize(nextstate);
     }
   }
@@ -510,12 +504,12 @@ void ParallelETUCT::planOnNewModel(){
     modelThreadStarted = true;
     pthread_create(&modelThread, NULL, parallelModelLearningStart, this);
   }
-  
+
   if (!planThreadStarted){
     planThreadStarted = true;
     pthread_create(&(planThread), NULL, parallelSearchStart, this);
   }
-  
+
 }
 
 
@@ -525,7 +519,7 @@ void* parallelModelLearningStart(void* arg){
   while(true){
     pe->parallelModelLearning();
     /*
-    if (!pe->planThreadStarted){
+      if (!pe->planThreadStarted){
       pe->planThreadStarted = true;
       pthread_create(&(pe->planThread), NULL, parallelSearchStart, pe);
       }
@@ -688,7 +682,7 @@ ParallelETUCT::state_t ParallelETUCT::canonicalize(const std::vector<float> &s) 
     statespace.insert(s2);
   state_t retval = &*result.first; // Dereference iterator then get pointer
 
- 
+
   // if not, init this new state
   if (result.second) { // s is new, so initialize Q(s,a) for all a
     state_info* info = &(statedata[retval]);
@@ -723,8 +717,6 @@ void ParallelETUCT::initStateInfo(state_t s, state_info* info, int id){
   if (PLANNERDEBUG) cout << " id = " << info->id << endl;
 
   // model q values, visit counts
-  info->visits.resize(numactions, 0);
-  info->totalVisits = 0;
   info->Q.resize(numactions, 0);
   info->uctActions.resize(numactions, 1);
   info->uctVisits = 1;
@@ -766,8 +758,7 @@ void ParallelETUCT::printStates(){
     pthread_mutex_lock(&info->stateinfo_mutex);
     //pthread_mutex_lock(&info->statemodel_mutex);
     for (int act = 0; act < numactions; act++){
-      cout << " visits[" << act << "] = " << info->visits[act]
-           << " Q: " << info->Q[act] << endl;
+      cout << " Q: " << info->Q[act] << endl;
       // << " R: " << info->modelInfo[act].reward << endl;
     }
     // pthread_mutex_unlock(&info->statemodel_mutex);
@@ -912,9 +903,9 @@ float ParallelETUCT::uctSearch(const std::vector<float> &actS, state_t discS, in
       searchHistory.push_back((*discS)[i]);
       searchHistory.pop_front();
       }
-    
-    searchHistory.push_back((*discS)[3]);
-    searchHistory.pop_front();
+
+      searchHistory.push_back((*discS)[3]);
+      searchHistory.pop_front();
     */
     for (int i = 0; i < numactions; i++){
       if (i == action)
@@ -923,7 +914,7 @@ float ParallelETUCT::uctSearch(const std::vector<float> &actS, state_t discS, in
         searchHistory.push_back(0.0);
       searchHistory.pop_front();
     }
-    
+
     //    searchHistory.push_back(action);
     //searchHistory.pop_front();
     if (HISTORYDEBUG) {
@@ -1039,7 +1030,7 @@ std::vector<float> ParallelETUCT::simulateNextState(const std::vector<float> &ac
   pthread_mutex_lock(&info->statemodel_mutex);
   StateActionInfo* modelInfo = NULL;
   modelInfo = &(info->historyModel[action][history]);
-  
+
   pthread_mutex_lock(&update_mutex);
   bool upToDate = modelInfo->frameUpdated >= lastUpdate;
   pthread_mutex_unlock(&update_mutex);
@@ -1105,8 +1096,8 @@ std::vector<float> ParallelETUCT::simulateNextState(const std::vector<float> &ac
   // check that next state is valid
   for (unsigned j = 0; j < nextstate.size(); j++){
     float factor = EPSILON;
-      if (statesPerDim[j] > 0)
-        factor = (featmax[j] - featmin[j]) / (float)statesPerDim[j];
+    if (statesPerDim[j] > 0)
+      factor = (featmax[j] - featmin[j]) / (float)statesPerDim[j];
     if (nextstate[j] < (featmin[j]-factor)
         || nextstate[j] > (featmax[j]+factor)){
       return actualState;
@@ -1118,7 +1109,6 @@ std::vector<float> ParallelETUCT::simulateNextState(const std::vector<float> &ac
 
 }
 
-// has to have had real visits
 std::vector<float> ParallelETUCT::selectRandomState(){
 
   pthread_mutex_lock(&statespace_mutex);
@@ -1130,46 +1120,27 @@ std::vector<float> ParallelETUCT::selectRandomState(){
 
   // take a random state from the space of ones we've visited
   int index = 0;
-  state_t s = NULL;
   std::vector<float> state;
 
-  // try 5 times to get one with real visits
-  for (int k = 0; k < 5; k++){
+  pthread_mutex_lock(&statespace_mutex);
+  if (statespace.size() > 1){
+    index = rng.uniformDiscrete(0, statespace.size()-1);
+  }
+  pthread_mutex_unlock(&statespace_mutex);
 
-    pthread_mutex_lock(&statespace_mutex);
-    if (statespace.size() > 1){
-      index = rng.uniformDiscrete(0, statespace.size()-1);
-    }
-    pthread_mutex_unlock(&statespace_mutex);
+  int cnt = 0;
 
-    int cnt = 0;
+  if (PTHREADDEBUG) cout << "*** Planning thread wants search lock (randomstate) ***" << endl << flush;
 
-    if (PTHREADDEBUG) cout << "*** Planning thread wants search lock (randomstate) ***" << endl << flush;
-
-    pthread_mutex_lock(&statespace_mutex);
-    for (std::set<std::vector<float> >::iterator i = statespace.begin();
-         i != statespace.end(); i++, cnt++){
-      if (cnt == index){
-        state = *i;
-        break;
-      }
-    }
-    pthread_mutex_unlock(&statespace_mutex);
-
-    s = canonicalize(state);
-
-    pthread_mutex_lock(&statespace_mutex);
-    state_info* info = &(statedata[s]);
-    pthread_mutex_unlock(&statespace_mutex);
-
-    pthread_mutex_lock(&info->stateinfo_mutex);
-    if (info->totalVisits > 0){
-      pthread_mutex_unlock(&info->stateinfo_mutex);
+  pthread_mutex_lock(&statespace_mutex);
+  for (std::set<std::vector<float> >::iterator i = statespace.begin();
+       i != statespace.end(); i++, cnt++){
+    if (cnt == index){
+      state = *i;
       break;
     }
-    pthread_mutex_unlock(&info->stateinfo_mutex);
-
   }
+  pthread_mutex_unlock(&statespace_mutex);
 
   return state;
 }
