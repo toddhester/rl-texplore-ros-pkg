@@ -33,7 +33,7 @@ public:
 
   virtual bool updateWithExperiences(std::vector<experience> &instances);
   virtual bool updateWithExperience(experience &e);
-  virtual bool getStateActionInfo(const std::vector<float> &state, int act, StateActionInfo* retval);
+  virtual float getStateActionInfo(const std::vector<float> &state, int act, StateActionInfo* retval);
 
 
   // structs to be defined

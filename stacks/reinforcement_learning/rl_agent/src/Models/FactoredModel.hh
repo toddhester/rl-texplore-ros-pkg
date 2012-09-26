@@ -57,11 +57,11 @@ public:
 
   /** Initialize the MDP model with the given # of state features */
   bool initMDPModel(int nfactors);
-  virtual bool getStateActionInfo(const std::vector<float> &state, int act, StateActionInfo* retval);
+  virtual float getStateActionInfo(const std::vector<float> &state, int act, StateActionInfo* retval);
   virtual FactoredModel* getCopy();
 
   /** Method to get a single sample of the predicted next state for the given state-action, rather than the full distribution given by getStateActionInfo */
-  bool getSingleSAInfo(const std::vector<float> &state, int act, StateActionInfo* retval);
+  float getSingleSAInfo(const std::vector<float> &state, int act, StateActionInfo* retval);
 
   /** Combines predictions for each separate state feature into probabilities of the overall state vector */
   void addFactorProb(float* probs, std::vector<float>* next, std::vector<float> x, StateActionInfo* retval, int index, std::vector< std::map<float,float> > predictions, float* confSum);

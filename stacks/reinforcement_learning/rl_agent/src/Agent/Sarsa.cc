@@ -202,12 +202,7 @@ void Sarsa::seedExp(std::vector<experience> seeds){
     experience e = seeds[i];
      
     std::vector<float> &Q_s = Q[canonicalize(e.s)];
-    std::vector<float> &Q_next = Q[canonicalize(e.next)];
     
-    // get max value of next state
-    const std::vector<float>::iterator max =
-      random_max_element(Q_next.begin(), Q_next.end());
-
     // Get q value for action taken
     const std::vector<float>::iterator a = Q_s.begin() + e.act;
 

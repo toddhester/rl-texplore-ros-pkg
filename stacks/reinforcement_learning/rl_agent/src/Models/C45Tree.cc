@@ -35,10 +35,10 @@ C45Tree::C45Tree(int id, int trainMode, int trainFreq, int m,
   COPYDEBUG = false;
 
   cout << "Created C4.5 decision tree " << id;
+  if (ALLOW_ONLY_SPLITS) cout << " with == and > splits" << endl;
+  else cout << " with > splits only" << endl;
   if (DTDEBUG) {
     cout << " mode: " << mode << " freq: " << freq << endl;
-  } else {
-    cout << endl;
   }
 
   initNodes();
@@ -222,6 +222,7 @@ bool C45Tree::trainInstance(classPair &instance){
 
     if (outputProb < 0.75){
       modelChanged = rebuildTree();
+      modelChanged = true;
     }
   }
 
@@ -263,6 +264,8 @@ bool C45Tree::trainInstances(std::vector<classPair> &instances){
   bool modelChanged = false;
 
   bool doBuild = false;
+
+  bool buildOnError = false;
 
   // loop through instances, possibly checking for errors
   for (unsigned a = 0; a < instances.size(); a++){
@@ -332,6 +335,7 @@ bool C45Tree::trainInstances(std::vector<classPair> &instances){
 
       if (outputProb < 0.75){
         doBuild = true;
+        buildOnError = true;
       }
     }
 
@@ -361,7 +365,7 @@ bool C45Tree::trainInstances(std::vector<classPair> &instances){
     }
   }
 
-  return modelChanged;
+  return (modelChanged || buildOnError);
 
 }
 

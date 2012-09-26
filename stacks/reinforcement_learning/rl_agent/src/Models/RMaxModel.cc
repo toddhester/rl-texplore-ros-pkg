@@ -113,7 +113,7 @@ bool RMaxModel::updateWithExperience(experience &e){
 
 
 // calculate state info such as transition probs, known/unknown, reward prediction
-bool RMaxModel::getStateActionInfo(const std::vector<float> &state, int act, StateActionInfo* retval){
+float RMaxModel::getStateActionInfo(const std::vector<float> &state, int act, StateActionInfo* retval){
   if (RMAX_DEBUG) cout << "getStateActionInfo, " << &state <<  ", " << act << endl;
 
 
@@ -132,9 +132,8 @@ bool RMaxModel::getStateActionInfo(const std::vector<float> &state, int act, Sta
     // add to transition map
     retval->transitionProbs[state] = 1.0;
     retval->known = false;
-    retval->conf = 0.0;
     retval->termProb = 0.0;
-    return false;
+    return 0;
   }
   
   
@@ -172,9 +171,9 @@ bool RMaxModel::getStateActionInfo(const std::vector<float> &state, int act, Sta
 
   retval->known = info->known[act];
   // conf as a pct of float m (so 0.5 is exactly M)
-  retval->conf = (float)info->visits[act]/ (2.0 * (float)M);
+  float conf = (float)info->visits[act]/ (2.0 * (float)M);
 
-  return true;
+  return conf;
 
 }
 

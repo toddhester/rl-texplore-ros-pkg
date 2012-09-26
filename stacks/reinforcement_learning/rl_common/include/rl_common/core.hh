@@ -316,7 +316,6 @@ public:
     This includes predicted reward, next state probabilities, probability of episod termination, and model confidence.
 */
 struct StateActionInfo {
-  float conf;
   bool known;
   float reward;
   float termProb;
@@ -326,7 +325,6 @@ struct StateActionInfo {
   std::map< std::vector<float> , float> transitionProbs;
 
   StateActionInfo(){
-    conf = 0.0;
     known = false;
     reward = 0.0;
     termProb = 0.0;
@@ -345,7 +343,7 @@ public:
   virtual bool updateWithExperience(experience &instance) = 0;
 
   /** Get the predictions of the MDP model for a given state action */
-  virtual bool getStateActionInfo(const std::vector<float> &state, int action, StateActionInfo* retval) = 0;
+  virtual float getStateActionInfo(const std::vector<float> &state, int action, StateActionInfo* retval) = 0;
 
   /** Get a copy of the MDP Model */
   virtual MDPModel* getCopy() = 0;
