@@ -65,7 +65,7 @@ private:
   Random &rng;
 
   std::vector<float> s;
-  std::vector<float> junk;
+  std::vector<float> hidden;
  
   float &targetVel;
   float &currVel;
