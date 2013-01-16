@@ -84,7 +84,7 @@ private:
   coord_t doorway;
 
   std::vector<float> s;
-  std::vector<float> trash;
+  std::vector<float> unused;
 
   float &ns;
   float &ew;
