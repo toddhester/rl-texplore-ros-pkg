@@ -74,7 +74,6 @@ PO_ParallelETUCT::PO_ParallelETUCT(int numactions, float gamma, float rrange, fl
   // start parallel search thread
   actualPlanState = std::vector<float>(featmax.size());
   discPlanState = NULL;
-  doRandom = true;
   modelThreadStarted = false;
   planThreadStarted = false;
   expList.clear();
@@ -444,7 +443,6 @@ int PO_ParallelETUCT::getBestAction(const std::vector<float> &state){
   pthread_mutex_lock(&(plan_state_mutex));
   if (TIMINGDEBUG) cout << "got planStateMut, time: " << (getSeconds()-initTime) << endl;
 
-  doRandom = false;
   actualPlanState = modState;
   discPlanState = s;
   setTime = getSeconds();
@@ -603,21 +601,6 @@ void PO_ParallelETUCT::parallelModelLearning(){
 
   //}// while loop
 } // method
-
-
-void PO_ParallelETUCT::setBetweenEpisodes(){
-  // TODO: for now, I know this means we just ended an episode, lets plan
-  // from a different random state (or a state we know to be the initial one)
-  if (ATHREADDEBUG) cout << "*** Action thread wants planning state lock (bet eps)***" << endl;
-  pthread_mutex_lock(&(plan_state_mutex));
-
-  doRandom = true;
-  discPlanState = NULL;
-
-  // call uct search on it
-  pthread_mutex_unlock(&(plan_state_mutex));
-
-}
 
 
 
@@ -1151,23 +1134,9 @@ void PO_ParallelETUCT::parallelSearch(){
   }
   pthread_mutex_lock(&(plan_state_mutex));
 
-  // too long on one state, lets do random
-  if(!doRandom && (getSeconds()-setTime) > 0.2){
-    //cout << (getSeconds()-setTime) << " seconds since plan time." << endl;
-    doRandom = true;
-  }
-
-  // possibly take random state (bet episodes)
-  if (doRandom){
-    actS = selectRandomState();
-    discS = canonicalize(actS);
-    //    cout << "selected random state for search" << endl << flush;
-  }
-  // or take the state we're in (during episodes)
-  else {
-    actS = actualPlanState;
-    discS = discPlanState;
-  }
+  // take the state we're in (during episodes)
+  actS = actualPlanState;
+  discS = discPlanState;
 
   // wait for non-null
   if (discS == NULL){

@@ -122,7 +122,6 @@ public:
 
   /** Canonical pointer to agent's current state that UCT rollouts should start from. */
   state_t startState;
-  bool doRandom;
 
   // lock over simple objects
   /** Mutex around the last frame that the model was updated. */
@@ -159,9 +158,6 @@ public:
 
   /** Select a random previously visited state. */
   std::vector<float> selectRandomState();
-
-  /** Set a flag that we are in between episodes. */
-  void setBetweenEpisodes();
 
   /** Start the parallel model learning thread. */
   void parallelModelLearning();

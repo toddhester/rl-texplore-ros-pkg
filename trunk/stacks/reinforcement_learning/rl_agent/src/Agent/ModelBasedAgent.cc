@@ -205,11 +205,6 @@ void ModelBasedAgent::last_action(float r) {
   // this is where we possibly plan again if model changes
   updateWithNewExperience(prevstate, prevstate, prevact, r, true);
 
-  // let planner know we're in between episodes if doing parallel
-  if (plannerType == PARALLEL_ET_UCT){
-    ((ParallelETUCT*)planner)->setBetweenEpisodes();
-  }
-
 }
 
 
