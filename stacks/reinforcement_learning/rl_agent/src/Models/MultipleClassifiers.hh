@@ -39,7 +39,7 @@ public:
   MultipleClassifiers(int id, int modelType, int predType, int nModels, 
                       int trainMode, int trainFreq,
                       float featPct, float expPct, float treeThreshold,
-                      bool stoch, Random rng);
+                      bool stoch, float featRange, Random rng);
 
   /** Copy constructor */
   MultipleClassifiers(const MultipleClassifiers&);
@@ -86,7 +86,8 @@ private:
   const float treeThresh;
   const bool stoch;
   const bool addNoise;
-
+  const float featRange;
+  
   Random rng;
 
   std::vector<float> accuracy;

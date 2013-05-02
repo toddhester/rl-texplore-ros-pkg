@@ -12,12 +12,13 @@ MultipleClassifiers::MultipleClassifiers(int id, int modelType, int predType,
                                          int trainFreq,
                                          float featPct, float expPct,
                                          float treeThreshold, bool stoch,
-                                         Random rng):
+                                         float featRange, Random rng):
   id(id), modelType(modelType), predType(predType), nModels(nModels),
   mode(trainMode), freq(trainFreq),
   featPct(featPct), expPct(expPct), 
   treeThresh(treeThreshold), stoch(stoch), 
   addNoise(!stoch && (modelType == M5MULTI || modelType == M5SINGLE || modelType == M5ALLMULTI || modelType == M5ALLSINGLE || modelType == LSTMULTI || modelType == LSTSINGLE)),
+  featRange(featRange),
   rng(rng)
 {
   STDEBUG = false;//true;
@@ -42,7 +43,7 @@ MultipleClassifiers::MultipleClassifiers(const MultipleClassifiers &t):
   mode(t.mode), freq(t.freq),
   featPct(t.featPct), expPct(t.expPct), 
   treeThresh(t.treeThresh), stoch(t.stoch), addNoise(t.addNoise),
-  rng(t.rng)
+  featRange(t.featRange), rng(t.rng)
 {
   COPYDEBUG = t.COPYDEBUG;
   if (COPYDEBUG) cout << "  MC copy constructor id " << id << endl;
@@ -314,7 +315,8 @@ float MultipleClassifiers::getConf(const std::vector<float> &input){
   // for continuous trees, providing a single continuous prediction
   // calcluate variance
   else {
-    conf = 1.0 - variance(input);
+    // use scaled sd
+    conf = 1.0 - sqrt(variance(input)) / featRange;
   }
 
   if (CONF_DEBUG) cout << "return conf: " << conf << endl;
