@@ -139,19 +139,19 @@ bool FactoredModel::initMDPModel(int nfactors){
                                           nModels, treeBuildType, 5,
                                           FEAT_PCT,
                                           EXP_PCT,
-                                          treeThresh *featRange[i], stoch, rng);
+                                           treeThresh *featRange[i], stoch, featRange[i], rng);
       if (i == 0){
         rewardModel = new SepPlanExplore((id * (nfactors+1)) + nfactors,
                                         modelType, predType,
                                         nModels, treeBuildType, 5,
                                         FEAT_PCT, // remove this pct of feats
-                                        EXP_PCT, treeThresh *rRange, stoch, rng);
+                                         EXP_PCT, treeThresh *rRange, stoch, rRange, rng);
 	if (episodic){
 	  terminalModel = new SepPlanExplore((id * (nfactors+1)) +1+ nfactors,
-					    modelType, predType,
-					    nModels, treeBuildType, 5,
-					    FEAT_PCT, // remove this pct of feats
-					    EXP_PCT, treeThresh, stoch, rng);
+                                       modelType, predType,
+                                       nModels, treeBuildType, 5,
+                                       FEAT_PCT, // remove this pct of feats
+                                       EXP_PCT, treeThresh, stoch, 1.0, rng);
 	}
       }
     }
@@ -161,19 +161,19 @@ bool FactoredModel::initMDPModel(int nfactors){
                                                nModels, treeBuildType, 5,
                                                FEAT_PCT,
                                                EXP_PCT,
-                                               treeThresh *featRange[i], stoch, rng);
+                                                treeThresh *featRange[i], stoch, featRange[i], rng);
       if (i == 0){
         rewardModel = new MultipleClassifiers((id * (nfactors+1)) + nfactors,
                                              modelType, predType,
                                              nModels, treeBuildType, 5,
                                              FEAT_PCT, // remove this pct of feats
-                                             EXP_PCT, treeThresh *rRange, stoch, rng);
+                                              EXP_PCT, treeThresh *rRange, stoch, rRange, rng);
 	if (episodic){
 	  terminalModel = new MultipleClassifiers((id * (nfactors+1)) +1+ nfactors,
-						 modelType, predType,
-						 nModels, treeBuildType, 5,
-						 FEAT_PCT, // remove this pct of feats
-						 EXP_PCT, treeThresh, stoch, rng);
+                                            modelType, predType,
+                                            nModels, treeBuildType, 5,
+                                            FEAT_PCT, // remove this pct of feats
+                                            EXP_PCT, treeThresh, stoch, 1.0, rng);
 	}
       }
     } else {

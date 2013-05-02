@@ -22,9 +22,9 @@ public:
   // mode - re-build stump every step?  
   // re-build only on misclassifications? or rebuild every 'trainFreq' steps
   SepPlanExplore(int id, int modelType, int predType, int nModels, 
-		 int trainMode, int trainFreq,
-		 float featPct, float expPct, float treeThreshold, bool stoch,
-		 Random rng);
+                 int trainMode, int trainFreq,
+                 float featPct, float expPct, float treeThreshold, bool stoch,
+                 float featRange, Random rng);
 
   SepPlanExplore(const SepPlanExplore&);
   virtual SepPlanExplore* getCopy();
@@ -52,6 +52,7 @@ private:
   const float expPct;
   const float treeThresh;
   const bool stoch;
+  const float featRange; 
 
   Random rng;
 

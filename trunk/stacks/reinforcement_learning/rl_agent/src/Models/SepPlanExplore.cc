@@ -7,12 +7,12 @@ SepPlanExplore::SepPlanExplore(int id, int modelType, int predType,
                                int trainFreq,
                                float featPct, float expPct,
                                float treeThreshold, bool stoch,
-                               Random rng):
+                               float featRange, Random rng):
   id(id), modelType(modelType), predType(predType), nModels(nModels),
   mode(trainMode), freq(trainFreq),
   featPct(featPct), expPct(expPct),
   treeThresh(treeThreshold), stoch(stoch),
-  rng(rng)
+  featRange(featRange), rng(rng)
 {
   SPEDEBUG = false;//true;
 
@@ -31,7 +31,7 @@ SepPlanExplore::SepPlanExplore(const SepPlanExplore& spe):
   mode(spe.mode), freq(spe.freq),
   featPct(spe.featPct), expPct(spe.expPct),
   treeThresh(spe.treeThresh), stoch(spe.stoch),
-  rng(spe.rng)
+  featRange(spe.featRange), rng(spe.rng)
 {
   cout << "spe get copy" << endl;
   SPEDEBUG = spe.SPEDEBUG;
@@ -109,7 +109,7 @@ void SepPlanExplore::initModels(){
   // explore model should be of type MultipleClassifiers
   expModel = new MultipleClassifiers(id, modelType, predType,
                                      nModels, mode, freq,
-                                     featPct, expPct, treeThresh, stoch, rng);
+                                     featPct, expPct, treeThresh, stoch, featRange, rng);
 
   // init the trees or stumps
   if (modelType == C45TREE){
