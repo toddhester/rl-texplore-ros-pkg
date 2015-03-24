@@ -42,21 +42,15 @@ Directions:
 
  (1) Check out a copy of the RL code base with ROS interfaces
 
-     Our packages have their own Google code project tree.  Check
-     out the trunk in ~/svn/rl-texplore-ros-pkg:
+     Our packages have their own Github project.  Check
+     out the trunk of rl-texplore-ros-pkg:
 
-     $ cd
-     $ mkdir svn
-     $ cd ~/svn
-     $ svn co http://rl-texplore-ros-pkg.googlecode.com/svn/trunk rl-texplore-ros-pkg
+     $ git clone https://github.com/toddhester/rl-texplore-ros-pkg.git
 
      This creates a copy of the source tree without commit access.
 
-     To commit changes yourself, create a google account and e-mail
-     the project owners requesting commit access.  Then, check out an
-     editable copy following these directions:
-
-       http://code.google.com/p/rl-texplore-ros-pkg/source/checkout
+     To commit changes yourself, create a github account and e-mail
+     the project owners requesting commit access.  
 
 
  (2) Install ROS as in http://www.ros.org/wiki/ROS/Installation
