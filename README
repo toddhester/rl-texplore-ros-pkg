@@ -6,7 +6,7 @@
                              4 May 2011
 
 
-                        ## July 2015 Update
+                           July 2015 Update
           The indigo-devel branch of this repository contains a catkinized
           version of the original codebase. If you are using ROS Groovy or
           newer, you should check out this version.
