@@ -1,9 +1,9 @@
 <package>
   <name>rl_experiment</name>
   <version>0.0.0</version>
-  <description>"TODO"</description>
+  <description>rl_experiment is a package to run RL experiments using the rl_agent and rl_env packages.</description>
 
-  <maintainer email="todo@todo.todo">alex</maintainer>
+  <maintainer email="todd.hester@gmail.com">Todd Hester</maintainer>
 
   <license>BSD</license>
 
