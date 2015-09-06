@@ -1,9 +1,11 @@
 <package>
   <name>rl_common</name>
   <version>0.0.0</version>
-  <description>"TODO"</description>
+  <description>rl_common is a package of common RL files needed by both the agent and the
+environment. Mainly the interfaces defining their class methods, and some other
+utility methods.</description>
 
-  <maintainer email="todo@todo.todo">alex</maintainer>
+  <maintainer email="todd.hester@gmail.com">Todd Hester</maintainer>
 
   <license>BSD</license>
 
