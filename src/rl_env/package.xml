@@ -1,9 +1,9 @@
 <package>
   <name>rl_env</name>
   <version>0.0.0</version>
-  <description>"TODO"</description>
+  <description>rl_env is is a package containing reinforcement learning (RL) environments.</description>
 
-  <maintainer email="todo@todo.todo">alex</maintainer>
+  <maintainer email="todd.hester@gmail.com">Todd Hester</maintainer>
 
   <license>BSD</license>
 
