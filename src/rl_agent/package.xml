@@ -1,10 +1,10 @@
 <package>
   <name>rl_agent</name>
   <version>0.0.0</version>
-  <description>"TODO"</description>
+  <description>rl_agent is a package containing reinforcement learning (RL) agents. </description>
 
   <author>Todd Hester</author>
-  <maintainer email="todo@todo.todo">alex</maintainer>
+  <maintainer email="todd.hester@gmail.com">Todd Hester</maintainer>
 
   <license>BSD</license>
 
