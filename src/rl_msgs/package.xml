@@ -2,10 +2,10 @@
 
   <name>rl_msgs</name>
   <version>0.0.0</version>
-  <description>"TODO"</description>
+  <description>rl_msgs is a package of ROS message definitions, which are used for a reinforcement learning agent to communicate with an environment.</description>
 
   <author>Michael Quinlan, Todd Hester</author>
-  <maintainer email="todo@todo.todo">alex</maintainer>
+  <maintainer email="todd.hester@gmail.com">Todd Hester</maintainer>
 
   <license>BSD</license>
 
