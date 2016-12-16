@@ -103,8 +103,6 @@ include_directories(
 # )
 
 ## Declare a cpp executable
-# add_executable(rgbd_tools_node src/rgbd_tools_node.cpp)
-
 add_executable(experiment src/rl.cc)
 target_link_libraries(experiment agentlib envlib ${catkin_LIBRARIES})
 
@@ -138,11 +136,11 @@ target_link_libraries(experiment agentlib envlib ${catkin_LIBRARIES})
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS rgbd_tools rgbd_tools_node
+install(TARGETS experiment
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
+    RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
 
 ## Mark cpp header files for installation
 # install(DIRECTORY include/${PROJECT_NAME}/

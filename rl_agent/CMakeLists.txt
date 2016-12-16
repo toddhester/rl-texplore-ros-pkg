@@ -98,10 +98,6 @@ include_directories(
 )
 
 ## Declare a cpp library
-# add_library(rgbd_tools
-#   src/${PROJECT_NAME}/
-# )
-
 add_library(agentlib
   src/Agent/DiscretizationAgent.cc
   src/Agent/QLearner.cc
@@ -186,11 +182,11 @@ target_link_libraries(agent agentlib ${catkin_LIBRARIES})
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS rgbd_tools rgbd_tools_node
+install(TARGETS agent agentlib
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
+    LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+    RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
 
 ## Mark cpp header files for installation
 # install(DIRECTORY include/${PROJECT_NAME}/
