@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(rl_common)
+project(rl_experiment)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -7,6 +7,9 @@ project(rl_common)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
+  rl_common
+  rl_env
+  rl_agent
 )
 
 ## System dependencies are found with CMake's conventions
@@ -76,7 +79,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-   INCLUDE_DIRS include
+#  INCLUDE_DIRS include
 #  LIBRARIES rgbd_tools
 #  CATKIN_DEPENDS roscpp rospy std_msgs
    CATKIN_DEPENDS message_runtime
@@ -100,9 +103,8 @@ include_directories(
 # )
 
 ## Declare a cpp executable
-# add_executable(rgbd_tools_node src/rgbd_tools_node.cpp)
-#add_executable(test1 src/test1.cpp)
-#target_link_libraries(test1 ${catkin_LIBRARIES})
+add_executable(experiment src/rl.cc)
+target_link_libraries(experiment agentlib envlib ${catkin_LIBRARIES})
 
 #add_executable(image_converter src/image_converter.cpp)
 #target_link_libraries(image_converter ${catkin_LIBRARIES})
@@ -134,11 +136,11 @@ include_directories(
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS rgbd_tools rgbd_tools_node
+install(TARGETS experiment
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
+    RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
 
 ## Mark cpp header files for installation
 # install(DIRECTORY include/${PROJECT_NAME}/

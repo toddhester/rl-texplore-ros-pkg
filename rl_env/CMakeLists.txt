@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(rl_experiment)
+project(rl_env)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -8,8 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
   rl_common
-  rl_env
-  rl_agent
+  rl_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -79,7 +78,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
+   INCLUDE_DIRS include
 #  LIBRARIES rgbd_tools
 #  CATKIN_DEPENDS roscpp rospy std_msgs
    CATKIN_DEPENDS message_runtime
@@ -92,7 +91,7 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-# include_directories(include)
+include_directories(include)
 include_directories(
   ${catkin_INCLUDE_DIRS}
 )
@@ -102,11 +101,24 @@ include_directories(
 #   src/${PROJECT_NAME}/
 # )
 
+add_library(envlib
+  src/Env/tworooms.cc
+  src/Env/taxi.cc
+  src/Env/MountainCar.cc
+  src/Env/FuelRooms.cc
+  src/Env/CartPole.cc
+  src/Env/fourrooms.cc
+  src/Env/RobotCarVel.cc
+  src/Env/energyrooms.cc
+  src/Env/gridworld.cc
+  src/Env/stocks.cc
+  src/Env/LightWorld.cc
+)
+
 ## Declare a cpp executable
 # add_executable(rgbd_tools_node src/rgbd_tools_node.cpp)
-
-add_executable(experiment src/rl.cc)
-target_link_libraries(experiment agentlib envlib ${catkin_LIBRARIES})
+add_executable(env src/env.cpp)
+target_link_libraries(env envlib ${catkin_LIBRARIES})
 
 #add_executable(image_converter src/image_converter.cpp)
 #target_link_libraries(image_converter ${catkin_LIBRARIES})
@@ -138,11 +150,11 @@ target_link_libraries(experiment agentlib envlib ${catkin_LIBRARIES})
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS rgbd_tools rgbd_tools_node
+install(TARGETS env envlib
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
+    LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+    RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
 
 ## Mark cpp header files for installation
 # install(DIRECTORY include/${PROJECT_NAME}/
