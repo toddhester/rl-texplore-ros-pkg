@@ -1,4 +1,0 @@
-[35m[1mScanning dependencies of target experiment[0m
-[ 50%] [32mBuilding CXX object CMakeFiles/experiment.dir/src/rl.cc.o[0m
-[100%] [32m[1mLinking CXX executable /home/vitor/rl-texplore-ros-pkg/devel/.private/rl_experiment/lib/rl_experiment/experiment[0m
-[100%] Built target experiment
