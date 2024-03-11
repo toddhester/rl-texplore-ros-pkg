@@ -1,0 +1,15 @@
+In file included from [01m[K/home/vitor/rl-texplore-ros-pkg/src/rl_agent/src/newmat/newmat.h:11[m[K,
+                 from [01m[K/home/vitor/rl-texplore-ros-pkg/src/rl_agent/src/newmat/newmat5.cc:9[m[K:
+[01m[K/home/vitor/rl-texplore-ros-pkg/src/rl_agent/src/newmat/newmat5.cc:[m[K In destructor ‘[01m[KMatrixInput::~MatrixInput()[m[K’:
+[01m[K/home/vitor/rl-texplore-ros-pkg/src/rl_agent/src/newmat/newmat5.cc:525:69:[m[K [01;35m[Kwarning: [m[Kthrow will always call terminate() [[01;35m[K-Wterminate[m[K]
+  525 |    if (n!=0) Throw(ProgramException("A list of values was too short"[01;35m[K)[m[K);
+      |                                                                     [01;35m[K^[m[K
+[01m[K/home/vitor/rl-texplore-ros-pkg/src/rl_agent/src/newmat/myexcept.h:191:24:[m[K [01;36m[Knote: [m[Kin definition of macro ‘[01m[KThrow[m[K’
+  191 | #define Throw(E) throw [01;36m[KE[m[K
+      |                        [01;36m[K^[m[K
+[01m[K/home/vitor/rl-texplore-ros-pkg/src/rl_agent/src/newmat/newmat5.cc:525:69:[m[K [01;36m[Knote: [m[Kin C++11 destructors default to noexcept
+  525 |    if (n!=0) Throw(ProgramException("A list of values was too short"[01;36m[K)[m[K);
+      |                                                                     [01;36m[K^[m[K
+[01m[K/home/vitor/rl-texplore-ros-pkg/src/rl_agent/src/newmat/myexcept.h:191:24:[m[K [01;36m[Knote: [m[Kin definition of macro ‘[01m[KThrow[m[K’
+  191 | #define Throw(E) throw [01;36m[KE[m[K
+      |                        [01;36m[K^[m[K

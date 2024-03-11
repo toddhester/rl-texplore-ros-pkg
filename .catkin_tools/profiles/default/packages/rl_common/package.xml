@@ -1,0 +1,26 @@
+<package>
+  <name>rl_common</name>
+  <version>0.0.0</version>
+  <description>rl_common is a package of common RL files needed by both the agent and the
+environment. Mainly the interfaces defining their class methods, and some other
+utility methods.</description>
+
+  <maintainer email="todd.hester@gmail.com">Todd Hester</maintainer>
+
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>roscpp</build_depend>
+  <build_depend>std_msgs</build_depend>
+
+  <run_depend>message_runtime</run_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>std_msgs</run_depend>
+
+  <export>
+    <cpp cflags="-I${prefix}/include"
+        lflags="-L${prefix}/lib -Wl,-rpath,${prefix}/lib"/>
+  </export>
+
+</package>

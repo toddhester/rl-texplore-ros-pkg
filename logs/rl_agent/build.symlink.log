@@ -1,0 +1,5 @@
+Symlinking /home/vitor/rl-texplore-ros-pkg/devel/share/rl_agent/cmake/rl_agentConfig-version.cmake
+Symlinking /home/vitor/rl-texplore-ros-pkg/devel/share/rl_agent/cmake/rl_agentConfig.cmake
+Symlinking /home/vitor/rl-texplore-ros-pkg/devel/lib/libagentlib.so
+Symlinking /home/vitor/rl-texplore-ros-pkg/devel/lib/rl_agent/agent
+Symlinking /home/vitor/rl-texplore-ros-pkg/devel/lib/pkgconfig/rl_agent.pc

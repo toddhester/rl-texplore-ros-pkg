@@ -1,0 +1,67 @@
+[35m[1mScanning dependencies of target agentlib[0m
+[  4%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/Agent/QLearner.cc.o[0m
+[  4%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/Agent/ModelBasedAgent.cc.o[0m
+[  6%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/Agent/Dyna.cc.o[0m
+[  8%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/Agent/SavedPolicy.cc.o[0m
+[ 10%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/Agent/DiscretizationAgent.cc.o[0m
+[ 12%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/Agent/Sarsa.cc.o[0m
+[ 14%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/Models/FactoredModel.cc.o[0m
+[ 16%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/Models/M5Tree.cc.o[0m
+[ 18%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/Models/LinearSplitsTree.cc.o[0m
+[ 20%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/Models/C45Tree.cc.o[0m
+[ 22%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/Models/Stump.cc.o[0m
+[ 25%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/Models/MultipleClassifiers.cc.o[0m
+[ 27%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/Models/ExplorationModel.cc.o[0m
+[ 29%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/Models/RMaxModel.cc.o[0m
+[ 31%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/Models/SepPlanExplore.cc.o[0m
+[ 33%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/Planners/ValueIteration.cc.o[0m
+[ 35%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/Planners/PolicyIteration.cc.o[0m
+[ 37%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/Planners/PrioritizedSweeping.cc.o[0m
+[ 39%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/Planners/ETUCT.cc.o[0m
+[ 41%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/Planners/PO_ParallelETUCT.cc.o[0m
+[ 43%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/Planners/ParallelETUCT.cc.o[0m
+[ 45%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/Planners/PO_ETUCT.cc.o[0m
+[ 47%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/Planners/MBS.cc.o[0m
+[ 50%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/newmat/newmat1.cc.o[0m
+[ 52%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/newmat/newmat2.cc.o[0m
+[ 54%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/newmat/newmat3.cc.o[0m
+[ 56%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/newmat/newmat5.cc.o[0m
+[ 58%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/newmat/newmat4.cc.o[0m
+In file included from [01m[K/home/vitor/rl-texplore-ros-pkg/src/rl_agent/src/newmat/newmat.h:11[m[K,
+                 from [01m[K/home/vitor/rl-texplore-ros-pkg/src/rl_agent/src/newmat/newmat5.cc:9[m[K:
+[01m[K/home/vitor/rl-texplore-ros-pkg/src/rl_agent/src/newmat/newmat5.cc:[m[K In destructor ‘[01m[KMatrixInput::~MatrixInput()[m[K’:
+[01m[K/home/vitor/rl-texplore-ros-pkg/src/rl_agent/src/newmat/newmat5.cc:525:69:[m[K [01;35m[Kwarning: [m[Kthrow will always call terminate() [[01;35m[K-Wterminate[m[K]
+  525 |    if (n!=0) Throw(ProgramException("A list of values was too short"[01;35m[K)[m[K);
+      |                                                                     [01;35m[K^[m[K
+[01m[K/home/vitor/rl-texplore-ros-pkg/src/rl_agent/src/newmat/myexcept.h:191:24:[m[K [01;36m[Knote: [m[Kin definition of macro ‘[01m[KThrow[m[K’
+  191 | #define Throw(E) throw [01;36m[KE[m[K
+      |                        [01;36m[K^[m[K
+[01m[K/home/vitor/rl-texplore-ros-pkg/src/rl_agent/src/newmat/newmat5.cc:525:69:[m[K [01;36m[Knote: [m[Kin C++11 destructors default to noexcept
+  525 |    if (n!=0) Throw(ProgramException("A list of values was too short"[01;36m[K)[m[K);
+      |                                                                     [01;36m[K^[m[K
+[01m[K/home/vitor/rl-texplore-ros-pkg/src/rl_agent/src/newmat/myexcept.h:191:24:[m[K [01;36m[Knote: [m[Kin definition of macro ‘[01m[KThrow[m[K’
+  191 | #define Throw(E) throw [01;36m[KE[m[K
+      |                        [01;36m[K^[m[K
+[ 60%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/newmat/newmat6.cc.o[0m
+[ 62%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/newmat/newmat7.cc.o[0m
+[ 64%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/newmat/newmat8.cc.o[0m
+[ 66%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/newmat/newmatex.cc.o[0m
+[ 68%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/newmat/bandmat.cc.o[0m
+[ 70%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/newmat/submat.cc.o[0m
+[ 72%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/newmat/myexcept.cc.o[0m
+[ 75%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/newmat/cholesky.cc.o[0m
+[ 77%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/newmat/fft.cc.o[0m
+[ 79%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/newmat/evalue.cc.o[0m
+[ 81%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/newmat/jacobi.cc.o[0m
+[ 83%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/newmat/hholder.cc.o[0m
+[ 85%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/newmat/sort.cc.o[0m
+[ 87%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/newmat/svd.cc.o[0m
+[ 89%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/newmat/newfft.cc.o[0m
+[ 91%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/newmat/newmatrm.cc.o[0m
+[ 93%] [32mBuilding CXX object CMakeFiles/agentlib.dir/src/newmat/newmat9.cc.o[0m
+[ 95%] [32m[1mLinking CXX shared library /home/vitor/rl-texplore-ros-pkg/devel/.private/rl_agent/lib/libagentlib.so[0m
+[ 95%] Built target agentlib
+[35m[1mScanning dependencies of target agent[0m
+[ 97%] [32mBuilding CXX object CMakeFiles/agent.dir/src/agent.cpp.o[0m
+[100%] [32m[1mLinking CXX executable /home/vitor/rl-texplore-ros-pkg/devel/.private/rl_agent/lib/rl_agent/agent[0m
+[100%] Built target agent

@@ -1,0 +1,3 @@
+Symlinking /home/vitor/rl-texplore-ros-pkg/devel/share/rl_common/cmake/rl_commonConfig.cmake
+Symlinking /home/vitor/rl-texplore-ros-pkg/devel/share/rl_common/cmake/rl_commonConfig-version.cmake
+Symlinking /home/vitor/rl-texplore-ros-pkg/devel/lib/pkgconfig/rl_common.pc
