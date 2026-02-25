@@ -106,7 +106,7 @@ include_directories(
 # add_executable(rgbd_tools_node src/rgbd_tools_node.cpp)
 
 add_executable(experiment src/rl.cc)
-target_link_libraries(experiment agentlib envlib ${catkin_LIBRARIES})
+target_link_libraries(experiment /home/vitor/rl-texplore-ros-pkg/devel/lib/libagentlib.so /home/vitor/rl-texplore-ros-pkg/devel/lib/libenvlib.so ${catkin_LIBRARIES})
 
 #add_executable(image_converter src/image_converter.cpp)
 #target_link_libraries(image_converter ${catkin_LIBRARIES})

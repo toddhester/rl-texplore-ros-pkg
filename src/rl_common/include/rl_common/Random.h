@@ -1126,7 +1126,7 @@ private:
    static const long   A_    = 0x10ff5;    // 69621
    static const long   Q_    = 0x787d;     // 30845
    static const long   R_    = 0x5d5e;     // 23902
-   static const float _F    = 1. / _M;
+   static constexpr float _F    = 1. / _M;
    static const short  _NTAB = 32;         // arbitrary length of shuffle table
    static const long   _DIV  = 1+(_M-1)/_NTAB;
    long         _table[ _NTAB ];          // shuffle table of seeds
