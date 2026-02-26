@@ -111,7 +111,7 @@ void SavedPolicy::printState(const std::vector<float> &s){
 
 
 
-void SavedPolicy::seedExp(std::vector<experience> seeds){
+void SavedPolicy::seedExp(std::vector<experience> &seeds){
   return;
 }
 

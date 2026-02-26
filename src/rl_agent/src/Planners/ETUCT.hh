@@ -72,7 +72,7 @@ public:
   void initStates();
   
   /** Fill in a state based on featmin and featmax */
-  void fillInState(std::vector<float>s, int depth);
+  void fillInState(std::vector<float> s, int depth);
   
   /** Return a discretized version of the input state. */
   std::vector<float> discretizeState(const std::vector<float> &s);
@@ -157,7 +157,7 @@ protected:
   void updateStateActionFromModel(state_t s, int a, state_info* info);
   
   /** Update the state_info copy of the model for the given state-action and k-action history from the MDPModel. */
-  void updateStateActionHistoryFromModel(const std::vector<float> modState, int a, StateActionInfo *newModel);
+  void updateStateActionHistoryFromModel(const std::vector<float> &modState, int a, StateActionInfo *newModel);
 
   /** Get the current time in seconds */
   double getSeconds();
@@ -176,7 +176,7 @@ protected:
       
       From "Bandit Based Monte Carlo Planning" by Kocsis and Szepesv´ari.
   */
-  float uctSearch(const std::vector<float> &actualS, state_t state, int depth, std::deque<float> history);
+  float uctSearch(const std::vector<float> &actualS, state_t state, int depth, std::deque<float> &history);
 
   /** Return a sampled state from the next state distribution of the model. 
       Simulate the next state from the given state, action, and possibly history of past actions. */

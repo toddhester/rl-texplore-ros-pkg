@@ -99,7 +99,7 @@ public:
   virtual int first_action(const std::vector<float> &s);
   virtual int next_action(float r, const std::vector<float> &s);
   virtual void last_action(float r);
-  virtual void seedExp(std::vector<experience> seeds);
+  virtual void seedExp(std::vector<experience> &seeds);
   virtual void setDebug(bool d);
   virtual void savePolicy(const char* filename);
 

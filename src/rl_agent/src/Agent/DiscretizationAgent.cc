@@ -59,11 +59,11 @@ int DiscretizationAgent::first_action(const std::vector<float> &s) {
 int DiscretizationAgent::next_action(float r, const std::vector<float> &s) {
   std::vector<float> ds = discretizeState(s);
 
-  return agent->next_action((int)r, ds);
+  return agent->next_action(r, ds);
 }
 
 void DiscretizationAgent::last_action(float r) {
-  return agent->last_action((int)r);
+  return agent->last_action(r);
 }
 
 
@@ -95,14 +95,13 @@ std::vector<float> DiscretizationAgent::discretizeState(const std::vector<float>
 }
 
 
-void DiscretizationAgent::seedExp(std::vector<experience> seedings){
+void DiscretizationAgent::seedExp(std::vector<experience> &seedings){
   // discretize each experience
   for (unsigned i = 0; i < seedings.size(); i++){
     experience* e = &(seedings[i]);
 
     e->next = discretizeState(e->next);
     e->s = discretizeState(e->s);
-    e->reward = ((int)e->reward);
 
   }
 

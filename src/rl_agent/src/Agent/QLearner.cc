@@ -146,7 +146,7 @@ void QLearner::printState(const std::vector<float> &s){
 
 
 
-void QLearner::seedExp(std::vector<experience> seeds){
+void QLearner::seedExp(std::vector<experience> &seeds){
 
   // for each seeding experience, update our model
   for (unsigned i = 0; i < seeds.size(); i++){
