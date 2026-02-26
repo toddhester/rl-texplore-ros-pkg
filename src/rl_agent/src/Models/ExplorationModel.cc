@@ -259,7 +259,6 @@ float ExplorationModel::getStateActionInfo(const std::vector<float> &state, int 
   if (exploreType == VISITS_CONF){
     if (conf < 0.5){
       float bonus = qmax;
-      retval->reward += bonus;
       if (MODEL_DEBUG){
         cout << "   State-Action conf< thresh or 0 visits: "
              << conf
@@ -278,7 +277,7 @@ float ExplorationModel::getStateActionInfo(const std::vector<float> &state, int 
   if (isnan(retval->reward))
     cout << "ERROR: Model returned reward of NaN" << endl;
 
-  return true;
+  return conf;
 
 }
 

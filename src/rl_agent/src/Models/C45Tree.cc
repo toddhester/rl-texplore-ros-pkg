@@ -467,10 +467,10 @@ void C45Tree::initTreeNode(tree_node* node){
 }
 
 void C45Tree::deleteTree(tree_node* node){
-  if (DTDEBUG) cout << "deleteTree, node=" << node->id << endl;
-
   if (node==NULL)
     return;
+
+  if (DTDEBUG) cout << "deleteTree, node=" << node->id << endl;
 
   totalnodes--;
 
@@ -909,7 +909,7 @@ float C45Tree::calcGainRatio(int dim, float val, bool type,
   Info = D[0] * leftInfo + D[1] * rightInfo;
   Gain = I - Info;
   SplitInfo = calcIofP((float*)&D, 2);
-  GainRatio = Gain / SplitInfo;
+  GainRatio = (SplitInfo > 0) ? (Gain / SplitInfo) : 0;
 
   if (DTDEBUG){
     cout << "LeftInfo: " << leftInfo
@@ -929,7 +929,8 @@ float C45Tree::calcIofP(float* P, int size){
   if (DTDEBUG) cout << "calcIofP, size=" << size << endl;
   float I = 0;
   for (int i = 0; i < size; i++){
-    I -= P[i] * log(P[i]);
+    if (P[i] > 0)
+      I -= P[i] * log(P[i]);
   }
   return I;
 }

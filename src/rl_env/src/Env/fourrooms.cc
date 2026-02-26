@@ -59,7 +59,7 @@ FourRooms::FourRooms(Random &rand, bool stochastic, bool negReward,
   distW(unused[3]),
   rewardEW(unused[4]),
   rewardNS(unused[5]),
-  goalOption(goalOption)
+  goalOption(false)
 {
   reset();
 }

@@ -121,8 +121,10 @@ bool MultipleClassifiers::trainInstances(std::vector<classPair> &instances){
     if (!didUpdate){
       int model = rng.uniformDiscrete(0,nModels-1);
       //cout << "none got instance, update model " << model << endl;
+      float origOutput = instances[j].out;
       if (addNoise) instances[j].out += rng.uniform(-0.2,0.2)*treeThresh;
       subsets[model].push_back(instances[j]);
+      if (addNoise) instances[j].out = origOutput;
     }
   } // instances loop
     
@@ -170,8 +172,10 @@ bool MultipleClassifiers::trainInstance(classPair &instance){
   // make sure some model got the transition
   if (!didUpdate){
     int model = rng.uniformDiscrete(0,nModels-1);
+    float origOutput = instance.out;
     if (addNoise) instance.out += rng.uniform(-0.2,0.2)*treeThresh;
     bool singleChange = models[model]->trainInstance(instance);
+    if (addNoise) instance.out = origOutput;
     changed = singleChange || changed;
   }
 
@@ -434,7 +438,7 @@ void MultipleClassifiers::initModels(){
       models[i] = new LinearSplitsTree(id + i*(1+nModels), mode, freq, 0, featPct, false, treeThresh, rng);
     }
     else if (modelType == STUMP){
-      models[i] = new Stump(id + 1*(1+nModels), mode, freq, 0, featPct, rng);
+      models[i] = new Stump(id + i*(1+nModels), mode, freq, 0, featPct, rng);
     }
     else if (modelType == ALLM5TYPES){
       // select an m5 type randomly.  so multivariate v single and allfeats v subtree feats

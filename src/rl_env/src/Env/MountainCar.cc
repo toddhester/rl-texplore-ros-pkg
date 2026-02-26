@@ -61,7 +61,7 @@ float MountainCar::apply(int action) {
 
   newVel = bound(newVel, -0.07, 0.07);
 
-  float newPos = pos + vel;
+  float newPos = pos + newVel;
   if (newPos < -1.2f && newVel < 0.0f)
     newVel = 0.0;
   newPos = bound(newPos, -1.2, 0.6);
@@ -120,9 +120,6 @@ void MountainCar::reset() {
     pos = 0;
     vel = 0;
   }
-
-  pos = rng.uniform(-1.2, 0.59);
-  vel = rng.uniform(-0.07, 0.07);
 
   if (delay > 0){
     posHistory.clear();

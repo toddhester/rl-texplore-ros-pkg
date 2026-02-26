@@ -146,7 +146,7 @@ private:
   const int MAX_LOOPS;
   const float MAX_TIME;
   const int modelType;
-  const std::vector<int> &statesPerDim;
+  const std::vector<int> statesPerDim;
 
 };
 

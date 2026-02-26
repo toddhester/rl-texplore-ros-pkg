@@ -494,7 +494,7 @@ void ModelBasedAgent::logValues(ofstream *of, int xmin, int xmax, int ymin, int 
   if (plannerType == PARALLEL_ET_UCT){
     ((ParallelETUCT*)planner)->logValues(of, xmin, xmax, ymin, ymax);
   }
-  if (plannerType == ET_UCT){
+  else if (plannerType == ET_UCT){
     ((ETUCT*)planner)->logValues(of, xmin, xmax, ymin, ymax);
   }
 

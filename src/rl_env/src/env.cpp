@@ -394,10 +394,6 @@ int main(int argc, char *argv[])
   int qDepth = 1;
 
   // Set up Publishers
-  ros::init(argc, argv, "my_tf_broadcaster");
-  tf::Transform transform;
-
-  // Set up Publishers
   out_env_desc = node.advertise<rl_msgs::RLEnvDescription>("rl_env/rl_env_description",qDepth,true);
   out_env_sr = node.advertise<rl_msgs::RLStateReward>("rl_env/rl_state_reward",qDepth,false);
   out_seed = node.advertise<rl_msgs::RLEnvSeedExperience>("rl_env/rl_seed",20,false);
@@ -420,6 +416,7 @@ int main(int argc, char *argv[])
   //  ros::getGlobalCallbackQueue()->callAvailable(ros::WallDuration(0.1));
   //}
 
+  delete e;
   return 0;
 }
 

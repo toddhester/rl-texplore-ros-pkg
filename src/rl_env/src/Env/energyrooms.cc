@@ -114,7 +114,7 @@ float EnergyRooms::apply(int action) {
       energy = 10;
     if (ns == 3 && ew == 3)
       energy = 10;
-    if (ns == 7 && ew == 7)
+    if (ns == 3 && ew == 7)
       energy = 10;
   }
 
