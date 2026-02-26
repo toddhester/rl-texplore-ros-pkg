@@ -24,7 +24,7 @@ public:
   virtual int next_action(float r, const std::vector<float> &s);
   virtual void last_action(float r);
   virtual void setDebug(bool b);
-  virtual void seedExp(std::vector<experience> seeds);
+  virtual void seedExp(std::vector<experience> &seeds);
   virtual void savePolicy(const char* filename);
 
   

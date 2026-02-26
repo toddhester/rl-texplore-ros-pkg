@@ -38,7 +38,14 @@ PrioritizedSweeping::PrioritizedSweeping(int numactions, float gamma,
 
 }
 
-PrioritizedSweeping::~PrioritizedSweeping() {}
+PrioritizedSweeping::~PrioritizedSweeping() {
+  for (std::map<state_t, state_info>::iterator i = statedata.begin();
+       i != statedata.end(); i++){
+    state_info* info = &((*i).second);
+    deleteInfo(info);
+  }
+  statedata.clear();
+}
 
 void PrioritizedSweeping::setModel(MDPModel* m){
 

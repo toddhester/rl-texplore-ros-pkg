@@ -268,7 +268,7 @@ public:
   virtual void setDebug(bool d) = 0;
 
   /** Use the model seeds from the environment to initialize the agent or its model */
-  virtual void seedExp(std::vector<experience> seeds) {};
+  virtual void seedExp(std::vector<experience> &seeds) {};
 
   /** Save the current policy to a file */
   virtual void savePolicy(const char* filename) {};

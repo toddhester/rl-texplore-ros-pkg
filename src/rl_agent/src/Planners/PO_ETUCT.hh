@@ -147,7 +147,7 @@ protected:
   void updateStateActionFromModel(state_t s, int a, state_info* info);
 
   /** Update the state_info copy of the model for the given state-action and k-action history from the MDPModel. */
-  void updateStateActionHistoryFromModel(const std::vector<float> modState, int a, StateActionInfo *newModel);
+  void updateStateActionHistoryFromModel(const std::vector<float> &modState, int a, StateActionInfo *newModel);
 
   /** Get the current time in seconds */
   double getSeconds();

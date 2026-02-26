@@ -190,7 +190,7 @@ void Dyna::printState(const std::vector<float> &s){
 
 
 
-void Dyna::seedExp(std::vector<experience> seeds){
+void Dyna::seedExp(std::vector<experience> &seeds){
 
   // for each seeding experience, update our model
   for (unsigned i = 0; i < seeds.size(); i++){

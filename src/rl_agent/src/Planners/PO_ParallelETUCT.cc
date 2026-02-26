@@ -312,7 +312,7 @@ void PO_ParallelETUCT::updateStateActionFromModel(state_t s, int a, state_info* 
 
 }
 
-void PO_ParallelETUCT::updateStateActionHistoryFromModel(const std::vector<float> modState, int a, StateActionInfo *newModel){
+void PO_ParallelETUCT::updateStateActionHistoryFromModel(const std::vector<float> &modState, int a, StateActionInfo *newModel){
 
   // update state info
   // get state action info for each action
@@ -576,15 +576,16 @@ void PO_ParallelETUCT::parallelModelLearning(){
   pthread_mutex_unlock(&model_mutex);
   */
 
+  pthread_mutex_lock(&model_mutex);
   modelcopy = model->getCopy();
+  pthread_mutex_unlock(&model_mutex);
   //if (COPYDEBUG) cout << "*** PO: model copied" << endl;
 
   // update model copy with new experience
   bool modelChanged = modelcopy->updateWithExperiences(updateList);
 
-  // set model pointer to point at copy, delete original model                    cout << "acquire model_mutex for update" << endl;
+  // set model pointer to point at copy, delete original model
   pthread_mutex_lock(&model_mutex);
-  //cout << "model_mutex acquired for update" << endl;
   //if (COPYDEBUG) cout << "*** PO: delete original model and change pointer" << endl;
   delete model;
   model = modelcopy;
@@ -1365,7 +1366,7 @@ void PO_ParallelETUCT::setFirst(){
 
   pthread_mutex_lock(&(history_mutex));
   // first action, reset history vector
-  saHistory.resize(saHistory.size(), 0.0);
+  std::fill(saHistory.begin(), saHistory.end(), 0.0);
   pthread_mutex_unlock(&(history_mutex));
 }
 

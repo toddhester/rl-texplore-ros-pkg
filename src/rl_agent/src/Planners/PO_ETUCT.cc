@@ -240,7 +240,7 @@ void PO_ETUCT::updateStateActionFromModel(state_t s, int a, state_info* info){
 
 }
 
-void PO_ETUCT::updateStateActionHistoryFromModel(const std::vector<float> modState, int a, StateActionInfo *newModel){
+void PO_ETUCT::updateStateActionHistoryFromModel(const std::vector<float> &modState, int a, StateActionInfo *newModel){
 
   // update state info
   // get state action info for each action
@@ -935,7 +935,7 @@ void PO_ETUCT::setFirst(){
   if (HISTORYDEBUG) cout << "first action, set sahistory to 0s" << endl;
 
   // first action, reset history vector
-  saHistory.resize(saHistory.size(), 0.0);
+  std::fill(saHistory.begin(), saHistory.end(), 0.0);
 }
 
 void PO_ETUCT::setSeeding(bool seeding){

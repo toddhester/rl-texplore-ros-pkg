@@ -195,19 +195,25 @@ void Sarsa::printState(const std::vector<float> &s){
 
 
 
-void Sarsa::seedExp(std::vector<experience> seeds){
+void Sarsa::seedExp(std::vector<experience> &seeds){
 
   // for each seeding experience, update our model
   for (unsigned i = 0; i < seeds.size(); i++){
     experience e = seeds[i];
-     
+
     std::vector<float> &Q_s = Q[canonicalize(e.s)];
-    
-    // Get q value for action taken
-    const std::vector<float>::iterator a = Q_s.begin() + e.act;
+    std::vector<float> &Q_next = Q[canonicalize(e.next)];
+
+    // Get max value of next state
+    const std::vector<float>::iterator max =
+      random_max_element(Q_next.begin(), Q_next.end());
 
     // Update value of action just executed
-    Q_s[e.act] += alpha * (e.reward + gamma * (*a) - Q_s[e.act]);
+    if (e.terminal){
+      Q_s[e.act] += alpha * (e.reward - Q_s[e.act]);
+    } else {
+      Q_s[e.act] += alpha * (e.reward + gamma * (*max) - Q_s[e.act]);
+    }
     
  
     /*

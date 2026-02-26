@@ -280,7 +280,7 @@ void ETUCT::updateStateActionFromModel(state_t s, int a, state_info* info){
 
 }
 
-void ETUCT::updateStateActionHistoryFromModel(const std::vector<float> modState, int a, StateActionInfo *newModel){
+void ETUCT::updateStateActionHistoryFromModel(const std::vector<float> &modState, int a, StateActionInfo *newModel){
 
   // update state info
   // get state action info for each action
@@ -542,7 +542,7 @@ double ETUCT::getSeconds(){
 }
 
 
-float ETUCT::uctSearch(const std::vector<float> &actS, state_t discS, int depth,std::deque<float> searchHistory){
+float ETUCT::uctSearch(const std::vector<float> &actS, state_t discS, int depth, std::deque<float> &searchHistory){
   if (UCTDEBUG){
     cout << " uctSearch state ";
     for (unsigned i = 0; i < actS.size(); i++){
@@ -917,7 +917,7 @@ void ETUCT::setFirst(){
   if (HISTORYDEBUG) cout << "first action, set sahistory to 0s" << endl;
 
   // first action, reset history vector
-  saHistory.resize(saHistory.size(), 0.0);
+  std::fill(saHistory.begin(), saHistory.end(), 0.0);
 }
 
 void ETUCT::setSeeding(bool seeding){

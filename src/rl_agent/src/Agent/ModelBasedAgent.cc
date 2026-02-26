@@ -439,7 +439,7 @@ double ModelBasedAgent::getSeconds(){
 }
 
 
-void ModelBasedAgent::seedExp(std::vector<experience> seeds){
+void ModelBasedAgent::seedExp(std::vector<experience> &seeds){
   if (AGENTDEBUG) cout << "seed experiences" << endl;
 
   if (seeds.size() == 0) return;

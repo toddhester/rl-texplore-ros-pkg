@@ -53,7 +53,7 @@ public:
   void initStates();
 
   /** Fill in a state based on featmin and featmax */
-  void fillInState(std::vector<float>s, int depth);
+  void fillInState(std::vector<float> s, int depth);
 
   bool PLANNERDEBUG;
   bool POLICYDEBUG; //= false; //true;

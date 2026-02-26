@@ -841,7 +841,7 @@ int main(int argc, char **argv) {
                         rng);
     }
 
-    else if (strcmp(agentType, "modelbased") == 0 || strcmp(agentType, "rmax") || strcmp(agentType, "texplore")){
+    else if (strcmp(agentType, "modelbased") == 0 || strcmp(agentType, "rmax") == 0 || strcmp(agentType, "texplore") == 0){
       if (PRINTS) cout << "Agent: Model Based" << endl;
       agent = new ModelBasedAgent(numactions,
                                   discountfactor,
@@ -877,7 +877,7 @@ int main(int argc, char **argv) {
     Agent* a2 = agent;
     // not for model based when doing continuous model
     if (nstates > 0 && (modelType != M5ALLMULTI || strcmp(agentType, "qlearner") == 0)){
-      int totalStates = powf(nstates,minValues.size());
+      totalStates = powf(nstates,minValues.size());
       if (PRINTS) cout << "Discretize with " << nstates << ", total: " << totalStates << endl;
       agent = new DiscretizationAgent(nstates, a2,
                                       minValues, maxValues, PRINTS);
@@ -892,7 +892,8 @@ int main(int argc, char **argv) {
     }
 
     // before we start, seed the agent with some experiences
-    agent->seedExp(e->getSeedings());
+    std::vector<experience> seedings = e->getSeedings();
+    agent->seedExp(seedings);
 
     // STEP BY STEP DOMAIN
     if (!episodic){
@@ -991,9 +992,11 @@ int main(int argc, char **argv) {
 
     }
 
-    if (NUMTRIALS > 1) delete agent;
+    delete agent;
 
   }
+
+  delete e;
 
   if (PRINTS) cout << "Avg Rsum: " << (rsum / (float)NUMTRIALS) << endl;
 
