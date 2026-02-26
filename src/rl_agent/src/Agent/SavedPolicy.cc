@@ -119,6 +119,8 @@ void SavedPolicy::seedExp(std::vector<experience> &seeds){
 void SavedPolicy::loadPolicy(const char* filename){
 
   ifstream policyFile(filename, ios::in | ios::binary);
+  if (!policyFile.is_open())
+    return;
 
   // first part, save the vector size
   int fsize;

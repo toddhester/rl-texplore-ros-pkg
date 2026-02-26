@@ -490,10 +490,10 @@ void M5Tree::initTreeNode(tree_node* node){
 }
 
 void M5Tree::deleteTree(tree_node* node){
-  if (DTDEBUG) cout << "deleteTree, node=" << node->id << endl;
-
   if (node==NULL)
     return;
+
+  if (DTDEBUG) cout << "deleteTree, node=" << node->id << endl;
 
   totalnodes--;
 

@@ -522,10 +522,10 @@ void LinearSplitsTree::initTreeNode(tree_node* node){
 
 /** delete current tree */
 void LinearSplitsTree::deleteTree(tree_node* node){
-  if (DTDEBUG) cout << "deleteTree, node=" << node->id << endl;
-
   if (node==NULL)
     return;
+
+  if (DTDEBUG) cout << "deleteTree, node=" << node->id << endl;
 
   totalnodes--;
 

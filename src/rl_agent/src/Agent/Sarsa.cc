@@ -283,6 +283,7 @@ float Sarsa::getValue(std::vector<float> state){
 
 void Sarsa::savePolicy(const char* filename){
 
+  if (statespace.empty()) return;
   ofstream policyFile(filename, ios::out | ios::binary | ios::trunc);
 
   // first part, save the vector size

@@ -598,7 +598,7 @@ float Stump::calcGainRatio(int dim, float val, int type,
   Info = D[0] * leftInfo + D[1] * rightInfo;
   Gain = I - Info;
   SplitInfo = calcIofP((float*)&D, 2);
-  GainRatio = Gain / SplitInfo;
+  GainRatio = (SplitInfo > 0) ? (Gain / SplitInfo) : 0;
 
   if (STDEBUG){
     cout << "LeftInfo: " << leftInfo
@@ -618,7 +618,8 @@ float Stump::calcIofP(float* P, int size){
   if (STDEBUG) cout << "calcIofP, size=" << size << endl;
   float I = 0;
   for (int i = 0; i < size; i++){
-    I -= P[i] * log(P[i]);
+    if (P[i] > 0)
+      I -= P[i] * log(P[i]);
   }
   return I;
 }

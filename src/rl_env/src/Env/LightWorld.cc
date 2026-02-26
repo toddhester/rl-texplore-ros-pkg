@@ -394,8 +394,8 @@ void LightWorld::getMinMaxFeatures(std::vector<float> *minFeat,
   minFeat->resize(s.size(), 0.0);
   maxFeat->resize(s.size(), MAX_SENSE);
 
-  // room id only goes to 2
-  (*maxFeat)[4] = 2;
+  // room id only goes to nrooms-1
+  (*maxFeat)[4] = nrooms - 1;
 
   // have_key and door_open are boolean
   (*maxFeat)[2] = 1;

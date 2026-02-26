@@ -312,7 +312,7 @@ private:
   const float MAX_TIME;
   const int MAX_DEPTH;
   const int modelType;
-  const std::vector<int> &statesPerDim;
+  const std::vector<int> statesPerDim;
   const bool trackActual;
   const int HISTORY_SIZE;
   const int HISTORY_FL_SIZE;

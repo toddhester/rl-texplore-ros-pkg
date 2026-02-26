@@ -24,7 +24,12 @@ MultipleModels::MultipleModels(int id, int nIn, int nOut, int modeltype, Random 
 
 }
 
-MultipleModels::~MultipleModels() {}
+MultipleModels::~MultipleModels() {
+  for (unsigned i = 0; i < models.size(); i++){
+    delete models[i];
+  }
+  models.clear();
+}
 
 
 

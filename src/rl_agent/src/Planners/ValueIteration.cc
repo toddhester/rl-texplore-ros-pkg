@@ -283,7 +283,7 @@ void ValueIteration::createPolicy(){
   int statesUpdated = 0;
 
   // until convergence (always at least MIN_LOOPS)
-  while (maxError > MIN_ERROR){ // && nloops < MAX_LOOPS){
+  while (maxError > MIN_ERROR && nloops < MAX_LOOPS){
 
     //if ((getSeconds() - initTime) > MAX_TIME)
     // break;

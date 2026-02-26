@@ -57,6 +57,7 @@ const std::string modelNames[] = {
 #define SEPARATE       4 // sep model for planning, and forest for uncertainty
 
 const std::string comboNames[] = {
+  "Unknown",
   "Average",
   "Weighted Average",
   "Best",

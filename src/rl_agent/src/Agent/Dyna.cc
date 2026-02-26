@@ -205,16 +205,19 @@ void Dyna::seedExp(std::vector<experience> &seeds){
     // add experience
     addExperience(e.reward,st,e.terminal);
 
-    // get max value of next state
-    const std::vector<float>::iterator max =
-      random_max_element(Q_next.begin(), Q_next.end());
-
     // Get q value for action taken
     const std::vector<float>::iterator a = Q_s.begin() + e.act;
     currentq = &*a;
 
     // Update value of action just executed
-    *currentq += alpha * (e.reward + gamma * (*max) - *currentq);
+    if (e.terminal){
+      *currentq += alpha * (e.reward - *currentq);
+    } else {
+      // get max value of next state
+      const std::vector<float>::iterator max =
+        random_max_element(Q_next.begin(), Q_next.end());
+      *currentq += alpha * (e.reward + gamma * (*max) - *currentq);
+    }
 
  
     /*
@@ -284,6 +287,7 @@ float Dyna::getValue(std::vector<float> state){
 
 void Dyna::savePolicy(const char* filename){
 
+  if (statespace.empty()) return;
   ofstream policyFile(filename, ios::out | ios::binary | ios::trunc);
 
   // first part, save the vector size

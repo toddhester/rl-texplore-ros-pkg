@@ -158,6 +158,7 @@ void processEnvDescription(const rl_msgs::RLEnvDescription::ConstPtr &envIn){
 
   // initialize the agent based on some info from the environment descriptor
   Random rng(seed+1);
+  delete agent;
   agent = NULL;
 
 
@@ -679,6 +680,8 @@ int main(int argc, char *argv[])
     if(filename != NULL) {
       agent->savePolicy(filename);
     }
+    delete agent;
+    agent = NULL;
   }
 
   return 0;

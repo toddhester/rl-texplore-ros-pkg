@@ -204,7 +204,6 @@ bool FactoredModel::updateWithExperiences(std::vector<experience> &instances){
       cout << "ERROR: size mismatch between input vector and # trees "
            << outputModels.size() << ", " << instances[0].next.size() << endl;
     return false;
-    exit(-1);
   }
 
   // separate these experience instances into classPairs
@@ -324,7 +323,6 @@ bool FactoredModel::updateWithExperience(experience &e){
     if (MODEL_DEBUG) cout << "ERROR: size mismatch between input vector and # trees "
                          << outputModels.size() << ", " << e.next.size() << endl;
     return false;
-    exit(-1);
   }
 
   std::vector<float> inputs(e.s.size() + nact);
