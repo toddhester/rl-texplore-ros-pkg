@@ -141,11 +141,19 @@ PO_ParallelETUCT::~PO_ParallelETUCT() {
   statespace.clear();
   statedata.clear();
 
-  pthread_mutex_unlock(&plan_state_mutex);
-  pthread_mutex_unlock(&statespace_mutex);
-  pthread_mutex_unlock(&model_mutex);
-  pthread_mutex_unlock(&list_mutex);
   pthread_mutex_unlock(&history_mutex);
+  pthread_mutex_unlock(&list_mutex);
+  pthread_mutex_unlock(&model_mutex);
+  pthread_mutex_unlock(&statespace_mutex);
+  pthread_mutex_unlock(&plan_state_mutex);
+
+  pthread_mutex_destroy(&history_mutex);
+  pthread_mutex_destroy(&list_mutex);
+  pthread_mutex_destroy(&model_mutex);
+  pthread_mutex_destroy(&statespace_mutex);
+  pthread_mutex_destroy(&plan_state_mutex);
+  pthread_mutex_destroy(&nactions_mutex);
+  pthread_mutex_destroy(&update_mutex);
 
 }
 
@@ -781,6 +789,8 @@ void PO_ParallelETUCT::deleteInfo(state_info* info){
   pthread_mutex_lock(&info->statemodel_mutex);
   delete [] info->model;
   pthread_mutex_unlock(&info->statemodel_mutex);
+  pthread_mutex_destroy(&info->statemodel_mutex);
+  pthread_mutex_destroy(&info->stateinfo_mutex);
 
 }
 

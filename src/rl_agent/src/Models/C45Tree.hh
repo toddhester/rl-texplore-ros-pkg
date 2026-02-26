@@ -62,7 +62,7 @@ public:
     // split criterion
     int dim;
     float val;
-    bool type;
+    int type;
 
     // set of all outputs seen at this leaf/node
     std::map<float,int> outputs;

@@ -548,7 +548,7 @@ float PolicyIteration::getActionValue(state_t s, state_info* info,
 	 = modelInfo->transitionProbs.begin();
        outIt != modelInfo->transitionProbs.end(); outIt++){
     
-    std::vector<float> nextstate = (*outIt).first;  
+    const std::vector<float>& nextstate = (*outIt).first;  
     
     if (POLICYDEBUG){
       cout << "  Next state was: ";

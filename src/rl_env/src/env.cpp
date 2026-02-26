@@ -265,7 +265,7 @@ int main(int argc, char *argv[])
   }
 
   // now parse other options
-  char ch;
+  int ch;
   const char* optflags = "ds:";
   int option_index = 0;
   static struct option long_options[] = {

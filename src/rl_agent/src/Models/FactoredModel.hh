@@ -64,7 +64,7 @@ public:
   float getSingleSAInfo(const std::vector<float> &state, int act, StateActionInfo* retval);
 
   /** Combines predictions for each separate state feature into probabilities of the overall state vector */
-  void addFactorProb(float* probs, std::vector<float>* next, std::vector<float> x, StateActionInfo* retval, int index, const std::vector< std::map<float,float> > &predictions, float* confSum);
+  void addFactorProb(float* probs, std::vector<float>* next, std::vector<float>& x, StateActionInfo* retval, int index, const std::vector< std::map<float,float> > &predictions, float* confSum);
 
   /** Set some parameters of the subtrees */
   void setTreeParams(float margin, float forestPct, float minRatio);

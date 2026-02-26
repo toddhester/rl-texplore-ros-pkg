@@ -313,7 +313,7 @@ void PrioritizedSweeping::printStates(){
              = info->modelInfo[act].transitionProbs.begin();
            outIt != info->modelInfo[act].transitionProbs.end(); outIt++){
 
-        std::vector<float> nextstate = (*outIt).first;
+        const std::vector<float>& nextstate = (*outIt).first;
         float prob = (*outIt).second;
 
         cout << "   State ";
@@ -595,7 +595,7 @@ float PrioritizedSweeping::updateQValues(const std::vector<float> &state, int ac
          = modelInfo->transitionProbs.begin();
        outIt != modelInfo->transitionProbs.end(); outIt++){
 
-    std::vector<float> nextstate = (*outIt).first;
+    const std::vector<float>& nextstate = (*outIt).first;
 
     if (POLICYDEBUG){
       cout << "  Next state was: ";
@@ -743,7 +743,7 @@ void PrioritizedSweeping::updateStateActionFromModel(const std::vector<float> &s
          = info->modelInfo[j].transitionProbs.begin();
        outIt != info->modelInfo[j].transitionProbs.end(); outIt++){
 
-    std::vector<float> nextstate = (*outIt).first;
+    const std::vector<float>& nextstate = (*outIt).first;
     state_t next = canonicalize(nextstate);
     state_info* nextinfo = &(statedata[next]);
     //float prob = (*outIt).second;

@@ -33,7 +33,7 @@ public:
     vectorFile.write((char*)&nfeats, sizeof(int));
   }
 
-  void saveExperience(experience e){
+  void saveExperience(const experience& e){
     if (!vectorFile.is_open())
       return;
 
@@ -55,7 +55,7 @@ public:
     //printExperience(e);
   }
 
-  void printExperience(experience e){
+  void printExperience(const experience& e){
 
     cout << "State s: ";
     for(unsigned i = 0; i < e.s.size(); i++){

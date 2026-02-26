@@ -60,7 +60,7 @@ public:
 		     int *nties, float *bestGainRatio, int *bestDim, 
 		     float *bestVal, int *bestType);
   //std::vector<float> calcChiSquare(std::vector<stump_experience*> instances);
-  void outputProbabilities(std::multiset<float> outputs, std::map<float, float>* retval);
+  void outputProbabilities(const std::multiset<float>& outputs, std::map<float, float>* retval);
   int findMatching(const std::vector<stump_experience*> &instances, int dim, 
 		   int val, int minConf);
 
