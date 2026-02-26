@@ -398,7 +398,7 @@ float MultipleClassifiers::variance(const std::vector<float> &input){
   }
 
   float mean = sum / (float)nModels;
-  float variance = (sumSqr - sum*mean) / (float)(nModels-1.0);
+  float variance = (nModels > 1) ? (sumSqr - sum*mean) / (float)(nModels-1.0) : 0.0;
 
   if (CONF_DEBUG) cout << "variance of predictions is " << variance << endl;
 

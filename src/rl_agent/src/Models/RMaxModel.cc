@@ -146,7 +146,7 @@ float RMaxModel::getStateActionInfo(const std::vector<float> &state, int act, St
     int count = ((*it).second)[act];
 
     // add to transition map
-    if (count > 0.0){
+    if (count > 0 && info->visits[act] > info->terminations[act]){
       retval->transitionProbs[next] = (float)count / (float)(info->visits[act] - info->terminations[act]);
       if (RMAX_DEBUG) cout << "Outcome " << &next << " has prob " << retval->transitionProbs[next]
 			   << " from count of " << count << " on " 

@@ -202,7 +202,7 @@ public:
 
   ~Random( void )   // default destructor
    {
-
+      pthread_mutex_destroy(&random_mutex);
    }
    
    Random( const Random& r )   // copy constructor (copies current state)

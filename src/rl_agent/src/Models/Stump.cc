@@ -322,6 +322,7 @@ int Stump::findMatching(const std::vector<stump_experience*> &instances, int dim
 void Stump::initStump(){
   if (STDEBUG) cout << "initStump()" << endl;
 
+  nnodes = 0;
   dim = -1;
   val = -1;
   type = -1;
@@ -853,7 +854,7 @@ void Stump::printStump(){
 */
 
 // output a map of outcomes and their probabilities for this leaf node
-void Stump::outputProbabilities(std::multiset<float> outputs, std::map<float, float>* retval){
+void Stump::outputProbabilities(const std::multiset<float>& outputs, std::map<float, float>* retval){
   if (STDEBUG) cout << " Calculating output probs" << endl;
 
   // go through all possible output values

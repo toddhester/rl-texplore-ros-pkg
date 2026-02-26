@@ -691,7 +691,7 @@ float FactoredModel::getStateActionInfo(const std::vector<float> &state, int act
 
 
 // gets the values/probs for index and adds them to the appropriate spot in the array
-void FactoredModel::addFactorProb(float* probs, std::vector<float>* next, std::vector<float> x, StateActionInfo* retval, int index, const std::vector< std::map<float,float> > &predictions, float* confSum){
+void FactoredModel::addFactorProb(float* probs, std::vector<float>* next, std::vector<float>& x, StateActionInfo* retval, int index, const std::vector< std::map<float,float> > &predictions, float* confSum){
 
   // get values, probs etc for this index
   std::map<float, float> outputPreds = predictions[index];
@@ -749,11 +749,13 @@ void FactoredModel::addFactorProb(float* probs, std::vector<float>* next, std::v
       }
 
       retval->transitionProbs[*next] += probs[index];
+      if (dep) x.pop_back();
       continue;
     }
 
     // next factors
     addFactorProb(probs, next, x, retval, index+1, predictions, confSum);
+    if (dep) x.pop_back();
 
   }
 }

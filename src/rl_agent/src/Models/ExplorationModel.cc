@@ -137,7 +137,7 @@ float ExplorationModel::getStateActionInfo(const std::vector<float> &state, int 
       }
       retval->reward = qmax;
       retval->termProb = 1.0;
-      if (MODEL_DEBUG || MODEL_DEBUG)
+      if (MODEL_DEBUG)
         cout << "   State-Action Unknown in model, using qmax "
              << qmax << endl;
     }
@@ -325,7 +325,8 @@ float ExplorationModel::getFeatDistToVisitedSA(const std::vector<float> &s){
     for (unsigned j = 0; j < nfeats; j++){
       // distance based on magnitude of feature difference
       // normalize by feature range
-      count += fabs(s[j] - (*i)[j]) / featRange[j];
+      if (featRange[j] > 0)
+        count += fabs(s[j] - (*i)[j]) / featRange[j];
     }
     if (count < minDist) minDist = count;
 

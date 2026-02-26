@@ -353,7 +353,7 @@ void ValueIteration::createPolicy(){
                = modelInfo->transitionProbs.begin();
              outIt != modelInfo->transitionProbs.end(); outIt++){
 
-          std::vector<float> nextstate = (*outIt).first;
+          const std::vector<float>& nextstate = (*outIt).first;
 
           if (POLICYDEBUG){
             cout << "  Next state was: ";
